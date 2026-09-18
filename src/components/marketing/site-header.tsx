@@ -21,25 +21,25 @@ export function SiteHeader() {
           {BRAND_NAME}
         </a>
 
-        <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] rounded-md"
+              className="whitespace-nowrap text-sm font-medium text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] rounded-md"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <ButtonLink href={`#${CONTACT_SECTION_ID}`}>{CONTACT_NAV_LABEL}</ButtonLink>
         </div>
 
         <button
           type="button"
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] md:hidden"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] lg:hidden"
           aria-expanded={isOpen}
           aria-controls="mobile-nav"
           aria-label={isOpen ? "Close menu" : "Open menu"}

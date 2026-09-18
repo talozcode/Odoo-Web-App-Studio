@@ -7,7 +7,7 @@ type BrandMarkProps = {
 /**
  * Small coded (no image asset) abstract logomark: a 2x2 grid of rounded
  * squares in the four brand tones, inside a rounded-square tile. Purely
- * decorative — sits immediately left of the "Layer" wordmark.
+ * decorative, sits immediately left of the "OdooWebApps" wordmark.
  */
 export function BrandMark({ className }: BrandMarkProps) {
   return (
