@@ -8,6 +8,7 @@ const STEPS = [
     description:
       "Your existing products, customers, orders, inventory, accounting and business data remain in Odoo.",
     tone: "text-[var(--odoo-purple)]",
+    fill: "bg-[var(--odoo-purple)]/10",
   },
   {
     icon: ShieldCheck,
@@ -15,25 +16,27 @@ const STEPS = [
     description:
       "Our application communicates with only the data and actions it needs.",
     tone: "text-[var(--odoo-teal)]",
+    fill: "bg-[var(--odoo-teal)]/10",
   },
   {
     icon: Smartphone,
     title: "Your app",
     description: "Your users get an interface designed specifically for their job.",
     tone: "text-[var(--brand-coral)]",
+    fill: "bg-[var(--brand-coral)]/10",
   },
 ];
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="border-b border-[var(--border)]">
+    <section id="how-it-works" className="border-b border-[var(--border)] bg-[var(--odoo-teal)]/[0.04]">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <SectionHeading title="Your Odoo stays exactly where it is." />
 
         <div className="mt-14 grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-6">
           {STEPS.map((step, index) => (
             <div key={step.title} className="relative flex flex-col items-center text-center">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full border border-[var(--border)] bg-white">
+              <div className={`flex h-14 w-14 items-center justify-center rounded-full border border-[var(--border)] ${step.fill}`}>
                 <step.icon aria-hidden="true" className={`h-6 w-6 ${step.tone}`} />
               </div>
               <p className="mt-4 text-sm font-semibold text-[var(--muted-foreground)]">

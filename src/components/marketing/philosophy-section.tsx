@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const ODOO_RESPONSIBLE_FOR = [
   "Accounting",
   "Inventory",
@@ -18,8 +20,16 @@ const WE_BUILD = [
 
 export function PhilosophySection() {
   return (
-    <section className="border-b border-[var(--border)] bg-[var(--surface)]">
-      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+    <section className="relative overflow-hidden border-b border-[var(--border)] bg-[var(--surface)]">
+      <Image
+        src="/images/philosophy-glow.webp"
+        alt=""
+        aria-hidden="true"
+        fill
+        sizes="100vw"
+        className="pointer-events-none select-none object-cover opacity-80"
+      />
+      <div className="relative mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <h2 className="text-center text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-3xl">
           We don&apos;t rebuild Odoo.
         </h2>
@@ -33,7 +43,7 @@ export function PhilosophySection() {
               {ODOO_RESPONSIBLE_FOR.map((item) => (
                 <li
                   key={item}
-                  className="rounded-full border border-[var(--odoo-purple)]/30 px-3 py-1 text-sm text-[var(--odoo-purple)]"
+                  className="rounded-full border border-[var(--odoo-purple)]/20 bg-[var(--odoo-purple)]/10 px-3 py-1 text-sm font-medium text-[var(--odoo-purple)]"
                 >
                   {item}
                 </li>
@@ -49,7 +59,7 @@ export function PhilosophySection() {
               {WE_BUILD.map((item) => (
                 <li
                   key={item}
-                  className="rounded-full border border-[var(--brand-coral)]/30 px-3 py-1 text-sm text-[var(--brand-coral)]"
+                  className="rounded-full border border-[var(--brand-coral)]/20 bg-[var(--brand-coral)]/10 px-3 py-1 text-sm font-medium text-[var(--brand-coral)]"
                 >
                   {item}
                 </li>

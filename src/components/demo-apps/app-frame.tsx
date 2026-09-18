@@ -10,7 +10,8 @@ type AppFrameProps = {
 
 /**
  * Shared "looks like a real small app screen" shell used by every demo-app
- * mock. Deliberately plain: a thin border, a compact title bar, no
+ * mock. Deliberately plain: a thin border, a compact title bar, a thin
+ * coral top accent stripe so it reads as a branded product screen — no
  * gradients/glassmorphism/drop shadows.
  */
 export function AppFrame({ title, subtitle, children, className }: AppFrameProps) {
@@ -21,6 +22,7 @@ export function AppFrame({ title, subtitle, children, className }: AppFrameProps
         className
       )}
     >
+      <div aria-hidden="true" className="h-[3px] bg-[var(--brand-coral)]" />
       <div className="border-b border-[var(--border)] bg-[var(--surface)] px-4 py-3">
         <p className="text-[11px] font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
           {subtitle ?? "Your app"}

@@ -8,7 +8,7 @@ const baseStyles =
 
 const variantStyles = {
   primary:
-    "bg-[var(--brand-coral)] text-white hover:bg-[#e85a3c] active:bg-[#d54f33]",
+    "bg-[var(--brand-coral)] text-white shadow-[0_8px_24px_-8px_rgba(255,107,74,0.5)] hover:bg-[#e85a3c] hover:shadow-[0_10px_28px_-8px_rgba(255,107,74,0.6)] active:bg-[#d54f33]",
   secondary:
     "bg-transparent text-[var(--foreground)] border border-[var(--border)] hover:border-[var(--foreground)]",
   ghost: "bg-transparent text-[var(--foreground)] hover:bg-[var(--surface)]",
