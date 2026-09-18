@@ -58,7 +58,7 @@ export function PhilosophySection() {
           </div>
         </div>
 
-        <p className="mx-auto mt-16 max-w-3xl text-center text-2xl font-semibold leading-snug tracking-tight text-[var(--foreground)] sm:text-4xl">
+        <p className="mx-auto mt-16 max-w-3xl text-center text-4xl font-semibold leading-snug tracking-tight text-[var(--brand-coral)] sm:text-5xl lg:text-6xl">
           Odoo does everything.
           <br />
           Your users don&apos;t need everything.

@@ -3,6 +3,9 @@ import { AppFrame } from "./app-frame";
 export function CustomWorkflowPreview() {
   return (
     <AppFrame title="Expense Report #482" subtitle="Custom workflow">
+      <span className="mb-3 inline-block rounded-full border border-[var(--border)] bg-[var(--surface)] px-2.5 py-1 text-[11px] font-semibold text-[var(--muted-foreground)]">
+        Example: Expense approval
+      </span>
       <div className="rounded-lg border border-[var(--border)] px-3 py-2.5">
         <p className="text-sm font-medium text-[var(--foreground)]">
           Chiang Mai supplier trip

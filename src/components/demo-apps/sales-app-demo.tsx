@@ -51,7 +51,7 @@ export function SalesAppDemo() {
     <AppFrame title="New order" subtitle="Sales app">
       {step === "customer" ? (
         <div className="flex flex-col gap-2">
-          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[var(--odoo-gray)]">
+          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
             Choose a customer
           </p>
           {CUSTOMERS.map((c) => (
@@ -81,7 +81,7 @@ export function SalesAppDemo() {
             <ChevronLeft aria-hidden="true" className="h-3.5 w-3.5" />
             {customer.name}
           </button>
-          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[var(--odoo-gray)]">
+          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
             Add products
           </p>
           <div className="flex flex-col gap-2">
@@ -138,7 +138,7 @@ export function SalesAppDemo() {
           <button
             type="button"
             onClick={startOver}
-            className="mt-1 min-h-9 rounded-lg border border-[var(--border)] px-4 text-xs font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
+            className="mt-1 min-h-11 rounded-lg border border-[var(--border)] px-4 text-xs font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
           >
             Start another order
           </button>

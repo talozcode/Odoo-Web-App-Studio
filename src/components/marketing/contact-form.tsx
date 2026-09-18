@@ -97,7 +97,7 @@ export function ContactForm() {
             state.fieldErrors?.message ? `${formId}-message-error` : undefined
           }
           placeholder="Every morning our warehouse team opens Odoo, finds the delivery order, prints it, writes quantities on paper and someone enters everything back into Odoo later..."
-          className="w-full rounded-lg border border-[var(--border)] px-3.5 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
+          className="w-full rounded-lg border border-[var(--border)] px-3.5 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
         />
         {state.fieldErrors?.message ? (
           <p id={`${formId}-message-error`} className="mt-1.5 text-xs text-[var(--brand-coral)]">
@@ -187,7 +187,7 @@ export function ContactForm() {
             name="odooVersion"
             type="text"
             placeholder="e.g. 17"
-            className="min-h-11 w-full rounded-lg border border-[var(--border)] px-3.5 text-sm text-[var(--foreground)] placeholder:text-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
+            className="min-h-11 w-full rounded-lg border border-[var(--border)] px-3.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
           />
         </div>
       </div>

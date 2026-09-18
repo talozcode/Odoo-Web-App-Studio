@@ -36,7 +36,7 @@ export function HowItWorks() {
               <div className="flex h-14 w-14 items-center justify-center rounded-full border border-[var(--border)] bg-white">
                 <step.icon aria-hidden="true" className={`h-6 w-6 ${step.tone}`} />
               </div>
-              <p className="mt-4 text-sm font-semibold text-[var(--odoo-gray)]">
+              <p className="mt-4 text-sm font-semibold text-[var(--muted-foreground)]">
                 Step {index + 1}
               </p>
               <h3 className="mt-1 text-lg font-semibold text-[var(--foreground)]">

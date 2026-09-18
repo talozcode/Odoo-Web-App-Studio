@@ -9,14 +9,14 @@ export const SEO = {
 };
 
 export const NAV_LINKS = [
-  { label: "How it works", href: "#how-it-works" },
   { label: "Examples", href: "#examples" },
+  { label: "How it works", href: "#how-it-works" },
   { label: "Pricing", href: "#pricing" },
   { label: "FAQ", href: "#faq" },
 ] as const;
 
 export const CONTACT_SECTION_ID = "contact";
-export const CONTACT_NAV_LABEL = "Tell us your problem";
+export const CONTACT_NAV_LABEL = "Tell us what you want to simplify";
 
 export const CONTACT_EMAIL = "hello@example.com";
 

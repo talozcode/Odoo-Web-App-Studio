@@ -42,7 +42,7 @@ export function DashboardDemo() {
       </div>
 
       <div className="mt-3 rounded-lg border border-[var(--border)] p-3">
-        <p className="mb-2 text-[11px] font-medium uppercase tracking-wide text-[var(--odoo-gray)]">
+        <p className="mb-2 text-[11px] font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
           Sales by day
         </p>
         <div

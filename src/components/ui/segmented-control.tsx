@@ -41,7 +41,7 @@ export function SegmentedControl({
             aria-selected={isActive}
             onClick={() => onChange(option.value)}
             className={cn(
-              "min-h-9 rounded-md px-4 py-1.5 text-sm font-semibold transition-colors",
+              "min-h-11 rounded-md px-4 py-1.5 text-sm font-semibold transition-colors",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]",
               isActive
                 ? "bg-white text-[var(--foreground)] shadow-sm"

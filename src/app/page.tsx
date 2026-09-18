@@ -21,10 +21,10 @@ export default function Home() {
         <ExamplesSection />
         <HowItWorks />
         <BeforeAfterSection />
-        <ContactSection />
-        <PricingSection />
         <PhilosophySection />
+        <PricingSection />
         <FaqSection />
+        <ContactSection />
         <FinalCta />
       </main>
       <SiteFooter />

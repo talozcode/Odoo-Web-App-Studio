@@ -1,5 +1,6 @@
 import { ButtonLink } from "@/components/ui/button";
 import { CONTACT_SECTION_ID } from "@/config/site";
+import { BRAND_TAGLINE } from "@/config/brand";
 import { OdooCluster } from "./odoo-cluster";
 import { ApiConnector } from "./api-connector";
 import { TodaysPicksCard } from "@/components/demo-apps/todays-picks-card";
@@ -9,7 +10,10 @@ export function Hero() {
     <section id="top" className="border-b border-[var(--border)]">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl lg:text-5xl">
+          <p className="text-sm font-semibold uppercase tracking-wide text-[var(--muted-foreground)]">
+            {BRAND_TAGLINE}
+          </p>
+          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl lg:text-5xl">
             Odoo doesn&apos;t have to feel like Odoo.
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-[var(--muted-foreground)]">

@@ -48,7 +48,7 @@ export function ApiConnector({
                 ? { left: ["0%", "100%"] }
                 : { top: ["0%", "100%"] }
             }
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 2, repeat: 3, ease: "linear" }}
           />
         ) : null}
       </div>

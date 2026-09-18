@@ -22,7 +22,7 @@ export function AppFrame({ title, subtitle, children, className }: AppFrameProps
       )}
     >
       <div className="border-b border-[var(--border)] bg-[var(--surface)] px-4 py-3">
-        <p className="text-[11px] font-medium uppercase tracking-wide text-[var(--odoo-gray)]">
+        <p className="text-[11px] font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
           {subtitle ?? "Your app"}
         </p>
         <p className="text-sm font-semibold text-[var(--foreground)]">{title}</p>

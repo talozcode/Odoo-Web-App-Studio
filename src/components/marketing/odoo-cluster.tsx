@@ -45,8 +45,8 @@ export function OdooCluster() {
             height={28}
             rx={8}
             fill="white"
-            stroke="var(--odoo-purple)"
-            strokeOpacity={0.5}
+            stroke="var(--odoo-gray)"
+            strokeOpacity={0.6}
           />
           <text
             x={mod.x + 36}
@@ -54,7 +54,8 @@ export function OdooCluster() {
             textAnchor="middle"
             fontSize={11}
             fontWeight={600}
-            fill="var(--odoo-purple)"
+            fill="var(--foreground)"
+            fillOpacity={0.7}
           >
             {mod.label}
           </text>
