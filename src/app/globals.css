@@ -1,26 +1,67 @@
 @import "tailwindcss";
 
 :root {
+  /* Brand tokens — see src/config/colors.ts for the TS mirror of these. */
+  --odoo-purple: #714b67;
+  --odoo-teal: #017e84;
+  --odoo-gray: #8f8f8f;
+  --brand-coral: #ff6b4a;
+
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1f2328;
+  --surface: #f7f6f4;
+  --border: #e7e4e1;
+  --muted-foreground: #565b61;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-odoo-purple: var(--odoo-purple);
+  --color-odoo-teal: var(--odoo-teal);
+  --color-odoo-gray: var(--odoo-gray);
+  --color-brand-coral: var(--brand-coral);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #12100f;
+    --foreground: #f2f0ee;
+    --surface: #1c1a18;
+    --border: #34302c;
+    --muted-foreground: #b3aca5;
   }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Inter, system-ui, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
