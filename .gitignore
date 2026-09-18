@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# brand asset source pack (raw multi-resolution PNGs; only the specific
+# files copied into public/brand/ and src/app/ are tracked)
+/odoowebapps_brand_pack/
+/OdooWebApps_Brand_Pack.zip

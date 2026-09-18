@@ -12,10 +12,10 @@ export const COLORS = {
   odooTeal: "#017E84",
   odooGray: "#8F8F8F",
   brandCoral: "#FF6B4A",
-  charcoal: "#1F2328",
+  charcoal: "#1F2937",
   background: "#FFFFFF",
   surface: "#F7F6F4",
-  border: "#E7E4E1",
+  border: "#E5E7EB",
 } as const;
 
 export type ColorToken = keyof typeof COLORS;

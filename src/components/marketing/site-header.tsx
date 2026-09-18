@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
-import { BRAND_NAME } from "@/config/brand";
 import { NAV_LINKS, CONTACT_NAV_LABEL, CONTACT_SECTION_ID } from "@/config/site";
 import { ButtonLink } from "@/components/ui/button";
-import { BrandMark } from "./brand-mark";
 
 export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,10 +14,16 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a
           href="#top"
-          className="flex items-center gap-2.5 text-lg font-semibold tracking-tight text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] rounded-md"
+          className="flex shrink-0 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] rounded-md"
         >
-          <BrandMark />
-          {BRAND_NAME}
+          <Image
+            src="/brand/odoowebapps-logo-horizontal-transparent.png"
+            alt="OdooWebApps"
+            width={1024}
+            height={341}
+            priority
+            className="h-8 w-auto sm:h-9"
+          />
         </a>
 
         <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex">
