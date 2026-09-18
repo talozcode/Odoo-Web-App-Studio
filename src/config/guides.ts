@@ -1,0 +1,62 @@
+/**
+ * Index of the guides/resources content hub. Each guide's full body lives in
+ * its own route (src/app/guides/<slug>/page.tsx) since it's long-form prose,
+ * not templated data — but the title/description/date/slug used by the
+ * /guides index page, the sitemap, and cross-links all come from here so
+ * they can't drift out of sync with what each article actually says.
+ */
+export type GuideMeta = {
+  slug: string;
+  title: string;
+  description: string;
+  datePublished: string; // ISO date, YYYY-MM-DD
+};
+
+export const GUIDES: GuideMeta[] = [
+  {
+    slug: "odoo-customization-vs-custom-apps",
+    title: "Odoo Customization vs. a Custom Web App: What's the Difference?",
+    description:
+      "How in-Odoo customization (views, studio, custom modules) differs from building a separate web app against Odoo's API, and how to tell which one a given problem actually needs.",
+    datePublished: "2026-09-18",
+  },
+  {
+    slug: "odoo-api-integration-explained",
+    title: "How Odoo's API Actually Works (XML-RPC, JSON-RPC and the ORM)",
+    description:
+      "A practical explanation of Odoo's external API surface, authentication, and the ORM methods (search_read, create, write) that a custom app calls under the hood.",
+    datePublished: "2026-09-18",
+  },
+  {
+    slug: "what-happens-when-odoo-upgrades",
+    title: "What Happens to a Custom App When Odoo Upgrades?",
+    description:
+      "Why a separate web app is affected differently by an Odoo version upgrade than in-Odoo customizations are, and what actually needs to be checked when Odoo moves versions.",
+    datePublished: "2026-09-18",
+  },
+  {
+    slug: "how-much-does-a-custom-odoo-app-cost",
+    title: "How Much Does a Custom Odoo App Cost?",
+    description:
+      "A grounded look at what drives the price of a small Odoo-connected app, with real ranges instead of vague 'contact us for pricing.'",
+    datePublished: "2026-09-18",
+  },
+  {
+    slug: "signs-your-team-needs-a-simpler-odoo-interface",
+    title: "Signs Your Team Needs a Simpler Interface Than Odoo's Backend",
+    description:
+      "Practical signals — from workarounds on paper to reluctant adoption — that indicate a workflow would benefit from a focused front end instead of more Odoo training.",
+    datePublished: "2026-09-18",
+  },
+  {
+    slug: "odoo-write-back-vs-read-only-integrations",
+    title: "Read-Only vs. Write-Back Odoo Integrations: Which Do You Need?",
+    description:
+      "The difference between an app that only displays Odoo data and one that creates or updates records in Odoo, and why that distinction changes scope, risk and cost.",
+    datePublished: "2026-09-18",
+  },
+];
+
+export function guideBySlug(slug: string): GuideMeta | undefined {
+  return GUIDES.find((guide) => guide.slug === slug);
+}

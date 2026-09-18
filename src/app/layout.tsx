@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { BRAND_NAME } from "@/config/brand";
 import { SEO, SITE_URL } from "@/config/site";
+import { JsonLd } from "@/components/seo/json-ld";
+import { organizationSchema } from "@/lib/schema";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -42,6 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <JsonLd data={organizationSchema()} />
         {children}
       </body>
     </html>

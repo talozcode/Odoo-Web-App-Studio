@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { NAV_LINKS, CONTACT_NAV_LABEL, CONTACT_SECTION_ID } from "@/config/site";
 import { ButtonLink } from "@/components/ui/button";
@@ -11,9 +12,9 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]/80">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <a
-          href="#top"
+      <div className="mx-auto flex h-24 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8 sm:h-28">
+        <Link
+          href="/#top"
           className="flex shrink-0 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] rounded-md"
         >
           <Image
@@ -22,9 +23,9 @@ export function SiteHeader() {
             width={1024}
             height={341}
             priority
-            className="h-8 w-auto sm:h-9"
+            className="h-16 w-auto sm:h-20"
           />
-        </a>
+        </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex">
           {NAV_LINKS.map((link) => (
@@ -39,7 +40,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden lg:block">
-          <ButtonLink href={`#${CONTACT_SECTION_ID}`}>{CONTACT_NAV_LABEL}</ButtonLink>
+          <ButtonLink href={`/#${CONTACT_SECTION_ID}`}>{CONTACT_NAV_LABEL}</ButtonLink>
         </div>
 
         <button
@@ -78,7 +79,7 @@ export function SiteHeader() {
             ))}
             <li className="mt-2">
               <ButtonLink
-                href={`#${CONTACT_SECTION_ID}`}
+                href={`/#${CONTACT_SECTION_ID}`}
                 onClick={() => setIsOpen(false)}
                 className="w-full"
               >

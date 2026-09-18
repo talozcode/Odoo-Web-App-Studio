@@ -8,11 +8,15 @@ export const SEO = {
     "Fast, focused web apps connected to your existing Odoo. Simplify warehouse, sales, reporting, customer, supplier and operational workflows without replacing your ERP.",
 };
 
+// Root-relative ("/#examples" rather than "#examples") so these links work
+// correctly from every page on the site, not only from the homepage they
+// scroll within — SiteHeader and SiteFooter are shared across all routes.
 export const NAV_LINKS = [
-  { label: "Examples", href: "#examples" },
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Examples", href: "/#examples" },
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Guides", href: "/guides" },
 ] as const;
 
 export const CONTACT_SECTION_ID = "contact";
@@ -34,8 +38,16 @@ export const PROBLEM_CHIPS = [
 ] as const;
 
 export const FOOTER_LINKS = [
-  { label: "What we build", href: "#examples" },
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "Contact", href: `#${CONTACT_SECTION_ID}` },
+  { label: "What we build", href: "/#examples" },
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Contact", href: `/#${CONTACT_SECTION_ID}` },
+] as const;
+
+export const FOOTER_RESOURCE_LINKS = [
+  { label: "Guides", href: "/guides" },
+  { label: "About", href: "/about" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
 ] as const;

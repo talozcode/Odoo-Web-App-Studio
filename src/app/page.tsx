@@ -1,3 +1,6 @@
+import { JsonLd } from "@/components/seo/json-ld";
+import { websiteSchema, faqPageSchema } from "@/lib/schema";
+import { FAQ_ITEMS } from "@/config/faq";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { Hero } from "@/components/marketing/hero";
 import { ProblemSection } from "@/components/marketing/problem-section";
@@ -14,6 +17,8 @@ import { SiteFooter } from "@/components/marketing/site-footer";
 export default function Home() {
   return (
     <>
+      <JsonLd data={websiteSchema()} />
+      <JsonLd data={faqPageSchema(FAQ_ITEMS)} />
       <SiteHeader />
       <main className="flex-1">
         <Hero />
