@@ -26,6 +26,7 @@ export function PhilosophySection() {
         alt=""
         aria-hidden="true"
         fill
+        unoptimized
         sizes="100vw"
         className="pointer-events-none select-none object-cover opacity-80"
       />

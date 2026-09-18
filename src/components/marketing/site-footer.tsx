@@ -8,14 +8,17 @@ export function SiteFooter() {
     <footer className="bg-[var(--foreground)]">
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-4 py-12 sm:px-6 md:grid-cols-4 lg:px-8">
         <div className="col-span-2 flex flex-col gap-4 md:col-span-1">
-          <div className="inline-flex w-fit items-center rounded-lg bg-white p-2">
+          <div className="flex items-center gap-2">
             <Image
-              src="/brand/odoowebapps-logo-horizontal-white.png"
-              alt="OdooWebApps"
-              width={1024}
-              height={341}
-              className="h-6 w-auto"
+              src="/brand/odoowebapps-icon-transparent.png"
+              alt=""
+              width={256}
+              height={256}
+              className="h-8 w-8"
             />
+            <span className="text-lg font-bold text-white">
+              OdooWebApps<span className="text-[var(--brand-coral)]">.com</span>
+            </span>
           </div>
           <p className="max-w-[220px] text-sm text-white/60">
             A web app studio for businesses that already use Odoo.
