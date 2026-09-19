@@ -83,6 +83,48 @@ export const GUIDES: GuideMeta[] = [
       "An honest, even-handed comparison of when an Odoo developer or implementation partner is the right call, and when a narrow web app studio is the better fit instead.",
     datePublished: "2026-09-18",
   },
+  {
+    slug: "odoo-studio-limitations",
+    title: "Odoo Studio Can't Do This: Where the No-Code Builder Hits a Wall",
+    description:
+      "What Odoo Studio is genuinely good at, where its no-code approach hits real limits, and when a workflow needs a different kind of interface entirely.",
+    datePublished: "2026-09-19",
+  },
+  {
+    slug: "odoo-implementation-partner-cost",
+    title: "Odoo Implementation Partner Cost (And When You Don't Need One)",
+    description:
+      "Honest, hedged ranges for what a full Odoo implementation typically costs, and how to tell whether your actual problem needs one or just a single connected app.",
+    datePublished: "2026-09-19",
+  },
+  {
+    slug: "why-is-my-odoo-dashboard-slow",
+    title: "Why Your Odoo Dashboard Is Slow (and When a Standalone One Fixes It)",
+    description:
+      "The real technical reason cross-module Odoo dashboards and reports can be slow, and how a standalone read-only dashboard app sidesteps that specific problem.",
+    datePublished: "2026-09-19",
+  },
+  {
+    slug: "odoo-purchase-approval-mobile-app",
+    title: "Purchase Approvals Stuck in Odoo's Backend? A Simple Mobile Approve/Reject App",
+    description:
+      "Why purchase order approvals bottleneck when managers are away from a desktop, and how a minimal mobile approve/reject screen writes decisions straight back to Odoo.",
+    datePublished: "2026-09-19",
+  },
+  {
+    slug: "odoo-api-multi-company-filtering",
+    title: "Why Your Odoo API Call Returns Data From the Wrong Company (and How to Scope It Correctly)",
+    description:
+      "A recurring multi-company Odoo API gotcha: queries can return records across every company a user can access unless the request explicitly scopes company context.",
+    datePublished: "2026-09-19",
+  },
+  {
+    slug: "why-sales-reps-dont-use-odoo-mobile",
+    title: "Reps Won't Use Odoo on Their Phones? Build the 3 Screens They Actually Need",
+    description:
+      "Why desktop-first CRM/Sales interfaces see low adoption from field reps on phones, and why a narrow 3-screen order flow written back to Odoo works better.",
+    datePublished: "2026-09-19",
+  },
 ];
 
 export function guideBySlug(slug: string): GuideMeta | undefined {
