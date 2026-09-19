@@ -14,9 +14,9 @@ const CUSTOMERS: Customer[] = [
 ];
 
 const PRODUCTS: Product[] = [
-  { id: "p1", name: "Sesame Crackers (case)", price: 24 },
-  { id: "p2", name: "Olive Oil 1L", price: 12 },
-  { id: "p3", name: "Tahini 500g", price: 8 },
+  { id: "p1", name: "Bottled Water (case)", price: 24 },
+  { id: "p2", name: "Coffee Beans 1kg", price: 12 },
+  { id: "p3", name: "Paper Napkins 500ct", price: 8 },
 ];
 
 type Step = "customer" | "products" | "done";

@@ -5,9 +5,9 @@ import { Minus, Plus, Package, ShoppingCart } from "lucide-react";
 import { AppFrame } from "./app-frame";
 
 const ITEMS = [
-  { name: "Sesame Crackers (case)", price: "$24.00" },
-  { name: "Olive Oil 1L", price: "$12.00" },
-  { name: "Tahini 500g", price: "$8.00" },
+  { name: "Bottled Water (case)", price: "$24.00" },
+  { name: "Coffee Beans 1kg", price: "$12.00" },
+  { name: "Paper Napkins 500ct", price: "$8.00" },
 ];
 
 export function CustomerPortalPreview() {

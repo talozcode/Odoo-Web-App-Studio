@@ -13,10 +13,10 @@ type PickLine = {
 const ORDER_ID = "SO0421";
 
 const LINES: PickLine[] = [
-  { name: "Chicken Breast", total: 4 },
-  { name: "Tahini", total: 2 },
-  { name: "Olive Oil", total: 2 },
-  { name: "Pita Bread", total: 4 },
+  { name: "Bottled Water", total: 4 },
+  { name: "Coffee Beans", total: 2 },
+  { name: "Paper Towels", total: 2 },
+  { name: "Napkins", total: 4 },
 ];
 
 const TOTAL_ITEMS = LINES.reduce((sum, line) => sum + line.total, 0);
