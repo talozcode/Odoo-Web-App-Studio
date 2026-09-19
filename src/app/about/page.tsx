@@ -105,15 +105,30 @@ export default function AboutPage() {
       </p>
 
       <h2 className="text-xl font-semibold text-[var(--foreground)]">
+        Who&apos;s behind this
+      </h2>
+      <p>
+        {BRAND_NAME} is a new name, but not a new skill set. Behind it is
+        over five years of hands-on Odoo implementation work: configuring
+        Odoo for real businesses, and building the automations and
+        integrations that keep it running smoothly once the initial setup is
+        done. This site exists because that work kept turning up the same
+        pattern, over and over: the fix a team actually needed was rarely
+        &quot;more Odoo.&quot; It was one small, focused app sitting outside
+        it, talking to it through its API.
+      </p>
+
+      <h2 className="text-xl font-semibold text-[var(--foreground)]">
         Where things stand
       </h2>
       <p>
-        This is a small, early-stage studio. Rather than pad this page with
-        claims that aren&apos;t true yet, the honest version is simpler: the
-        approach above is the actual approach, the example apps on the
-        homepage are real working demonstrations of the pattern (not mockups
-        of hypothetical clients), and every project is scoped and quoted
-        individually through a direct conversation. See{" "}
+        The brand is new; the experience isn&apos;t. Rather than pad this
+        page with claims that aren&apos;t true, the honest version is
+        simpler: the approach above is the actual approach, the example apps
+        on the homepage are real working demonstrations of the pattern (not
+        mockups of hypothetical clients), and every project is scoped and
+        quoted individually through a direct conversation, based on the
+        specific Odoo setup and workflow in front of it. See{" "}
         <Link
           href="/#contact"
           className="font-medium text-[var(--odoo-teal)] underline underline-offset-4 hover:no-underline"
