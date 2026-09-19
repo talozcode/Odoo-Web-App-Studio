@@ -23,7 +23,7 @@ export default function TermsPage() {
     >
       <p>
         These terms cover how engagements with {BRAND_NAME} generally work.
-        They&apos;re intentionally plain — this is a small services business, not
+        They&apos;re intentionally plain: this is a small services business, not
         a large vendor with a dense standard contract, and any
         project-specific terms (deliverables, timeline, price) are agreed in
         writing before work starts, separately from this page.
@@ -33,7 +33,7 @@ export default function TermsPage() {
         Engagement basis
       </h2>
       <p>
-        Work is project-based. Nothing is built on spec or assumed — every
+        Work is project-based. Nothing is built on spec or assumed: every
         project starts with a scoping conversation about the specific
         workflow involved, followed by a quote covering what will be built,
         at what price, before any development work begins. If scope changes

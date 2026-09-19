@@ -13,7 +13,7 @@ const APP = EXAMPLE_APPS.find((a) => a.id === "management-dashboard")!;
 export const metadata: Metadata = {
   title: `Odoo Management Dashboard: The Numbers That Matter | ${BRAND_NAME}`,
   description:
-    "A focused management dashboard pulling live sales, margin, inventory and purchasing numbers from Odoo — read-only, no risk to your data. Pricing and scope inside.",
+    "A focused management dashboard pulling live sales, margin, inventory and purchasing numbers from Odoo. Read-only, no risk to your data. Pricing and scope inside.",
   alternates: { canonical: CANONICAL_URL },
   openGraph: {
     title: "Odoo Management Dashboard: The Numbers That Matter",
@@ -28,7 +28,7 @@ const FAQS = [
   {
     question: "Does this need write access to Odoo?",
     answer:
-      "No. A management dashboard is a read-only integration — it queries Odoo for data and displays it, and never creates or changes records. That makes it lower-risk to build and easier to reason about than an app that writes back.",
+      "No. A management dashboard is a read-only integration: it queries Odoo for data and displays it, and never creates or changes records. That makes it lower-risk to build and easier to reason about than an app that writes back.",
   },
   {
     question: "How often does the data refresh?",
@@ -38,7 +38,7 @@ const FAQS = [
   {
     question: "Can I put this on a shared screen or TV in the office?",
     answer:
-      "Yes — a dashboard built this way is just a web page, so it can run full-screen on a browser on any TV or tablet, auto-refreshing on its own schedule with no one needing to touch it.",
+      "Yes, a dashboard built this way is just a web page, so it can run full-screen on a browser on any TV or tablet, auto-refreshing on its own schedule with no one needing to touch it.",
   },
   {
     question: "What if I want to add another metric later?",
@@ -53,9 +53,9 @@ export default function OdooDashboardPage() {
       breadcrumbLabel="Odoo Dashboard"
       eyebrow="Reporting & Visibility"
       h1="A dashboard with the numbers you actually check"
-      intro="Odoo's reporting tools — pivot tables, generic dashboards, spreadsheet exports — can answer almost any question, which is exactly why they're not built to answer one question fast. A focused dashboard skips the navigation and filters and shows the handful of numbers a specific manager actually looks at every day."
+      intro="Odoo's reporting tools (pivot tables, generic dashboards, spreadsheet exports) can answer almost any question, which is exactly why they're not built to answer one question fast. A focused dashboard skips the navigation and filters and shows the handful of numbers a specific manager actually looks at every day."
       demo={<DashboardDemo />}
-      demoCaption="Interactive demo — a sample weekly management view."
+      demoCaption="Interactive demo: a sample weekly management view."
       canonicalUrl={CANONICAL_URL}
       priceFrom={APP.priceFrom}
       priceNote="Starting price for a single-screen dashboard covering a handful of metrics from one or two Odoo modules. More metrics, multiple views, or role-based access are scoped separately."
@@ -68,17 +68,17 @@ export default function OdooDashboardPage() {
             <>
               <p>
                 A dashboard like this reads from the same models Odoo&apos;s
-                own reporting uses — sales analysis (<code>sale.report</code>
+                own reporting uses: sales analysis (<code>sale.report</code>
                 ), on-hand stock (<code>stock.quant</code>), open purchase
                 orders (<code>purchase.order</code>), invoiced revenue (
-                <code>account.move</code>) — using Odoo&apos;s search and
+                <code>account.move</code>), using Odoo&apos;s search and
                 aggregation methods (<code>search_read</code>,{" "}
                 <code>read_group</code>) rather than duplicating that data
                 anywhere.
               </p>
               <p>
-                The aggregation and layout — this week&apos;s sales next to
-                margin next to open POs — happens in the dashboard itself,
+                The aggregation and layout (this week&apos;s sales next to
+                margin next to open POs) happens in the dashboard itself,
                 so the numbers can be arranged exactly the way a specific
                 manager thinks about the business, instead of however
                 Odoo&apos;s generic dashboard widgets happen to group them.
@@ -93,7 +93,7 @@ export default function OdooDashboardPage() {
               Instead of opening three different Odoo apps and applying
               filters to answer &quot;how&apos;s this week going,&quot; the
               answer is one glance. That matters most for numbers checked
-              daily or multiple times a day — the small friction of
+              daily or multiple times a day: the small friction of
               navigating Odoo&apos;s full interface adds up, and often means
               the check happens less often than it should.
             </p>
@@ -103,8 +103,8 @@ export default function OdooDashboardPage() {
           heading: "Typical scope and timeline",
           body: (
             <p>
-              A first version — four to six KPIs, one refresh cadence, one
-              audience — is what the starting price below reflects. Dashboards
+              A first version (four to six KPIs, one refresh cadence, one
+              audience) is what the starting price below reflects. Dashboards
               with role-based views (a warehouse manager sees different
               numbers than a sales manager), drill-down into underlying
               records, or metrics that require custom calculation logic

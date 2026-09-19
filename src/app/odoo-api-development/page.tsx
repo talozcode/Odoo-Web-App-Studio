@@ -31,7 +31,7 @@ const FAQS = [
   {
     question: "Do you need admin access to our Odoo?",
     answer:
-      "No — an integration should run under a dedicated API user with only the access rights it actually needs, the same way you'd scope any other integration. Standard Odoo access rights and record rules apply to API calls exactly as they do to a logged-in user, so scoping that user correctly is part of doing the integration properly.",
+      "No. An integration should run under a dedicated API user with only the access rights it actually needs, the same way you'd scope any other integration. Standard Odoo access rights and record rules apply to API calls exactly as they do to a logged-in user, so scoping that user correctly is part of doing the integration properly.",
   },
   {
     question: "Is XML-RPC or JSON-RPC better for the integration?",
@@ -41,12 +41,12 @@ const FAQS = [
   {
     question: "Does this work with Odoo Online, Odoo.sh, and self-hosted/on-premise?",
     answer:
-      "The external API is the same across all three hosting options — what differs is how you obtain and manage API credentials and, on self-hosted instances, whether the server is reachable from wherever the integration runs. Both are confirmed early in scoping.",
+      "The external API is the same across all three hosting options: what differs is how you obtain and manage API credentials and, on self-hosted instances, whether the server is reachable from wherever the integration runs. Both are confirmed early in scoping.",
   },
   {
     question: "Does the integration survive Odoo version upgrades?",
     answer:
-      "The API surface (search, read, create, write, and calling specific model methods) has been stable across recent Odoo versions, but individual field names or method behavior on specific models can change between major versions. A well-built integration isolates those touchpoints so an upgrade means checking a short, known list of things rather than an unpredictable one — see the guide on Odoo upgrades linked below.",
+      "The API surface (search, read, create, write, and calling specific model methods) has been stable across recent Odoo versions, but individual field names or method behavior on specific models can change between major versions. A well-built integration isolates those touchpoints so an upgrade means checking a short, known list of things rather than an unpredictable one. See the guide on Odoo upgrades linked below.",
   },
 ];
 
@@ -56,7 +56,7 @@ export default function OdooApiDevelopmentPage() {
       breadcrumbLabel="Odoo API Development"
       eyebrow="Integration & API"
       h1="Odoo API development: the connection layer itself"
-      intro="Every app on this site — the picking app, the sales app, the dashboard, both portals — is really the same underlying capability applied to a different screen: a reliable connection between an external app and Odoo's data. Sometimes that connection is the whole project, without a bespoke front end wrapped around it — syncing an e-commerce platform's orders into Odoo, or letting an internal tool read live stock levels."
+      intro="Every app on this site (the picking app, the sales app, the dashboard, both portals) is really the same underlying capability applied to a different screen: a reliable connection between an external app and Odoo's data. Sometimes that connection is the whole project, without a bespoke front end wrapped around it: syncing an e-commerce platform's orders into Odoo, or letting an internal tool read live stock levels."
       demo={
         <div className="flex w-full max-w-sm flex-col items-center gap-4">
           <DashboardDemo />
@@ -83,10 +83,10 @@ export default function OdooApiDevelopmentPage() {
                 Odoo exposes its entire ORM over two external protocols:
                 XML-RPC and JSON-RPC. Both let an authenticated external
                 client call the same core methods Odoo&apos;s own web client
-                calls internally — <code>search_read</code> and{" "}
+                calls internally: <code>search_read</code> and{" "}
                 <code>read_group</code> to query records, <code>create</code>{" "}
                 and <code>write</code> to add or update them, and{" "}
-                <code>unlink</code> to delete them — plus the ability to call
+                <code>unlink</code> to delete them, plus the ability to call
                 specific business methods on a model, like confirming a sales
                 order or validating a stock transfer, instead of trying to
                 fake that behavior by writing raw field values.
@@ -95,7 +95,7 @@ export default function OdooApiDevelopmentPage() {
                 Authentication runs through a database, a username, and
                 either a password or (on more recent versions) an API key
                 scoped to that user. Every call is then subject to that
-                user&apos;s normal Odoo access rights and record rules —
+                user&apos;s normal Odoo access rights and record rules;
                 the API doesn&apos;t bypass Odoo&apos;s permission model, it
                 operates inside it.
               </p>
@@ -107,12 +107,12 @@ export default function OdooApiDevelopmentPage() {
           body: (
             <p>
               A read-only integration pulls data out of Odoo to display or
-              export elsewhere — a dashboard, a report, a sync to another
-              system&apos;s copy of the catalog. It&apos;s inherently lower-risk:
+              export elsewhere (a dashboard, a report, a sync to another
+              system&apos;s copy of the catalog). It&apos;s inherently lower-risk:
               there&apos;s no way to corrupt Odoo data through a query. A
-              write-back integration creates or updates real records — a new
+              write-back integration creates or updates real records (a new
               sales order, a confirmed purchase order, an updated stock
-              count — and needs real care: input validation before the
+              count) and needs real care: input validation before the
               write, clear handling of what happens if a call partially
               fails, and calling the correct workflow method rather than
               writing raw state fields and hoping Odoo&apos;s own business logic
@@ -141,7 +141,7 @@ export default function OdooApiDevelopmentPage() {
           heading: "What we actually deliver",
           body: (
             <p>
-              Not a generic connector or a one-size-fits-all SDK — the
+              Not a generic connector or a one-size-fits-all SDK: the
               specific integration for the specific workflow, including
               error handling and clear behavior when something goes wrong
               (a call fails, a required field is missing, Odoo rejects the

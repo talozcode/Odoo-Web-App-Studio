@@ -31,9 +31,10 @@ export default function Guide() {
     >
       <GuideSection heading="What's the actual difference between the two?">
         <p>
-          A read-only integration only ever queries Odoo — <code>search</code>
-          , <code>search_read</code>, <code>read_group</code> — and never
-          calls anything that creates, updates, or deletes a record. A
+          A read-only integration only ever queries Odoo, using calls like
+          <code>search</code>, <code>search_read</code>, and
+          <code>read_group</code>, and never calls anything that creates,
+          updates, or deletes a record. A
           write-back integration does one or more of those things: it might
           create a new <code>sale.order</code>, update a field on an
           existing record with <code>write</code>, or call a business
@@ -45,7 +46,7 @@ export default function Guide() {
       <GuideSection heading="Why does this distinction change the risk profile so much?">
         <p>
           A bug in a read-only integration produces a wrong number on a
-          screen somewhere — annoying, and worth fixing, but it never
+          screen somewhere (annoying, and worth fixing), but it never
           touches Odoo&apos;s actual data, so it&apos;s fully recoverable by just
           fixing the query. A bug in a write-back integration can create a
           malformed sales order, wrongly confirm a stock move that shouldn&apos;t
@@ -65,7 +66,7 @@ export default function Guide() {
           &quot;Validate&quot; button triggers on a stock transfer) instead of writing
           raw state fields directly, so Odoo&apos;s own business logic and side
           effects still run as intended. Handling partial failures
-          explicitly — what happens if an order has five lines and the
+          explicitly: what happens if an order has five lines and the
           fourth one fails Odoo&apos;s own validation? And keeping a clear,
           reviewable record of what the integration actually created or
           changed, so a problem can be traced back to a specific call
@@ -75,7 +76,7 @@ export default function Guide() {
 
       <GuideSection heading="Does using write-back mean giving up on read-only safety everywhere?">
         <p>
-          No — most real apps are a mix of both, applied per action rather
+          No. Most real apps are a mix of both, applied per action rather
           than per app. A mobile sales app, for instance, reads stock levels
           and pricing (read-only) and then writes a new order on submit
           (write-back). The two patterns coexist inside one app; what
@@ -88,7 +89,7 @@ export default function Guide() {
         <p>
           Write-back work generally costs more than an equivalent read-only
           feature, because of the extra validation, error-handling, and
-          testing it needs to be done responsibly — not because the API
+          testing it needs to be done responsibly, not because the API
           call itself is harder to make. See the guide on custom Odoo app
           cost, linked below, for how this plays into overall pricing.
         </p>
@@ -98,7 +99,7 @@ export default function Guide() {
         <p>
           Ask, for each specific screen or action: does this need to change
           something in Odoo, or only show something? If it&apos;s purely
-          informational — a dashboard, a report, a status lookup — it&apos;s
+          informational (a dashboard, a report, a status lookup), it&apos;s
           read-only. If someone needs to submit, confirm, approve, or record
           something that should end up as a real Odoo record, it&apos;s
           write-back. Most projects turn out to need a specific, identifiable

@@ -41,7 +41,7 @@ export function Hero() {
           <p className="mt-6 text-lg leading-relaxed text-[var(--muted-foreground)]">
             We build fast, beautiful web apps connected to your existing
             Odoo. Give your team, customers and suppliers exactly what they
-            need — and nothing they don&apos;t.
+            need, and nothing they don&apos;t.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <ButtonLink href={`#${CONTACT_SECTION_ID}`}>

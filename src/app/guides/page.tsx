@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { SiteFooter } from "@/components/marketing/site-footer";
@@ -51,7 +52,7 @@ export default function GuidesIndexPage() {
               Straight answers about building on Odoo
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-[var(--muted-foreground)]">
-              No vague marketing copy — these are the same practical
+              No vague marketing copy. These are the same practical
               explanations we&apos;d give in a real scoping conversation, written
               down so you don&apos;t have to ask first.
             </p>
@@ -59,28 +60,42 @@ export default function GuidesIndexPage() {
         </section>
 
         <section>
-          <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
-            <ul className="flex flex-col divide-y divide-[var(--border)]">
+          <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {GUIDES.map((guide) => (
-                <li key={guide.slug} className="py-6 first:pt-0 last:pb-0">
+                <article
+                  key={guide.slug}
+                  className="flex flex-col overflow-hidden rounded-xl border border-[var(--border)]"
+                >
                   <Link
                     href={`/guides/${guide.slug}`}
-                    className="group flex flex-col gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
+                    className="group flex flex-1 flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
                   >
-                    <h2 className="flex items-center gap-2 text-xl font-semibold text-[var(--foreground)] group-hover:text-[var(--odoo-teal)]">
-                      {guide.title}
-                      <ArrowRight
-                        aria-hidden="true"
-                        className="h-4 w-4 shrink-0 text-[var(--odoo-teal)] opacity-0 transition-opacity group-hover:opacity-100"
+                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-[var(--surface)]">
+                      <Image
+                        src={`/images/guides/${guide.slug}.webp`}
+                        alt={`Illustration for the guide: ${guide.title}`}
+                        fill
+                        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                        className="object-cover transition-transform duration-200 group-hover:scale-[1.03]"
                       />
-                    </h2>
-                    <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">
-                      {guide.description}
-                    </p>
+                    </div>
+                    <div className="flex flex-1 flex-col p-6">
+                      <h2 className="flex items-start gap-2 text-lg font-semibold text-[var(--foreground)] group-hover:text-[var(--odoo-teal)]">
+                        <span>{guide.title}</span>
+                        <ArrowRight
+                          aria-hidden="true"
+                          className="mt-1 h-4 w-4 shrink-0 text-[var(--odoo-teal)] opacity-0 transition-opacity group-hover:opacity-100"
+                        />
+                      </h2>
+                      <p className="mt-2 text-sm leading-relaxed text-[var(--muted-foreground)]">
+                        {guide.description}
+                      </p>
+                    </div>
                   </Link>
-                </li>
+                </article>
               ))}
-            </ul>
+            </div>
           </div>
         </section>
       </main>

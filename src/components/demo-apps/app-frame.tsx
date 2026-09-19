@@ -11,7 +11,7 @@ type AppFrameProps = {
 /**
  * Shared "looks like a real small app screen" shell used by every demo-app
  * mock. Deliberately plain: a thin border, a compact title bar, a thin
- * coral top accent stripe so it reads as a branded product screen — no
+ * coral top accent stripe so it reads as a branded product screen, with no
  * gradients/glassmorphism/drop shadows.
  */
 export function AppFrame({ title, subtitle, children, className }: AppFrameProps) {

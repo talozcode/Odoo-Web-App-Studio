@@ -25,6 +25,7 @@ export default function Guide() {
       meta={meta}
       relatedLinks={[
         { href: "/odoo-api-development", label: "Odoo API development" },
+        { href: "/guides/odoo-rest-api-explained", label: "Odoo REST API: what it can (and can't) do" },
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs. write-back Odoo integrations" },
         { href: "/guides/what-happens-when-odoo-upgrades", label: "What happens to a custom app when Odoo upgrades?" },
       ]}
@@ -32,7 +33,7 @@ export default function Guide() {
       <GuideSection heading="What protocols does Odoo's API actually use?">
         <p>
           Odoo exposes its external API over two RPC protocols: XML-RPC and
-          JSON-RPC. They&apos;re not two different feature sets — both are
+          JSON-RPC. They&apos;re not two different feature sets; both are
           transport-layer options for calling the exact same underlying
           methods on Odoo&apos;s ORM. Which one a given integration uses is
           mostly a matter of what&apos;s convenient in the calling language;
@@ -58,9 +59,9 @@ export default function Guide() {
           Nearly everything the ORM itself supports, through a single
           generic dispatch method (commonly called <code>execute_kw</code>)
           that takes a model name, a method name, and its arguments.
-          Standard CRUD methods are always available —{" "}
+          Standard CRUD methods are always available:{" "}
           <code>search</code>, <code>search_read</code>, <code>read</code>,{" "}
-          <code>create</code>, <code>write</code>, <code>unlink</code> — and
+          <code>create</code>, <code>write</code>, <code>unlink</code>, and
           so is any other public method defined on that model, including
           business-logic methods like confirming a sales order or
           validating a stock transfer, which matters because those methods
@@ -91,7 +92,7 @@ export default function Guide() {
           Yes, entirely. Every call runs as the authenticated user, subject
           to that user&apos;s model-level access rights and row-level record
           rules exactly as if they were logged into the Odoo web client.
-          There&apos;s no separate, more permissive &quot;API mode&quot; — which is also
+          There&apos;s no separate, more permissive &quot;API mode,&quot; which is also
           why the right way to scope an integration is a dedicated API user
           with only the access it needs, not the main admin account.
         </p>
@@ -110,7 +111,7 @@ export default function Guide() {
           do it in one round trip. Field names and available methods can
           also shift slightly between major Odoo versions, which is worth
           knowing before assuming an integration will need zero maintenance
-          forever — see the guide on Odoo upgrades linked below.
+          forever. See the guide on Odoo upgrades linked below.
         </p>
       </GuideSection>
     </GuidePageTemplate>

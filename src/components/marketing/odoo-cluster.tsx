@@ -1,11 +1,20 @@
+const MIN_BOX_WIDTH = 72;
+const BOX_HEIGHT = 28;
+
+// Fixed-width boxes clip longer labels like "Manufacturing": size each box
+// to its own label instead of assuming every module name is short.
+function boxWidth(label: string): number {
+  return Math.max(MIN_BOX_WIDTH, label.length * 6.5 + 20);
+}
+
 const MODULES = [
   { label: "Sales", x: 40, y: 30 },
   { label: "Inventory", x: 20, y: 100 },
   { label: "Purchase", x: 30, y: 175 },
-  { label: "Manufacturing", x: 100, y: 220 },
-  { label: "Accounting", x: 190, y: 210 },
+  { label: "Manufacturing", x: 70, y: 220 },
+  { label: "Accounting", x: 200, y: 210 },
   { label: "Contacts", x: 230, y: 60 },
-];
+].map((mod) => ({ ...mod, width: boxWidth(mod.label) }));
 
 const CONVERGE_X = 300;
 const CONVERGE_Y = 125;
@@ -26,8 +35,8 @@ export function OdooCluster() {
       {MODULES.map((mod) => (
         <line
           key={`line-${mod.label}`}
-          x1={mod.x + 34}
-          y1={mod.y + 14}
+          x1={mod.x + mod.width / 2}
+          y1={mod.y + BOX_HEIGHT / 2}
           x2={CONVERGE_X}
           y2={CONVERGE_Y}
           stroke="var(--odoo-purple)"
@@ -41,15 +50,15 @@ export function OdooCluster() {
           <rect
             x={mod.x}
             y={mod.y}
-            width={72}
-            height={28}
+            width={mod.width}
+            height={BOX_HEIGHT}
             rx={8}
             fill="white"
             stroke="var(--odoo-gray)"
             strokeOpacity={0.6}
           />
           <text
-            x={mod.x + 36}
+            x={mod.x + mod.width / 2}
             y={mod.y + 18}
             textAnchor="middle"
             fontSize={11}

@@ -45,8 +45,8 @@ export default function Guide() {
 
       <GuideSection heading="What counts as a 'custom app' in this context?">
         <p>
-          A custom app, by contrast, is a separate piece of software — its
-          own front end, its own server if it needs one — that talks to
+          A custom app, by contrast, is a separate piece of software (its
+          own front end, its own server if it needs one) that talks to
           Odoo over its external API (XML-RPC or JSON-RPC) rather than
           running inside Odoo. It reads and writes Odoo records the same
           way any other authenticated client would, but the interface, the
@@ -59,9 +59,9 @@ export default function Guide() {
           Customization keeps everything in one system and gives users
           Odoo&apos;s built-in conveniences (chatter/logging, activities,
           automated actions) for free, but it&apos;s constrained by Odoo&apos;s
-          own view framework — genuinely simplifying a screen for a
+          own view framework: genuinely simplifying a screen for a
           non-technical user is limited by what a form or list view can be
-          configured to look like — and it&apos;s coupled to Odoo&apos;s
+          configured to look like. And it&apos;s coupled to Odoo&apos;s
           module and upgrade mechanics, meaning changes need to be tested
           against every future Odoo upgrade.
         </p>
@@ -70,7 +70,7 @@ export default function Guide() {
           anything, be as simple as one button, and run on hardware or for
           an audience (customers, suppliers, a warehouse handheld) that
           shouldn&apos;t have Odoo backend access at all. The tradeoff is
-          that it introduces an integration layer to maintain — a piece of
+          that it introduces an integration layer to maintain: a piece of
           software whose correctness depends on Odoo&apos;s API continuing to
           behave the way it was built against.
         </p>
@@ -79,9 +79,9 @@ export default function Guide() {
       <GuideSection heading="When does customization make more sense?">
         <p>
           When the change is genuinely part of an internal Odoo user&apos;s
-          existing workflow — an extra required field on a form that
+          existing workflow (an extra required field on a form that
           internal staff already fill out, a validation rule, an approval
-          routing change that other Odoo automations depend on — it usually
+          routing change that other Odoo automations depend on), it usually
           belongs inside Odoo. Internal users who already live in Odoo all
           day benefit from the change appearing right where they&apos;re
           already working, rather than in a second app to switch to.
@@ -93,8 +93,8 @@ export default function Guide() {
           When the audience is external (customers, suppliers) or mobile
           field workers who shouldn&apos;t be given Odoo backend access;
           when the interface needs to be dramatically simpler than any Odoo
-          view configuration can achieve — one screen, one action, nothing
-          else visible; or when the workflow doesn&apos;t map to Odoo&apos;s
+          view configuration can achieve (one screen, one action, nothing
+          else visible); or when the workflow doesn&apos;t map to Odoo&apos;s
           data model at all and would mean bolting an unrelated concern onto
           the ERP. In all three cases, a focused external app is usually
           both faster to build well and safer to change later than trying to

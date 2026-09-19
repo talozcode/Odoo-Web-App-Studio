@@ -10,7 +10,7 @@ export const SEO = {
 
 // Root-relative ("/#examples" rather than "#examples") so these links work
 // correctly from every page on the site, not only from the homepage they
-// scroll within — SiteHeader and SiteFooter are shared across all routes.
+// scroll within. SiteHeader and SiteFooter are shared across all routes.
 export const NAV_LINKS = [
   { label: "Examples", href: "/#examples" },
   { label: "How it works", href: "/#how-it-works" },

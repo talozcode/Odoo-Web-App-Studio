@@ -31,7 +31,7 @@ export const USE_CASE_PAGES: UseCasePageMeta[] = [
 ];
 
 /**
- * Named without a "use" prefix on purpose — that prefix would make React's
+ * Named without a "use" prefix on purpose: that prefix would make React's
  * hooks lint rules treat this plain lookup as a hook (which cannot be
  * called from inside a .map() callback, as the homepage example cards do).
  */

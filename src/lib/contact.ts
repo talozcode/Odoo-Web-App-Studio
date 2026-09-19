@@ -56,7 +56,7 @@ export function validateContactSubmission(
  * TODO(v1 launch blocker): there is no email/DB backend wired up yet. For
  * now this just logs the submission server-side so the request is at least
  * visible in server logs. Swap the body of this function for a Resend call
- * (or a DB insert) later — everything upstream (the server action + form)
+ * (or a DB insert) later; everything upstream (the server action + form)
  * already treats this as the single integration point, so wiring in a real
  * destination is a one-function change.
  */

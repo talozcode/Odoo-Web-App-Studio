@@ -17,7 +17,7 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Will this break when Odoo is upgraded?",
     answer:
-      "Because most of the application lives outside Odoo, the surface area affected by Odoo upgrades is significantly smaller than a heavily customized Odoo frontend. API compatibility still needs to be maintained.",
+      "Much less likely to than an in-Odoo customization. The app lives entirely outside Odoo and never changes Odoo's own code, so there's no custom module installed in your database that can clash with another module or fail during an upgrade. API compatibility still needs to be maintained, but that's a far smaller surface area to check than a heavily customized Odoo frontend.",
   },
   {
     question: "Can the app update Odoo?",

@@ -21,7 +21,7 @@ export type PricingTier = {
 const APP_TIER_EXCLUDED_EXAMPLE_IDS: ExampleAppId[] = ["custom-workflow"];
 
 function formatPriceRange(min: number, max: number): string {
-  return `$${min.toLocaleString("en-US")}–$${max.toLocaleString("en-US")}`;
+  return `$${min.toLocaleString("en-US")}-$${max.toLocaleString("en-US")}`;
 }
 
 const appTierExamplePrices = EXAMPLE_APPS.filter(

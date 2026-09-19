@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/marketing/site-footer";
 
 /**
  * Shared shell for simple prose pages (About, Privacy, Terms) that don't
- * need a demo, pricing callout, or FAQ — just a heading, a breadcrumb, and
+ * need a demo, pricing callout, or FAQ: just a heading, a breadcrumb, and
  * body content.
  */
 export function StaticPageTemplate({

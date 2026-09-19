@@ -28,22 +28,22 @@ const FAQS = [
   {
     question: "Can a supplier see other suppliers' orders?",
     answer:
-      "No — each supplier's login is scoped to their own purchase orders only, the same way Odoo's own access rules would restrict a portal user to their own records.",
+      "No. Each supplier's login is scoped to their own purchase orders only, the same way Odoo's own access rules would restrict a portal user to their own records.",
   },
   {
     question: "Can suppliers update expected delivery dates themselves?",
     answer:
-      "Yes, if that's part of the scope — the portal can let a supplier propose or confirm a delivery date, which writes back to the relevant field on the purchase order lines so your team sees it without chasing an email reply.",
+      "Yes, if that's part of the scope: the portal can let a supplier propose or confirm a delivery date, which writes back to the relevant field on the purchase order lines so your team sees it without chasing an email reply.",
   },
   {
     question: "Does this replace RFQ or price negotiation in Odoo?",
     answer:
-      "No. This portal is for the confirm-and-fulfil stage after a purchase order already exists — not for quote requests, supplier price comparison, or negotiation, which stay inside Odoo's Purchase app or your existing process.",
+      "No. This portal is for the confirm-and-fulfil stage after a purchase order already exists, not for quote requests, supplier price comparison, or negotiation, which stay inside Odoo's Purchase app or your existing process.",
   },
   {
     question: "What about suppliers who aren't comfortable with a screen or scanner?",
     answer:
-      "A supplier portal only helps if suppliers will actually use it. For a supplier base that's more comfortable with a phone call or a printed PO, it's worth being honest that the portal will only reduce email/WhatsApp traffic from the suppliers who adopt it — which is exactly the kind of thing worth discussing before committing to scope.",
+      "A supplier portal only helps if suppliers will actually use it. For a supplier base that's more comfortable with a phone call or a printed PO, it's worth being honest that the portal will only reduce email/WhatsApp traffic from the suppliers who adopt it, which is exactly the kind of thing worth discussing before committing to scope.",
   },
 ];
 
@@ -53,9 +53,9 @@ export default function OdooSupplierPortalPage() {
       breadcrumbLabel="Odoo Supplier Portal"
       eyebrow="Purchasing & Suppliers"
       h1="A supplier portal built on your Odoo purchase orders"
-      intro="Giving external suppliers direct access to Odoo is usually the wrong move — it's unfamiliar to them, and it exposes far more than they need. Most purchase order back-and-forth (confirm this, we can't do that quantity, it'll ship Friday) can instead happen through a narrow portal that shows a supplier exactly their own open orders and nothing else."
+      intro="Giving external suppliers direct access to Odoo is usually the wrong move: it's unfamiliar to them, and it exposes far more than they need. Most purchase order back-and-forth (confirm this, we can't do that quantity, it'll ship Friday) can instead happen through a narrow portal that shows a supplier exactly their own open orders and nothing else."
       demo={<SupplierPortalPreview />}
-      demoCaption="Interactive demo — a sample purchase order list."
+      demoCaption="Interactive demo: a sample purchase order list."
       canonicalUrl={CANONICAL_URL}
       priceFrom={APP.priceFrom}
       priceNote="Starting price for a per-supplier login, a list of that supplier's open purchase orders, and confirm/update actions. Multi-user supplier accounts or document uploads (packing lists, certificates) are scoped separately."
@@ -85,7 +85,7 @@ export default function OdooSupplierPortalPage() {
           body: (
             <p>
               Purchase order status becomes something your team can trust at
-              a glance instead of something scattered across an inbox — a
+              a glance instead of something scattered across an inbox: a
               confirmed order in Odoo means the supplier actually confirmed
               it, not that someone remembered to update the record after a
               phone call. That matters most for businesses juggling more
@@ -97,8 +97,8 @@ export default function OdooSupplierPortalPage() {
           heading: "Typical scope and timeline",
           body: (
             <p>
-              A first version — one login per supplier, their open orders,
-              confirm and date-update actions — is what the starting price
+              A first version (one login per supplier, their open orders,
+              confirm and date-update actions) is what the starting price
               below reflects. Letting suppliers attach documents, handle
               partial shipments, or manage multiple contacts per supplier
               company are each additional scope, quoted once the actual

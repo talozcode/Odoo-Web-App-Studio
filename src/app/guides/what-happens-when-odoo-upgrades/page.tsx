@@ -32,8 +32,8 @@ export default function Guide() {
       <GuideSection heading="Why do Odoo upgrades worry people in the first place?">
         <p>
           Odoo ships a new major version roughly once a year, and upgrading
-          a live database — especially one with custom modules installed
-          inside it — is a genuinely well-known risk area. Custom modules
+          a live database, especially one with custom modules installed
+          inside it, is a genuinely well-known risk area. Custom modules
           need to be migrated to whatever changed in the new version&apos;s
           module API and ORM conventions before they&apos;ll even install, view
           XML can reference fields that moved or were renamed, and any
@@ -45,13 +45,13 @@ export default function Guide() {
       <GuideSection heading="How is a separate custom app affected differently?">
         <p>
           A custom app that lives outside Odoo and talks to it only through
-          the external API isn&apos;t part of the Odoo upgrade process at all —
+          the external API isn&apos;t part of the Odoo upgrade process at all:
           there&apos;s no module to migrate, no view XML to update, nothing that
           needs to be reinstalled. It keeps running exactly as it did
           before, continuing to call the same API methods against the newly
           upgraded database. The only way it breaks is if the upgrade
           changed something about the specific fields or methods that app
-          actually calls — which is a much smaller and more predictable
+          actually calls, which is a much smaller and more predictable
           surface than &quot;everything installed inside Odoo.&quot;
         </p>
       </GuideSection>
@@ -65,7 +65,7 @@ export default function Guide() {
           changed its expected arguments; or an access right or security
           group configuration changed in a way that now blocks the API
           user from something it used to be able to do. None of these are
-          exotic — they&apos;re the same kind of change that could affect any
+          exotic. They&apos;re the same kind of change that could affect any
           integration against any evolving system.
         </p>
       </GuideSection>
@@ -94,7 +94,7 @@ export default function Guide() {
           than one that fails silently or produces subtly wrong data. So is
           one that keeps every Odoo-specific field name and model reference
           in a small, identifiable part of the codebase rather than
-          scattered everywhere — that turns &quot;check if this upgrade broke
+          scattered everywhere. That turns &quot;check if this upgrade broke
           anything&quot; into reviewing a short, known list instead of an
           open-ended search.
         </p>

@@ -31,7 +31,7 @@ export default function Guide() {
     >
       <GuideSection heading="What does 'needing a simpler interface' actually look like day to day?">
         <p>
-          Usually not a dramatic failure — more often a quiet workaround.
+          Usually not a dramatic failure. More often a quiet workaround.
           Staff keep a parallel spreadsheet, a whiteboard, or a paper log
           alongside Odoo because it&apos;s genuinely faster for their specific,
           repetitive task than the Odoo screen meant to handle it. Or a
@@ -44,8 +44,8 @@ export default function Guide() {
       <GuideSection heading="Why does this happen even though Odoo can technically do the job?">
         <p>
           Because Odoo&apos;s backend interface is a general-purpose tool built
-          to be configured for many different roles — accountants,
-          warehouse staff, sales managers, admins — from the same underlying
+          to be configured for many different roles (accountants,
+          warehouse staff, sales managers, admins) from the same underlying
           form and list views. That flexibility is exactly what makes Odoo
           powerful as an ERP, but it also means any single repetitive task
           carries some navigation and cognitive overhead that a
@@ -63,8 +63,8 @@ export default function Guide() {
           reliably works because one specific person has memorized an exact
           sequence of clicks that isn&apos;t written down anywhere; staff using
           phones or handhelds visibly struggle with a view that was really
-          designed for a desktop screen and a mouse; or external people —
-          drivers, suppliers, customers — are being asked to use Odoo
+          designed for a desktop screen and a mouse; or external people
+          (drivers, suppliers, customers) are being asked to use Odoo
           directly and finding it confusing or intimidating.
         </p>
       </GuideSection>
@@ -73,7 +73,7 @@ export default function Guide() {
         <p>
           If the same friction shows up across multiple different people who
           were all trained reasonably well, the honest read is usually that
-          the interface doesn&apos;t match the task — not that everyone
+          the interface doesn&apos;t match the task, not that everyone
           individually failed to learn it. Training fixes a knowledge gap;
           it doesn&apos;t fix a screen that requires ten fields of attention for
           a task that&apos;s conceptually one decision.
@@ -84,11 +84,11 @@ export default function Guide() {
         <p>
           Ask the person actually doing the task to narrate, in plain
           language, exactly what they need to see and exactly what they need
-          to do — nothing more. Then compare that against how many Odoo
+          to do, nothing more. Then compare that against how many Odoo
           screens, filters, and clicks it currently takes to get there. A
           small gap probably isn&apos;t worth a new app. A large, consistent gap
-          — where the real task is one clear action buried inside a much
-          bigger interface — is usually a sign that a focused screen would
+          (where the real task is one clear action buried inside a much
+          bigger interface) is usually a sign that a focused screen would
           pay for itself quickly.
         </p>
       </GuideSection>

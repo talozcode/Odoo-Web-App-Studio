@@ -28,7 +28,7 @@ const FAQS = [
   {
     question: "What if I'm not sure exactly what I want yet?",
     answer:
-      "That's normal, and it's the starting point of most custom-workflow projects. Describing the problem — what's slow, what's manual, what people currently work around with a spreadsheet or a notebook — is usually enough to start scoping the actual screen and the actual Odoo model behind it.",
+      "That's normal, and it's the starting point of most custom-workflow projects. Describing the problem (what's slow, what's manual, what people currently work around with a spreadsheet or a notebook) is usually enough to start scoping the actual screen and the actual Odoo model behind it.",
   },
   {
     question: "Can it read and write to Odoo?",
@@ -38,12 +38,12 @@ const FAQS = [
   {
     question: "What's explicitly out of scope for a 'custom workflow' app?",
     answer:
-      "Rebuilding functionality Odoo already does well — a second inventory system, a parallel accounting ledger, a general-purpose form builder. If a request starts looking like it wants to become its own small ERP module, the honest answer is usually that it belongs inside Odoo itself (as configuration, or a proper Odoo module), not as an external app.",
+      "Rebuilding functionality Odoo already does well: a second inventory system, a parallel accounting ledger, a general-purpose form builder. If a request starts looking like it wants to become its own small ERP module, the honest answer is usually that it belongs inside Odoo itself (as configuration, or a proper Odoo module), not as an external app.",
   },
   {
     question: "Can a small custom app grow into something bigger later?",
     answer:
-      "Often, yes — a lot of the other five example apps on this site started conceptually as \"just one screen for one workflow.\" If a custom app's scope keeps growing, that's a sign to revisit which category it actually belongs in (warehouse, sales, dashboard, portal) rather than to keep bolting features onto a one-screen tool.",
+      "Often, yes. A lot of the other five example apps on this site started conceptually as \"just one screen for one workflow.\" If a custom app's scope keeps growing, that's a sign to revisit which category it actually belongs in (warehouse, sales, dashboard, portal) rather than to keep bolting features onto a one-screen tool.",
   },
 ];
 
@@ -53,12 +53,12 @@ export default function CustomOdooWebAppPage() {
       breadcrumbLabel="Custom Odoo Web App"
       eyebrow="Custom Workflow"
       h1="A custom web app for your specific Odoo workflow"
-      intro="Not every workflow fits neatly into warehouse picking, sales ordering, a dashboard, or a portal. Expense approvals, delivery driver confirmations, a quality inspection checklist, a one-off data cleanup tool — these are all real, common requests, and they usually share the same shape: one clear input, one clear action, one clear result."
+      intro="Not every workflow fits neatly into warehouse picking, sales ordering, a dashboard, or a portal. Expense approvals, delivery driver confirmations, a quality inspection checklist, a one-off data cleanup tool: these are all real, common requests, and they usually share the same shape: one clear input, one clear action, one clear result."
       demo={<CustomWorkflowPreview />}
-      demoCaption="Interactive demo — a sample expense approval screen."
+      demoCaption="Interactive demo: a sample expense approval screen."
       canonicalUrl={CANONICAL_URL}
       priceFrom={APP.priceFrom}
-      priceNote="Starting price for a single-screen workflow touching one Odoo model. This is intentionally the lowest starting price of the six examples, since scope here is naturally the smallest — it grows from there based on what the workflow actually needs."
+      priceNote="Starting price for a single-screen workflow touching one Odoo model. This is intentionally the lowest starting price of the six examples, since scope here is naturally the smallest. It grows from there based on what the workflow actually needs."
       extraJsonLd={[serviceSchema(APP, CANONICAL_URL)]}
       faqs={FAQS}
       sections={[
@@ -67,13 +67,13 @@ export default function CustomOdooWebAppPage() {
           body: (
             <p>
               The first step is identifying which Odoo model (or models) the
-              workflow actually touches — it might be a standard one like{" "}
+              workflow actually touches: it might be a standard one like{" "}
               <code>hr.expense</code>, or a custom field added to an existing
               model like <code>stock.picking</code>. From there, the goal is
               defining one clear loop: what triggers the screen, what
               decision or data entry happens on it, and what changes in
               Odoo as a result. Once that loop is agreed, the build is
-              usually the smallest of the six example categories — there&apos;s
+              usually the smallest of the six example categories: there&apos;s
               deliberately no navigation, no settings, no second screen
               unless the workflow genuinely needs one.
             </p>
@@ -85,14 +85,14 @@ export default function CustomOdooWebAppPage() {
             <>
               <p>
                 Approval screens, single-purpose data entry, and
-                notification-driven small actions are the strongest fit —
+                notification-driven small actions are the strongest fit:
                 anywhere a specific person needs to do one specific thing
                 against Odoo data, faster or on a device Odoo&apos;s own
                 interface isn&apos;t well suited to.
               </p>
               <p>
                 What doesn&apos;t fit is reproducing broad ERP functionality.
-                Odoo already does everything a business generally needs —
+                Odoo already does everything a business generally needs:
                 accounting, inventory, sales, purchasing, manufacturing,
                 master data. The apps worth building sit around that core,
                 not inside it.

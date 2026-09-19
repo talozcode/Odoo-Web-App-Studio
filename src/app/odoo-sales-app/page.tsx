@@ -13,7 +13,7 @@ const APP = EXAMPLE_APPS.find((a) => a.id === "sales-app")!;
 export const metadata: Metadata = {
   title: `Odoo Sales App: Mobile Ordering for Reps | ${BRAND_NAME}`,
   description:
-    "A simple mobile ordering app for field sales reps, connected directly to Odoo Sales. Pick a customer, add products, submit — no backoffice screens. Pricing inside.",
+    "A simple mobile ordering app for field sales reps, connected directly to Odoo Sales. Pick a customer, add products, submit: no backoffice screens. Pricing inside.",
   alternates: { canonical: CANONICAL_URL },
   openGraph: {
     title: "Odoo Sales App: Mobile Ordering for Reps",
@@ -28,12 +28,12 @@ const FAQS = [
   {
     question: "Can reps see live stock and each customer's pricing?",
     answer:
-      "Yes — the app reads current stock levels and can apply the customer's assigned pricelist the same way Odoo's own Sales app would, since it's calling the same pricing and stock logic through the API rather than reimplementing it.",
+      "Yes, the app reads current stock levels and can apply the customer's assigned pricelist the same way Odoo's own Sales app would, since it's calling the same pricing and stock logic through the API rather than reimplementing it.",
   },
   {
     question: "Does it work with no signal in the field?",
     answer:
-      "The core version is online-first: a rep needs a connection to submit an order. If reps regularly work in areas with no signal at all, that's worth raising during scoping — a limited offline queue (save locally, submit when back online) is possible, but it adds real complexity around handling stock and price changes between when the order was drafted and when it's actually submitted.",
+      "The core version is online-first: a rep needs a connection to submit an order. If reps regularly work in areas with no signal at all, that's worth raising during scoping. A limited offline queue (save locally, submit when back online) is possible, but it adds real complexity around handling stock and price changes between when the order was drafted and when it's actually submitted.",
   },
   {
     question: "Does the order go straight to a confirmed sales order?",
@@ -43,7 +43,7 @@ const FAQS = [
   {
     question: "Can it show a rep their own order history or targets?",
     answer:
-      "It can, if that data already exists in Odoo (past sale.order records for that salesperson, for instance). Anything beyond what's stored in Odoo — like a bespoke commission calculation — would need to be defined explicitly as its own small feature.",
+      "It can, if that data already exists in Odoo (past sale.order records for that salesperson, for instance). Anything beyond what's stored in Odoo, like a bespoke commission calculation, would need to be defined explicitly as its own small feature.",
   },
 ];
 
@@ -53,9 +53,9 @@ export default function OdooSalesAppPage() {
       breadcrumbLabel="Odoo Sales App"
       eyebrow="Sales & Field Ordering"
       h1="A mobile ordering app for your Odoo sales reps"
-      intro="Odoo's Sales app is built for back-office order management: quotations, terms, discounts, approval flows. A rep standing in a customer's shop with a phone doesn't need any of that — they need to pick a customer, add what they're buying, and submit, in under a minute."
+      intro="Odoo's Sales app is built for back-office order management: quotations, terms, discounts, approval flows. A rep standing in a customer's shop with a phone doesn't need any of that. They need to pick a customer, add what they're buying, and submit, in under a minute."
       demo={<SalesAppDemo />}
-      demoCaption="Interactive demo — walk through a sample order."
+      demoCaption="Interactive demo: walk through a sample order."
       canonicalUrl={CANONICAL_URL}
       priceFrom={APP.priceFrom}
       priceNote="Starting price for customer selection, a product list with live pricing, and order submission into Odoo. Offline queuing, custom approval steps, or commission views are scoped separately."
@@ -78,7 +78,7 @@ export default function OdooSalesAppPage() {
               <p>
                 Because it&apos;s reading pricing and stock from Odoo rather
                 than a cached copy, a rep sees the same numbers a back-office
-                user would see at that moment — no separate price list to
+                user would see at that moment, with no separate price list to
                 keep in sync by hand.
               </p>
             </>
@@ -90,7 +90,7 @@ export default function OdooSalesAppPage() {
             <>
               <p>
                 Orders get entered once, by the person who took them, at the
-                point they were taken — not scribbled on paper and
+                point they were taken, not scribbled on paper and
                 re-typed into Odoo later that evening. That removes a
                 transcription step where quantities and product names
                 commonly get mixed up.
@@ -98,7 +98,7 @@ export default function OdooSalesAppPage() {
               <p>
                 It also means stock and order data in Odoo reflects reality
                 closer to real time, which matters for anything downstream
-                that depends on it — replenishment planning, delivery
+                that depends on it: replenishment planning, delivery
                 scheduling, or a manager checking today&apos;s numbers.
               </p>
             </>
@@ -113,7 +113,7 @@ export default function OdooSalesAppPage() {
               price below reflects. Multiple price lists per customer,
               custom discount rules, photo attachments, or an offline mode
               each add real scope and are quoted once the actual sales
-              process is understood — this is a case where a short call
+              process is understood. This is a case where a short call
               about how the team currently sells is genuinely more useful
               than a longer landing page.
             </p>

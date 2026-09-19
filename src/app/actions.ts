@@ -42,6 +42,6 @@ export async function submitContactForm(
 
   return {
     status: "success",
-    message: "Thanks — we'll get back to you shortly.",
+    message: "Thanks, we'll get back to you shortly.",
   };
 }

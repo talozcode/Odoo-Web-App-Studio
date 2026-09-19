@@ -33,12 +33,12 @@ const FAQS = [
   {
     question: "Can different customers see different products or prices?",
     answer:
-      "Yes — this is one of the more common reasons businesses want a dedicated portal rather than Odoo's built-in one. The portal can respect each customer's assigned pricelist and, if configured, show only the subset of products relevant to that account.",
+      "Yes, this is one of the more common reasons businesses want a dedicated portal rather than Odoo's built-in one. The portal can respect each customer's assigned pricelist and, if configured, show only the subset of products relevant to that account.",
   },
   {
     question: "Can it show order history and invoices?",
     answer:
-      "Yes, since past sale.order and account.move records for that customer already exist in Odoo — the portal reads and displays them rather than recreating that data anywhere else.",
+      "Yes, since past sale.order and account.move records for that customer already exist in Odoo. The portal reads and displays them rather than recreating that data anywhere else.",
   },
   {
     question: "Can it integrate with a payment gateway?",
@@ -53,9 +53,9 @@ export default function OdooCustomerPortalPage() {
       breadcrumbLabel="Odoo Customer Portal"
       eyebrow="Customer-Facing"
       h1="A branded ordering portal your customers actually reorder from"
-      intro="Odoo ships with a customer portal, and it works — but it looks and behaves like Odoo, and it's built to expose a bit of everything (quotes, invoices, tickets) rather than to make repeat ordering effortless for one specific type of customer. A dedicated portal can be branded to your business and narrowed to exactly the reordering flow your customers actually use."
+      intro="Odoo ships with a customer portal, and it works, but it looks and behaves like Odoo, and it's built to expose a bit of everything (quotes, invoices, tickets) rather than to make repeat ordering effortless for one specific type of customer. A dedicated portal can be branded to your business and narrowed to exactly the reordering flow your customers actually use."
       demo={<CustomerPortalPreview />}
-      demoCaption="Interactive demo — a sample reorder screen."
+      demoCaption="Interactive demo: a sample reorder screen."
       canonicalUrl={CANONICAL_URL}
       priceFrom={APP.priceFrom}
       priceNote="Starting price for customer login, a per-customer product catalog with pricing, and order submission into Odoo Sales. Payment integration, multi-language catalogs, or approval workflows are scoped separately."
@@ -76,8 +76,8 @@ export default function OdooCustomerPortalPage() {
                 the same way any other order in Odoo would be created.
               </p>
               <p>
-                Because the underlying commercial rules — pricing, what a
-                given customer is allowed to buy — already live in Odoo, the
+                Because the underlying commercial rules (pricing, what a
+                given customer is allowed to buy) already live in Odoo, the
                 portal doesn&apos;t duplicate that logic; it just presents it
                 through a simpler, faster interface than navigating Odoo
                 directly.
@@ -92,7 +92,7 @@ export default function OdooCustomerPortalPage() {
               <p>
                 For wholesale, B2B, or repeat-order businesses, this usually
                 replaces a mix of phone calls, emails, and WhatsApp messages
-                for standard reorders — customers who order the same handful
+                for standard reorders. Customers who order the same handful
                 of products regularly can do it themselves in under a
                 minute, and the order lands in Odoo with no manual entry by
                 staff.
@@ -111,8 +111,8 @@ export default function OdooCustomerPortalPage() {
           body: (
             <p>
               This is naturally one of the larger of the six example builds,
-              since it touches three separate concerns — authentication, a
-              per-customer catalog, and checkout — each of which needs to be
+              since it touches three separate concerns (authentication, a
+              per-customer catalog, and checkout) each of which needs to be
               right. A first version covering those three, for one type of
               customer with one set of ordering rules, is what the starting
               price below reflects; multiple customer tiers, payment
@@ -124,6 +124,7 @@ export default function OdooCustomerPortalPage() {
       ]}
       relatedLinks={[
         { href: "/odoo-supplier-portal", label: "The supplier-side equivalent" },
+        { href: "/guides/odoo-customer-self-service-portal", label: "Odoo's built-in portal vs. a custom self-service portal" },
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs. write-back Odoo integrations" },
         { href: "/guides/how-much-does-a-custom-odoo-app-cost", label: "How much does a custom Odoo app cost?" },
       ]}

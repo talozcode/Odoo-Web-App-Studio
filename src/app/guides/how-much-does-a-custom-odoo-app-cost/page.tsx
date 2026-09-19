@@ -47,20 +47,20 @@ export default function Guide() {
       <GuideSection heading="Why is 'it depends' actually the honest answer?">
         <p>
           Because the cost of a custom Odoo-connected app is driven almost
-          entirely by how many distinct concerns it has to get right —
+          entirely by how many distinct concerns it has to get right:
           authentication, how many Odoo models it reads or writes, whether
           it needs to handle edge cases like partial stock or backorders,
           how many user roles see different things. Two apps that sound
           similar in one sentence (&quot;a portal for our customers&quot;) can differ
           in cost by a wide margin depending on those specifics. That said,
-          vague &quot;contact us for pricing&quot; isn&apos;t useful either — here are
+          vague &quot;contact us for pricing&quot; isn&apos;t useful either, so here are
           real numbers.
         </p>
       </GuideSection>
 
       <GuideSection heading="What does a small, single-screen app typically cost?">
         <p>
-          The smallest tier — {tinyTier.name} — starts at {tinyTier.price},
+          The smallest tier ({tinyTier.name}) starts at {tinyTier.price},
           for something like {tinyTier.examples.join(", ").toLowerCase()}.
           These are one-screen, one-workflow builds: a single Odoo model,
           a single clear action, no user roles to manage.
@@ -69,17 +69,17 @@ export default function Guide() {
 
       <GuideSection heading="What does a full multi-screen app typically cost?">
         <p>
-          A polished, multi-screen application built around one workflow —
-          the kind of build behind most of the example apps on this site —
+          A polished, multi-screen application built around one workflow
+          (the kind of build behind most of the example apps on this site)
           typically falls in the {appTier.price} range. Where a specific
           build lands in that range depends on how many screens it needs,
           how many Odoo models it touches, and whether it only reads data
           or also writes back to Odoo (write-back integrations generally
           cost more, since they need more careful validation and error
-          handling — see the guide on that distinction linked below). As a
+          handling; see the guide on that distinction linked below). As a
           concrete anchor: a warehouse picking app starts at{" "}
-          {warehousePrice}, while a customer ordering portal — which has to
-          handle authentication, a per-customer catalog, and checkout —
+          {warehousePrice}, while a customer ordering portal (which has to
+          handle authentication, a per-customer catalog, and checkout)
           starts at {portalPrice}.
         </p>
       </GuideSection>
@@ -99,7 +99,7 @@ export default function Guide() {
       <GuideSection heading="What's the single biggest cost driver most people underestimate?">
         <p>
           Whether the app needs to write back to Odoo, and how carefully.
-          A read-only dashboard just displays numbers — if a query is
+          A read-only dashboard just displays numbers. If a query is
           slightly wrong, the fix is trivial and nothing in Odoo is at
           risk. An app that creates sales orders, confirms purchase orders,
           or updates stock has to handle what happens when a write fails
@@ -113,7 +113,7 @@ export default function Guide() {
 
       <GuideSection heading="How is a final number actually reached?">
         <p>
-          Through a short scoping conversation about the actual workflow —
+          Through a short scoping conversation about the actual workflow:
           which Odoo models it touches, how many screens, read-only or
           write-back, how many user roles. That&apos;s a more useful process
           than a generic quote calculator, since two projects with the same

@@ -23,7 +23,7 @@ export default function PrivacyPage() {
     >
       <p>
         This page describes, in plain terms, what actually happens with
-        information submitted through this website — no more and no less.
+        information submitted through this website, no more and no less.
         If anything here becomes inaccurate as the site changes, this page
         will be updated to match.
       </p>
@@ -36,7 +36,7 @@ export default function PrivacyPage() {
         contact form. When it&apos;s submitted, it includes: your name, a work
         email address, your company name, which Odoo version you&apos;re on,
         which problem area(s) you selected, and your message describing the
-        workflow you want help with. Nothing is collected passively — there
+        workflow you want help with. Nothing is collected passively. There
         is no tracking script, advertising pixel, or third-party cookie
         currently running on this site.
       </p>
@@ -51,7 +51,7 @@ export default function PrivacyPage() {
         third-party CRM, email service, or marketing tool, and it is not
         sold, rented, or shared with any other organization. That will
         change only when a real destination (such as an email or database
-        service) is wired up to replace this interim logging — and this
+        service) is wired up to replace this interim logging, and this
         page will be updated to reflect that at the same time it happens.
       </p>
 

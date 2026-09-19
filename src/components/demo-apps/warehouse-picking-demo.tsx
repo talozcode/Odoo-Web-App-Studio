@@ -118,7 +118,7 @@ export function WarehousePickingDemo() {
                       : "text-xs text-[var(--muted-foreground)]"
                   }
                 >
-                  {done ? `✓ ${line.total} picked` : `— ${remaining} remaining`}
+                  {done ? `✓ ${line.total} picked` : `${remaining} remaining`}
                 </span>
               </button>
             </li>

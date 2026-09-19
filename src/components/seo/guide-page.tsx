@@ -16,8 +16,8 @@ type RelatedLink = {
 
 /**
  * One H2 section of a guide. Kept intentionally plain (a heading + prose)
- * so each section reads as a self-contained, quotable question/answer block
- * — the structure that both search snippets and LLM answer-extraction favor.
+ * so each section reads as a self-contained, quotable question/answer block,
+ * the structure that both search snippets and LLM answer-extraction favor.
  */
 export function GuideSection({
   heading,

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  /* Brand tokens — see src/config/colors.ts for the TS mirror of these. */
+  /* Brand tokens: see src/config/colors.ts for the TS mirror of these. */
   --odoo-purple: #714b67;
   --odoo-teal: #017e84;
   --odoo-gray: #8f8f8f;

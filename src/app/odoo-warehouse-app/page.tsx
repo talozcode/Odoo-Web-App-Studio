@@ -43,7 +43,7 @@ const FAQS = [
   {
     question: "What happens with partially picked or backordered lines?",
     answer:
-      "Odoo's own backorder logic (splitting a transfer when not everything was available) still applies — the app calls the same underlying validation Odoo uses, it just presents the decision in a simpler screen instead of Odoo's transfer form.",
+      "Odoo's own backorder logic (splitting a transfer when not everything was available) still applies: the app calls the same underlying validation Odoo uses, it just presents the decision in a simpler screen instead of Odoo's transfer form.",
   },
 ];
 
@@ -53,9 +53,9 @@ export default function OdooWarehouseAppPage() {
       breadcrumbLabel="Odoo Warehouse App"
       eyebrow="Warehouse & Inventory"
       h1="A faster picking app for your Odoo warehouse"
-      intro="Odoo Inventory already tracks every stock move correctly. What's usually slow isn't the data model — it's asking a picker to work through general-purpose warehouse screens built for every operation Odoo supports, when their actual job is one thing: pick this order, confirm each line, done."
+      intro="Odoo Inventory already tracks every stock move correctly. What's usually slow isn't the data model. It's asking a picker to work through general-purpose warehouse screens built for every operation Odoo supports, when their actual job is one thing: pick this order, confirm each line, done."
       demo={<WarehousePickingDemo />}
-      demoCaption="Interactive demo — try picking a line yourself."
+      demoCaption="Interactive demo: try picking a line yourself."
       canonicalUrl={CANONICAL_URL}
       priceFrom={APP.priceFrom}
       priceNote="Starting price for a single-warehouse, single-operation-type picking flow (typically delivery orders). Lot/serial capture, multi-step routes, or multi-warehouse support are scoped separately."
@@ -69,7 +69,7 @@ export default function OdooWarehouseAppPage() {
               <p>
                 Under the hood, a warehouse pick is a <code>stock.picking</code>{" "}
                 record made up of one or more <code>stock.move.line</code>{" "}
-                lines — each one a product, a quantity to move, and a source
+                lines, each one a product, a quantity to move, and a source
                 and destination location. A picking app reads the pickings
                 assigned to a user or a warehouse (usually filtered to
                 &quot;ready&quot; transfers) through Odoo&apos;s API, shows
@@ -83,7 +83,7 @@ export default function OdooWarehouseAppPage() {
                 quantities, reservations, and any downstream automation
                 (like triggering the next step in a delivery route) all
                 behave exactly as they would from Odoo itself. The app is a
-                different front door — not a different set of rules.
+                different front door, not a different set of rules.
               </p>
             </>
           ),
@@ -101,7 +101,7 @@ export default function OdooWarehouseAppPage() {
                 hand, not a mouse.
               </p>
               <p>
-                Training time drops correspondingly — there&apos;s
+                Training time drops correspondingly: there&apos;s
                 effectively one screen to learn, and it mirrors the physical
                 task (walk the aisle, scan the item, confirm the count)
                 rather than a data-entry form.
@@ -114,8 +114,8 @@ export default function OdooWarehouseAppPage() {
           body: (
             <>
               <p>
-                A focused first version — one warehouse, one operation type,
-                scan-to-confirm with no lot/serial tracking — is the kind of
+                A focused first version (one warehouse, one operation type,
+                scan-to-confirm with no lot/serial tracking) is the kind of
                 build the starting price below reflects. Adding lot/serial
                 capture, backorder handling for partial picks, or supporting
                 multiple warehouses with different flows each add scope, and
@@ -126,7 +126,7 @@ export default function OdooWarehouseAppPage() {
                 As a rough sense of pace: a first working version of a
                 single-flow picking app is realistically a matter of weeks,
                 not months, once the relevant Odoo models and access are
-                confirmed — but any specific timeline should come from an
+                confirmed. But any specific timeline should come from an
                 actual scoping conversation, not a number on a landing page.
               </p>
             </>
@@ -134,6 +134,7 @@ export default function OdooWarehouseAppPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/guides/odoo-barcode-app-buy-or-build", label: "Odoo Barcode app: use Odoo's, or build a custom one?" },
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs. write-back Odoo integrations" },
         { href: "/guides/how-much-does-a-custom-odoo-app-cost", label: "How much does a custom Odoo app cost?" },
         { href: "/odoo-api-development", label: "How Odoo API development works" },
