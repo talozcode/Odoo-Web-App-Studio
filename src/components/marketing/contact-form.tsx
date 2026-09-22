@@ -103,7 +103,7 @@ export function ContactForm() {
             state.fieldErrors?.message ? `${formId}-message-error` : undefined
           }
           placeholder="Every morning our warehouse team opens Odoo, finds the delivery order, prints it, writes quantities on paper and someone enters everything back into Odoo later..."
-          className="w-full rounded-lg border border-[var(--border)] px-3.5 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
+          className="w-full rounded-lg border border-[var(--odoo-gray)]/45 bg-[var(--background)] px-3.5 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
         />
         {state.fieldErrors?.message ? (
           <p id={`${formId}-message-error`} className="mt-1.5 text-xs text-[var(--danger)]">
@@ -130,7 +130,7 @@ export function ContactForm() {
             aria-describedby={
               state.fieldErrors?.name ? `${formId}-name-error` : undefined
             }
-            className="min-h-11 w-full rounded-lg border border-[var(--border)] px-3.5 text-sm text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
+            className="min-h-11 w-full rounded-lg border border-[var(--odoo-gray)]/45 bg-[var(--background)] px-3.5 text-sm text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
           />
           {state.fieldErrors?.name ? (
             <p id={`${formId}-name-error`} className="mt-1.5 text-xs text-[var(--danger)]">
@@ -156,7 +156,7 @@ export function ContactForm() {
             aria-describedby={
               state.fieldErrors?.email ? `${formId}-email-error` : undefined
             }
-            className="min-h-11 w-full rounded-lg border border-[var(--border)] px-3.5 text-sm text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
+            className="min-h-11 w-full rounded-lg border border-[var(--odoo-gray)]/45 bg-[var(--background)] px-3.5 text-sm text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
           />
           {state.fieldErrors?.email ? (
             <p id={`${formId}-email-error`} className="mt-1.5 text-xs text-[var(--danger)]">
@@ -177,7 +177,7 @@ export function ContactForm() {
             name="company"
             type="text"
             autoComplete="organization"
-            className="min-h-11 w-full rounded-lg border border-[var(--border)] px-3.5 text-sm text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
+            className="min-h-11 w-full rounded-lg border border-[var(--odoo-gray)]/45 bg-[var(--background)] px-3.5 text-sm text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
           />
         </div>
 
@@ -193,7 +193,7 @@ export function ContactForm() {
             name="odooVersion"
             type="text"
             placeholder="e.g. 17"
-            className="min-h-11 w-full rounded-lg border border-[var(--border)] px-3.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
+            className="min-h-11 w-full rounded-lg border border-[var(--odoo-gray)]/45 bg-[var(--background)] px-3.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
           />
         </div>
       </div>

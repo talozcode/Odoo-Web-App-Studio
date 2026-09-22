@@ -55,7 +55,7 @@ export function Hero() {
           />
 
           <p
-            className="hub-aligned z-10 inline-flex shrink-0 items-center gap-2 self-start whitespace-nowrap rounded-[9px] border-[1.75px] border-[var(--odoo-teal)] bg-[var(--background)] px-3.5 py-2 text-[13px] font-semibold text-[var(--foreground)] lg:self-auto lg:-mr-px"
+            className="hub-aligned z-10 inline-flex shrink-0 items-center gap-2 self-start whitespace-nowrap rounded-[9px] border-[1.75px] border-[var(--odoo-teal)] bg-[var(--background)] px-3.5 py-2 text-[13px] font-semibold text-[var(--foreground)] lg:self-auto lg:mr-10"
             style={{
               "--hub-offset": `min(calc(${HUB_FRACTION * 100}% - 54px), calc(100% - 112px))`,
             } as CSSProperties}
