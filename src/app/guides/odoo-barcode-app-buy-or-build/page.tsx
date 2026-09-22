@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { GuidePageTemplate, GuideSection } from "@/components/seo/guide-page";
+import { ComparisonTable } from "@/components/seo/code-block";
+import { EXAMPLE_APPS } from "@/config/examples";
 import { guideBySlug } from "@/config/guides";
 import { guideMetadata } from "@/lib/seo";
 
@@ -8,6 +10,8 @@ const SLUG = "odoo-barcode-app-buy-or-build";
 const meta = guideBySlug(SLUG)!;
 
 export const metadata: Metadata = guideMetadata(meta);
+
+const warehousePrice = `$${EXAMPLE_APPS.find((a) => a.id === "warehouse-picking")!.priceFrom.toLocaleString("en-US")}`;
 
 export default function Guide() {
   return (
@@ -29,6 +33,38 @@ export default function Guide() {
           Odoo Inventory and Manufacturing, not an afterthought: for a
           meaningful share of warehouses, it&apos;s simply enough on its own.
         </p>
+      </GuideSection>
+
+      <GuideSection heading="Odoo Barcode, OCA or a custom app: a side-by-side">
+        <p>
+          Three realistic options, plus the packaged third-party apps that
+          sit between them. The honest summary: if you are on Enterprise and
+          your flows are standard, Odoo&apos;s own Barcode app is the right
+          answer and the rest of this guide is about the cases where it is
+          not. Note the first row: Barcode is an Enterprise app (Odoo lists
+          it under Inventory on its{" "}
+          <a
+            href="https://www.odoo.com/page/editions"
+            className="font-medium text-[var(--odoo-teal)] underline underline-offset-4 hover:no-underline"
+            rel="noopener"
+          >
+            editions page
+          </a>
+          ), so on Community the realistic choices are an OCA module, a paid
+          third-party app, or a custom one.
+        </p>
+        <ComparisonTable
+          caption="Picking on a phone or scanner, four ways"
+          headers={["", "Odoo Barcode", "OCA modules", "Packaged third-party app", "Custom app"]}
+          rows={[
+            ["Availability", "Enterprise only", "Community and Enterprise, free", "Community and Enterprise, paid", "Any edition, any version"],
+            ["Cost shape", "Included in Enterprise", "Free, plus the work to install and maintain", "Per user per month, usually", `One-off, from ${warehousePrice} here`],
+            ["Covers", "Receipts, deliveries, internal transfers, inventory counts, batch and cluster picking", "Varies by module, usually narrower", "Broad, vendor decides the roadmap", "Exactly the flows you ask for, nothing else"],
+            ["Fits an unusual rule", "Only if it is a setting", "Only if someone wrote the module", "Only if the vendor supports it", "Yes, that is the reason to build"],
+            ["Where it runs", "Inside Odoo", "Inside Odoo", "Vendor app, connected to Odoo", "Beside Odoo, over the API"],
+            ["Upgrade exposure", "Odoo maintains it", "Module must be ported per version", "Vendor handles it", "API fields only; no code inside Odoo"],
+          ]}
+        />
       </GuideSection>
 
       <GuideSection heading="So when is Odoo's Barcode app the right call?">

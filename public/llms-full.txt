@@ -254,6 +254,100 @@ Not a generic connector or a one-size-fits-all SDK: the specific integration for
 
 # Guides
 
+## Odoo API Examples: Python, JavaScript and curl That Actually Run
+URL: https://odoowebapps.com/guides/odoo-api-examples-python-javascript
+Published: 2026-09-22
+
+Working Odoo API calls in Python, Node and curl for JSON-2, JSON-RPC and XML-RPC: authenticate, search_read, create, write and confirm an order, with the domain syntax and the mistakes that break integrations in production.
+
+### Which endpoint should these examples use?
+It depends on your Odoo version, and the difference is only the transport. Odoo 19 has JSON-2, a plain HTTP JSON API at `/json/2/<model>/<method>`. Odoo 16, 17 and 18 have XML-RPC (`/xmlrpc/2/object`) and JSON-RPC ( `/jsonrpc`), both of which call the same ORM methods through one dispatcher called `execute_kw`. Odoo has scheduled the XML-RPC and JSON-RPC endpoints for removal in Odoo 22 (fall 2028), so new code on Odoo 19 should use JSON-2.
+Everything below calls the same three things so you can compare them directly: read open sales orders, create one, then confirm it. Replace `https://example.odoo.com`, the database name and the key with your own; see how to create an Odoo API key .
+### Python, XML-RPC (Odoo 16 to 21)
+The standard library has everything you need. The `common` endpoint gives you a user id; the `object` endpoint runs model methods as that user, under that user's access rights.
+Two details that trip people up. The positional arguments go inside a list, so a domain is a list inside a list ( `[[["state", "=", "sale"]]]` ), and the keyword arguments (`fields`, `limit`, `order`, `context`) go in the separate dict. Many2one fields come back as `[id, "display name"]`, not as a plain id.
+### Python, JSON-RPC (Odoo 16 to 21)
+Same calls, same arguments, JSON instead of XML. This is usually the easier one to debug, because you can reproduce any request with `curl` and read the payload.
+Note the error handling: a JSON-RPC fault comes back with HTTP 200 and an `error` key, so code that only checks the status code will treat a failed write as a success.
+### JavaScript and Node, JSON-RPC and JSON-2
+No library needed on either side; `fetch` is enough. Keep these calls on your server, never in browser code: the API key is a credential with that user's full access rights.
+### curl, for checking a connection quickly
+Before writing any integration code, prove the credentials work. These two commands are the fastest way to find out whether a problem is the URL, the database name, the key or your code.
+On JSON-2 a bad key gives a real `401`. On JSON-RPC the same failure is an HTTP 200 with an error object, which is why the examples above check for `error` explicitly.
+### Which ORM methods do you actually need?
+Most integrations use six, plus the business methods behind Odoo's own buttons.
+Prefer `search_read` over `search` then `read`: it is one transaction, so a record removed between the two calls cannot break it. Prefer `read_group` over fetching rows and summing them in your app: the database does the work and you transfer far less. And prefer calling the real method (`action_confirm`, `button_validate`) over writing a state field directly, which skips every side effect Odoo would normally run.
+### How do domains work?
+A domain is a list of conditions in the form `[field, operator, value]`. Conditions in a flat list are combined with AND. For OR and NOT, add the prefix operators `"|"` and `"!"` before the conditions they apply to.
+### What breaks in production, and how to avoid it
+A short list from apps we run against real Odoo databases every day.
+- Multi-company data. A user with access to several companies returns records from all of them unless you pass `allowed_company_ids` in the context. See the multi-company guide .
+- Silent JSON-RPC errors. HTTP 200 with an `error` key, as above. Check it on every call.
+- Unbounded reads. Always pass `limit` and `fields`. Fetching every field of every record is the usual cause of a slow integration.
+- Chatty loops. One call per record will crawl. Batch: `write` accepts many ids, `create` accepts a list of value dicts, and domains accept `in`.
+- Access rights. The API runs as the user, so an integration user needs the right groups; test as that user, never as an administrator, or you will discover the rules in production.
+- Transactions. Each JSON-2 call is its own transaction and cannot be chained, so a create and a confirm are two separate commits. When both must happen together, call one method that does both.
+### Where does this code belong?
+On a server you control: your app's backend, a scheduled job, a small service. Never in a browser or mobile client, because the API key would ship with it. In the apps we build the pattern is always the same: the Odoo calls live in one module, the screens call that module, and swapping JSON-RPC for JSON-2 later touches one file. If you want that built for a specific workflow rather than assembled from scratch, that is the work we do .
+
+## Odoo 19's JSON-2 API: What Changed and What to Do About XML-RPC
+URL: https://odoowebapps.com/guides/odoo-19-json-2-api
+Published: 2026-09-22
+
+Odoo 19 added an HTTP JSON API at /json/2/<model>/<method> with bearer API keys, and scheduled XML-RPC and JSON-RPC for removal in Odoo 22. The request shape, the plan gate, key rotation, the one-call-one-transaction rule and a migration table.
+
+### What is the JSON-2 API?
+It is the HTTP API Odoo introduced in version 19. You `POST` a JSON object to `/json/2/<model>/<method>` with an `Authorization: bearer <api key>` header, and you get the method's return value back as JSON with a normal HTTP status code. It replaces the pattern every Odoo integration used before it: authenticate to get a user id, then push everything through one generic `execute_kw` dispatcher over XML-RPC or JSON-RPC.
+It is not REST in the resource sense. The URL names a model and a method, not a resource and a verb: there is no `GET /api/sale.order/42`, you call `/json/2/sale.order/read` with a list of ids. What you gain over the RPC protocols is a normal HTTP surface: real status codes, bearer auth, one request per call, and a `/doc` page on your own database listing the models, fields and methods that database actually exposes.
+### What does a JSON-2 request look like?
+The URL carries the model and method. The body carries the arguments as named fields, plus `ids` for the records to act on (omitted for model-level methods such as `search_read`) and an optional `context`.
+Errors come back with a 4xx or 5xx status and a JSON object naming the Python exception, its message and arguments, the context used, and a traceback for debugging. That is a real improvement over JSON-RPC, where a failure is an HTTP 200 with an `error` key that naive clients read as success.
+### Who can use it? The plan and edition gate
+On Odoo Online, access to the external API, JSON-2 included, is only available on the Custom pricing plan. It is not available on the One App Free or Standard plans. Self-hosted databases and Odoo.sh are not limited that way. This catches people out: the code is correct, the key looks fine, and the calls still fail because the subscription plan does not include external API access.
+### How do API keys work in Odoo 19?
+A key is created per user under Preferences, Account Security, New API Key, with a description and a duration. Odoo 19 will not create a key that lasts more than three months, so any production integration needs a rotation routine rather than a key pasted once into a config file. The key value is shown once at creation and cannot be retrieved later.
+Keys can also be rotated programmatically. Generation is restricted to users with Settings access unless you set the system parameter `base.enable_programmatic_api_keys` to `True`, and a user can hold up to 10 programmatically generated keys by default ( `base.programmatic_api_keys_limit`).
+### One call, one transaction: the rule that changes how you write code
+Every JSON-2 call runs in its own SQL transaction, committed on success and discarded on error. You cannot chain several calls inside one transaction. So a sequence like create an order, then confirm it, is two commits: if the second fails you are left with a draft order, not with nothing.
+The fix is to call a single method that does the whole job. `search_read` is the everyday example (a `search` and a `read` in one transaction, so a record deleted between them cannot break it), and business methods prefixed `action_`, such as `sale.order.action_confirm`, are the same idea for writes. When no such method exists for your sequence, the clean answer is a small module that adds one. This matters most for reservations, payments and stock moves, where a half-finished sequence has real consequences.
+### What happens to XML-RPC and JSON-RPC?
+Both still work on Odoo 19, and both are deprecated. Odoo has scheduled the `/xmlrpc`, `/xmlrpc/2` and `/jsonrpc` endpoints for removal in Odoo 22 (fall 2028), along with the three services they expose: common, db and object. Controllers declared with `@route(type='jsonrpc')`, which were called `type='json'` until Odoo 18, are not part of that deprecation.
+The practical migration is smaller than it looks, because the model names, method names and domains do not change. If your integration keeps its transport in one module, as ours do, the change is one file plus the credential handling. If RPC calls are scattered through the codebase, this is the moment to centralise them.
+### Should you move now?
+If you are on Odoo 19 and writing something new: yes, use JSON-2. If you are on Odoo 16, 17 or 18: you cannot, JSON-2 does not exist there, so use JSON-RPC and keep it isolated. If you have a working RPC integration on Odoo 19: there is no urgency, but treat the transport swap as part of the upgrade plan for Odoo 22 rather than as a surprise in 2028. See what happens to a custom app when Odoo upgrades for the rest of that checklist.
+### Sources
+The endpoint shape, the header names, the three-month key limit, the Custom-plan restriction, the one-call-one-transaction rule and the Odoo 22 removal date are all from Odoo's own reference, External JSON-2 API , read on 22 September 2026. Where Odoo's documentation and a third-party blog post disagree about this API, the documentation is the one to trust: this area changed recently and a lot of what is written about it predates Odoo 19.
+
+## Odoo API Keys: How to Create, Scope and Rotate Them
+URL: https://odoowebapps.com/guides/odoo-api-key-setup
+Published: 2026-09-22
+
+Where to generate an Odoo API key, how it is sent on JSON-2 versus XML-RPC, the three-month limit in Odoo 19, which user should hold it, and the six reasons a key usually fails.
+
+### How do you create an Odoo API key?
+Log in as the user the integration should act as, then open Preferences (the menu under your avatar, also called My Profile), go to the Account Security tab and click New API Key. Odoo asks for a description and, on recent versions, a duration. Click Generate Key and copy the value immediately: it is shown once and cannot be retrieved afterwards. If you lose it, delete the key and make a new one.
+The description is not decoration. It is the only thing that tells you later which system a key belongs to, so write "warehouse picking app, production" rather than "test".
+### Where does the key go in the call?
+That depends on the API. On Odoo 19's JSON-2 the key is a bearer token in the `Authorization` header and there is no login step. On XML-RPC and JSON-RPC the key simply replaces the password: you still call `authenticate` with the database, the login and the key, and you still pass the key on every later call.
+The login stays in use with the RPC protocols: a key is not a replacement for the user, it is a replacement for that user's password. It gives the same access to the account, so store it exactly as carefully, but it cannot be used to log in through the web interface.
+### How long does a key last?
+On Odoo 19, at most three months. Odoo will not create a longer key, so every production integration needs a rotation routine. Shorter is recommended for interactive or externally exposed use, typically a day. Earlier versions did not enforce a maximum, which is why many older integrations hold keys that never expire; those keep working until the database moves to 19.
+Odoo 19 can also generate and revoke keys programmatically through `res.users.apikeys.generate()`, which is what a rotation job uses. By default that is limited to users with Settings access; to allow a plain integration user to rotate its own key, set the system parameter `base.enable_programmatic_api_keys` to `True` under Settings, Technical, System Parameters.
+### Which user should hold the key?
+A dedicated integration user, never a person and never an administrator. Every API call runs with that user's access rights and record rules, so a key on an admin account turns a small bug into an unbounded one, and a key on a real employee breaks the day they leave and their account is archived.
+A useful side effect of a named integration user: every record it creates or updates shows that name in Odoo's tracking, so an accountant can see at a glance which changes came from the app and which from a person.
+### Why is my API key not working?
+In rough order of how often we see each one:
+- The plan does not include API access. On Odoo Online the external API is only on the Custom plan, not One App Free or Standard. The code is fine; the subscription is the blocker.
+- Wrong database name. On Odoo Online it is usually the subdomain, but not always. A quick `common.version()` or `GET /web/version` proves the URL before you debug the credentials.
+- The key expired. Three months maximum on Odoo 19. Check the Account Security tab for the key's duration.
+- Login and key belong to different users. With the RPC protocols both must match; a key generated for one user will not authenticate another's login.
+- Access rights, not authentication. If `authenticate` returns a uid but a call raises an access error, the key is fine and the user's groups are the problem. Test as that user in the web interface to see the same error.
+- Two-factor authentication. It does not block API keys; that is exactly what keys are for. If a script broke when 2FA was enabled, it is still sending the password.
+### How should the key be stored?
+As a secret, in the environment or a secrets manager, never in source control and never in anything that reaches a browser or a mobile app. An Odoo API key carries the full access of its user, so a key shipped in client-side code is the same as publishing that user's password. In the apps we build, Odoo calls only ever run on the server, and the key exists as one environment variable on the host.
+Rotate deliberately: create the new key, deploy it, confirm traffic is using it, then delete the old one. Because Odoo shows a key value only once, the rotation should be a documented routine rather than a scramble when a key silently expires. If you want that, plus the integration itself, built and maintained for a specific workflow, that is what we do .
+
 ## Odoo Customization vs. a Custom Web App: What's the Difference?
 URL: https://odoowebapps.com/guides/odoo-customization-vs-custom-apps
 Published: 2026-09-18
@@ -330,12 +424,15 @@ Published: 2026-09-18
 
 A grounded look at what drives the price of a small Odoo-connected app, with real ranges instead of vague 'contact us for pricing.'
 
-### Why is 'it depends' actually the honest answer?
-Because the cost of a custom Odoo-connected app is driven almost entirely by how many distinct concerns it has to get right: authentication, how many Odoo models it reads or writes, whether it needs to handle edge cases like partial stock or backorders, how many user roles see different things. Two apps that sound similar in one sentence ("a portal for our customers") can differ in cost by a wide margin depending on those specifics. That said, vague "contact us for pricing" isn't useful either, so here are real numbers.
-### What does a small, single-screen app typically cost?
-The smallest tier (Tiny) is priced from $390, for something like approval screen, simple report, small data entry tool. These are one-screen, one-workflow builds: a single Odoo model, a single clear action, no user roles to manage.
-### What does a full multi-screen app typically cost?
-A polished, multi-screen application built around one workflow (the kind of build behind most of the example apps on this site) typically falls in the $490-$890 range. Where a specific build lands in that range depends on how many screens it needs, how many Odoo models it touches, and whether it only reads data or also writes back to Odoo (write-back integrations generally cost more, since they need more careful validation and error handling; see the guide on that distinction linked below). As a concrete anchor: a warehouse picking app starts at $590, while a customer ordering portal (which has to handle authentication, a per-customer catalog, and checkout) starts at $890.
+### What does a custom Odoo app cost? The short answer
+On this site, from $390 for a single focused screen and typically $490-$890 for a polished multi-screen app built around one workflow. Those are real starting prices for apps that sit next to Odoo and talk to it through its API, not ranges invented for a pricing page. Bigger systems are quoted individually. The table below is the whole price list.
+### How does that compare to an Odoo module or an implementation?
+These are three different things that get quoted very differently, and mixing them up is why cost research on Odoo is confusing. A licence is what you pay Odoo. An implementation is configuring Odoo for your business. A custom module changes Odoo from the inside. A connected app leaves Odoo alone and adds one screen next to it.
+Quotes you see elsewhere are often hourly. At the rates Odoo freelancers and partners commonly charge, a fixed price of {formatPrice(price("warehouse-picking"))} for a picking app is a small number of days of work, which is exactly what it is. The reason it can be a fixed number at all is the narrow scope: one workflow, one or two Odoo models, no reimplementation.
+### What actually moves the price within a tier?
+The one people underestimate is the first row. A read-only dashboard that is slightly wrong is a trivial fix and nothing in Odoo is at risk. An app that creates sales orders or updates stock has to handle a write failing partway, data that does not satisfy Odoo's own validation, and two people acting on the same record at once. That care is the difference between the low and high end of any estimate; see read-only vs write-back integrations .
+### Why is 'it depends' the usual answer everywhere else?
+Because most Odoo work quoted online is implementation work, where the scope genuinely is open-ended: how many modules, how much data migration, how many people to train. That is a real reason for a range. It stops being a good reason when the question is much smaller, as it is here: one workflow, one screen or two, a handful of Odoo models. At that size the honest answer is a number, which is why the table above exists.
 ### What pushes a project into 'let's talk' territory?
 Anything that stops being one focused workflow: multiple integrated apps, a system with several distinct user roles each seeing different data, or a workflow that turns out to need changes inside Odoo itself (a custom module) in addition to the external app. These are quoted individually rather than against a fixed tier, because at that scope the cost genuinely depends on specifics that a landing page can't responsibly generalize.
 ### What's the single biggest cost driver most people underestimate?
@@ -424,6 +521,8 @@ Odoo's own Barcode app is genuinely capable. An honest look at when it's enough 
 
 ### What does Odoo's own Barcode app actually do?
 Odoo ships a dedicated Barcode app that covers a genuinely wide range of warehouse operations out of the box: receiving, delivery picking, internal transfers, inventory adjustments, manufacturing consumption, and more, all driven by scanning barcodes on a phone or handheld scanner. It's a real, actively maintained part of Odoo Inventory and Manufacturing, not an afterthought: for a meaningful share of warehouses, it's simply enough on its own.
+### Odoo Barcode, OCA or a custom app: a side-by-side
+Three realistic options, plus the packaged third-party apps that sit between them. The honest summary: if you are on Enterprise and your flows are standard, Odoo's own Barcode app is the right answer and the rest of this guide is about the cases where it is not. Note the first row: Barcode is an Enterprise app (Odoo lists it under Inventory on its editions page ), so on Community the realistic choices are an OCA module, a paid third-party app, or a custom one.
 ### So when is Odoo's Barcode app the right call?
 When the warehouse needs several of those different operation types, when staff are already reasonably comfortable navigating a menu to pick the right operation before scanning, and when there's no strong reason to avoid installing another Odoo app or giving users Odoo-side access. In that situation, building a custom picking app instead would mean re-implementing functionality Odoo already provides for free, correctly, and kept in sync with the rest of Inventory automatically.
 ### When does a narrower custom app make more sense instead?

@@ -3,12 +3,12 @@ import { GUIDES } from "@/config/guides";
 import { SectionHeading } from "@/components/ui/section-heading";
 
 const FEATURED_SLUGS = [
-  "odoo-customization-vs-custom-apps",
+  "odoo-api-examples-python-javascript",
   "how-much-does-a-custom-odoo-app-cost",
-  "odoo-rest-api-explained",
-  "odoo-api-integration-explained",
-  "odoo-studio-limitations",
+  "odoo-19-json-2-api",
+  "odoo-api-key-setup",
   "odoo-barcode-app-buy-or-build",
+  "odoo-customization-vs-custom-apps",
 ];
 
 const FEATURED = FEATURED_SLUGS.map((slug) => GUIDES.find((g) => g.slug === slug)).filter(

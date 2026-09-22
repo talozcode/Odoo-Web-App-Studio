@@ -19,6 +19,30 @@ export type GuideMeta = {
 
 export const GUIDES: GuideMeta[] = [
   {
+    slug: "odoo-api-examples-python-javascript",
+    title: "Odoo API Examples: Python, JavaScript and curl That Actually Run",
+    seoTitle: "Odoo API Examples: Python, JavaScript, curl",
+    description:
+      "Working Odoo API calls in Python, Node and curl for JSON-2, JSON-RPC and XML-RPC: authenticate, search_read, create, write and confirm an order, with the domain syntax and the mistakes that break integrations in production.",
+    datePublished: "2026-09-22",
+  },
+  {
+    slug: "odoo-19-json-2-api",
+    title: "Odoo 19's JSON-2 API: What Changed and What to Do About XML-RPC",
+    seoTitle: "Odoo 19 JSON-2 API: What Changed",
+    description:
+      "Odoo 19 added an HTTP JSON API at /json/2/<model>/<method> with bearer API keys, and scheduled XML-RPC and JSON-RPC for removal in Odoo 22. The request shape, the plan gate, key rotation, the one-call-one-transaction rule and a migration table.",
+    datePublished: "2026-09-22",
+  },
+  {
+    slug: "odoo-api-key-setup",
+    title: "Odoo API Keys: How to Create, Scope and Rotate Them",
+    seoTitle: "Odoo API Key: Create, Scope and Rotate",
+    description:
+      "Where to generate an Odoo API key, how it is sent on JSON-2 versus XML-RPC, the three-month limit in Odoo 19, which user should hold it, and the six reasons a key usually fails.",
+    datePublished: "2026-09-22",
+  },
+  {
     slug: "odoo-customization-vs-custom-apps",
     title: "Odoo Customization vs. a Custom Web App: What's the Difference?",
     seoTitle: "Odoo Customization vs Custom Web App",
