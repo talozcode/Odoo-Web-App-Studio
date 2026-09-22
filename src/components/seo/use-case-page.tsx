@@ -75,7 +75,7 @@ export function UseCasePageTemplate({
             <li>
               <Link
                 href="/"
-                className="rounded-md hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
+                className="rounded-md hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
               >
                 Home
               </Link>

@@ -14,7 +14,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="min-h-11 w-full rounded-lg bg-[var(--brand-coral)] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#c1592c] disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)] sm:w-auto"
+      className="min-h-11 w-full rounded-lg bg-[var(--odoo-teal)] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--odoo-teal-hover)] disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--odoo-teal)] sm:w-auto"
     >
       {pending ? "Sending…" : "Show us the problem"}
     </button>
@@ -54,7 +54,7 @@ export function ContactForm() {
       {state.status === "error" && state.message ? (
         <div
           role="alert"
-          className="flex items-center gap-2 rounded-lg border border-[var(--brand-coral)]/40 bg-[var(--brand-coral)]/5 px-4 py-3 text-sm text-[var(--brand-coral)]"
+          className="flex items-center gap-2 rounded-lg border border-[var(--danger)]/40 bg-[var(--danger)]/5 px-4 py-3 text-sm text-[var(--danger)]"
         >
           <AlertCircle aria-hidden="true" className="h-4 w-4 shrink-0" />
           {state.message}
@@ -97,10 +97,10 @@ export function ContactForm() {
             state.fieldErrors?.message ? `${formId}-message-error` : undefined
           }
           placeholder="Every morning our warehouse team opens Odoo, finds the delivery order, prints it, writes quantities on paper and someone enters everything back into Odoo later..."
-          className="w-full rounded-lg border border-[var(--border)] px-3.5 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
+          className="w-full rounded-lg border border-[var(--border)] px-3.5 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
         />
         {state.fieldErrors?.message ? (
-          <p id={`${formId}-message-error`} className="mt-1.5 text-xs text-[var(--brand-coral)]">
+          <p id={`${formId}-message-error`} className="mt-1.5 text-xs text-[var(--danger)]">
             {state.fieldErrors.message}
           </p>
         ) : null}
@@ -124,10 +124,10 @@ export function ContactForm() {
             aria-describedby={
               state.fieldErrors?.name ? `${formId}-name-error` : undefined
             }
-            className="min-h-11 w-full rounded-lg border border-[var(--border)] px-3.5 text-sm text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
+            className="min-h-11 w-full rounded-lg border border-[var(--border)] px-3.5 text-sm text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
           />
           {state.fieldErrors?.name ? (
-            <p id={`${formId}-name-error`} className="mt-1.5 text-xs text-[var(--brand-coral)]">
+            <p id={`${formId}-name-error`} className="mt-1.5 text-xs text-[var(--danger)]">
               {state.fieldErrors.name}
             </p>
           ) : null}
@@ -150,10 +150,10 @@ export function ContactForm() {
             aria-describedby={
               state.fieldErrors?.email ? `${formId}-email-error` : undefined
             }
-            className="min-h-11 w-full rounded-lg border border-[var(--border)] px-3.5 text-sm text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
+            className="min-h-11 w-full rounded-lg border border-[var(--border)] px-3.5 text-sm text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
           />
           {state.fieldErrors?.email ? (
-            <p id={`${formId}-email-error`} className="mt-1.5 text-xs text-[var(--brand-coral)]">
+            <p id={`${formId}-email-error`} className="mt-1.5 text-xs text-[var(--danger)]">
               {state.fieldErrors.email}
             </p>
           ) : null}
@@ -171,7 +171,7 @@ export function ContactForm() {
             name="company"
             type="text"
             autoComplete="organization"
-            className="min-h-11 w-full rounded-lg border border-[var(--border)] px-3.5 text-sm text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
+            className="min-h-11 w-full rounded-lg border border-[var(--border)] px-3.5 text-sm text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
           />
         </div>
 
@@ -187,7 +187,7 @@ export function ContactForm() {
             name="odooVersion"
             type="text"
             placeholder="e.g. 17"
-            className="min-h-11 w-full rounded-lg border border-[var(--border)] px-3.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
+            className="min-h-11 w-full rounded-lg border border-[var(--border)] px-3.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
           />
         </div>
       </div>

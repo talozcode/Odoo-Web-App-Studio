@@ -59,7 +59,7 @@ export function SalesAppDemo() {
               key={c.id}
               type="button"
               onClick={() => pickCustomer(c)}
-              className="flex min-h-11 items-center justify-between rounded-lg border border-[var(--border)] px-3 py-2.5 text-left text-sm font-medium text-[var(--foreground)] transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
+              className="flex min-h-11 items-center justify-between rounded-lg border border-[var(--border)] px-3 py-2.5 text-left text-sm font-medium text-[var(--foreground)] transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--odoo-teal)]"
             >
               {c.name}
               <ChevronLeft
@@ -93,7 +93,7 @@ export function SalesAppDemo() {
                   type="button"
                   onClick={() => toggleProduct(p.id)}
                   aria-pressed={isSelected}
-                  className="flex min-h-11 items-center justify-between rounded-lg border border-[var(--border)] px-3 py-2.5 text-left transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
+                  className="flex min-h-11 items-center justify-between rounded-lg border border-[var(--border)] px-3 py-2.5 text-left transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--odoo-teal)]"
                 >
                   <span className="text-sm font-medium text-[var(--foreground)]">
                     {p.name}
@@ -119,7 +119,7 @@ export function SalesAppDemo() {
             type="button"
             onClick={submit}
             disabled={selected.length === 0}
-            className="mt-4 min-h-11 w-full rounded-lg bg-[var(--brand-coral)] text-sm font-semibold text-white transition-colors hover:bg-[#c1592c] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
+            className="mt-4 min-h-11 w-full rounded-lg bg-[var(--odoo-teal)] text-sm font-semibold text-white transition-colors hover:bg-[var(--odoo-teal-hover)] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--odoo-teal)]"
           >
             Submit order ({selected.length})
           </button>
@@ -138,7 +138,7 @@ export function SalesAppDemo() {
           <button
             type="button"
             onClick={startOver}
-            className="mt-1 min-h-11 rounded-lg border border-[var(--border)] px-4 text-xs font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
+            className="mt-1 min-h-11 rounded-lg border border-[var(--border)] px-4 text-xs font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--odoo-teal)]"
           >
             Start another order
           </button>

@@ -14,7 +14,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/#top"
-          className="flex shrink-0 items-center text-lg font-bold tracking-tight text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] rounded-md"
+          className="flex shrink-0 items-center text-lg font-bold tracking-tight text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-md"
         >
           OdooWebApps<span className="text-[var(--odoo-teal)]">.com</span>
         </Link>
@@ -24,7 +24,7 @@ export function SiteHeader() {
             <a
               key={link.href}
               href={link.href}
-              className="whitespace-nowrap text-sm font-medium text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] rounded-md"
+              className="whitespace-nowrap text-sm font-medium text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-md"
             >
               {link.label}
             </a>
@@ -37,7 +37,7 @@ export function SiteHeader() {
 
         <button
           type="button"
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] lg:hidden"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] lg:hidden"
           aria-expanded={isOpen}
           aria-controls="mobile-nav"
           aria-label={isOpen ? "Close menu" : "Open menu"}

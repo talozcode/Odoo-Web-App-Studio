@@ -16,14 +16,14 @@ export function PricingSection() {
               key={tier.id}
               className={
                 tier.id === "app"
-                  ? "relative flex flex-col rounded-xl border-2 border-[var(--brand-coral)]/40 bg-[var(--brand-coral)]/[0.04] p-6 pt-7 sm:-translate-y-2 sm:shadow-[0_16px_40px_-16px_rgba(184,66,15,0.3)]"
+                  ? "relative flex flex-col rounded-xl border-2 border-[var(--odoo-teal)]/40 bg-[var(--odoo-teal)]/[0.04] p-6 pt-7 sm:-translate-y-2"
                   : "flex flex-col rounded-xl border border-[var(--border)] p-6"
               }
             >
               {tier.id === "app" ? (
                 <span
                   aria-hidden="true"
-                  className="absolute inset-x-6 top-0 h-1 -translate-y-px rounded-full bg-[var(--brand-coral)]"
+                  className="absolute inset-x-6 top-0 h-1 -translate-y-px rounded-full bg-[var(--odoo-teal)]"
                 />
               ) : null}
               <h3 className="text-lg font-semibold text-[var(--foreground)]">

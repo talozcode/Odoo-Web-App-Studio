@@ -29,7 +29,7 @@ export function Accordion({ items }: { items: AccordionItemData[] }) {
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setOpenIndex(isOpen ? null : index)}
-                className="flex w-full items-center justify-between gap-4 py-5 text-left text-base font-medium text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] rounded-md"
+                className="flex w-full items-center justify-between gap-4 py-5 text-left text-base font-medium text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-md"
               >
                 <span>{item.question}</span>
                 <ChevronDown

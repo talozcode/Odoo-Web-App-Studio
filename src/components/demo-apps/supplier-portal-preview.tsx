@@ -46,7 +46,7 @@ export function SupplierPortalPreview() {
               ) : (
                 <button
                   type="button"
-                  className="min-h-11 rounded-md bg-[var(--brand-coral)] px-3 text-xs font-semibold text-white transition-colors hover:bg-[#c1592c]"
+                  className="min-h-11 rounded-md bg-[var(--odoo-teal)] px-3 text-xs font-semibold text-white transition-colors hover:bg-[var(--odoo-teal-hover)]"
                 >
                   Confirm
                 </button>

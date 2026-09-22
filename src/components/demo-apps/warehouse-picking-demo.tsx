@@ -93,7 +93,7 @@ export function WarehousePickingDemo() {
                 type="button"
                 onClick={() => toggleLine(index)}
                 aria-pressed={done}
-                className="flex w-full min-h-11 items-center justify-between gap-2 rounded-lg border border-[var(--border)] px-3 py-2 text-left transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
+                className="flex w-full min-h-11 items-center justify-between gap-2 rounded-lg border border-[var(--border)] px-3 py-2 text-left transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--odoo-teal)]"
               >
                 <span className="flex items-center gap-2.5">
                   {done ? (
@@ -131,7 +131,7 @@ export function WarehousePickingDemo() {
           type="button"
           onClick={scanItem}
           disabled={isComplete}
-          className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg bg-[var(--brand-coral)] text-sm font-semibold text-white transition-colors hover:bg-[#c1592c] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
+          className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg bg-[var(--odoo-teal)] text-sm font-semibold text-white transition-colors hover:bg-[var(--odoo-teal-hover)] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--odoo-teal)]"
         >
           <ScanLine aria-hidden="true" className="h-4 w-4" />
           Scan item
@@ -140,7 +140,7 @@ export function WarehousePickingDemo() {
           type="button"
           onClick={reset}
           aria-label="Reset demo"
-          className="flex min-h-11 items-center justify-center rounded-lg border border-[var(--border)] px-3 text-[var(--muted-foreground)] transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
+          className="flex min-h-11 items-center justify-center rounded-lg border border-[var(--border)] px-3 text-[var(--muted-foreground)] transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--odoo-teal)]"
         >
           <RotateCcw aria-hidden="true" className="h-4 w-4" />
         </button>

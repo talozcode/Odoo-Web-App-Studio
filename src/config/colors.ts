@@ -10,8 +10,9 @@
 export const COLORS = {
   odooPurple: "#714B67",
   odooTeal: "#017E84",
+  odooTealHover: "#046569",
   odooGray: "#8F8F8F",
-  brandCoral: "#B8420F",
+  danger: "#B42318",
   charcoal: "#1F2937",
   background: "#FFFFFF",
   surface: "#F7F6F4",

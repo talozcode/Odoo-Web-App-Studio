@@ -24,7 +24,7 @@ export function ExamplesSection() {
               {featuredPage ? (
                 <Link
                   href={`/${featuredPage.slug}`}
-                  className="hover:text-[var(--odoo-teal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] rounded-md"
+                  className="hover:text-[var(--odoo-teal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-md"
                 >
                   {featured.name}
                 </Link>
@@ -71,7 +71,7 @@ export function ExamplesSection() {
                   {useCasePage ? (
                     <Link
                       href={`/${useCasePage.slug}`}
-                      className="hover:text-[var(--odoo-teal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] rounded-md"
+                      className="hover:text-[var(--odoo-teal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-md"
                     >
                       {app.name}
                     </Link>
@@ -97,7 +97,7 @@ export function ExamplesSection() {
                   {useCasePage ? (
                     <Link
                       href={`/${useCasePage.slug}`}
-                      className="inline-flex items-center gap-1 text-sm font-medium text-[var(--odoo-teal)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] rounded-md"
+                      className="inline-flex items-center gap-1 text-sm font-medium text-[var(--odoo-teal)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-md"
                     >
                       Full details
                       <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />

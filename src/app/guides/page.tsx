@@ -66,7 +66,7 @@ export default function GuidesIndexPage() {
                 >
                   <Link
                     href={`/guides/${guide.slug}`}
-                    className="group flex flex-1 flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
+                    className="group flex flex-1 flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
                   >
                     <div className="relative aspect-[4/3] w-full overflow-hidden bg-[var(--surface)]">
                       <Image

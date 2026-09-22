@@ -17,7 +17,7 @@ export function CustomWorkflowPreview() {
       <div className="mt-3 flex gap-2">
         <button
           type="button"
-          className="min-h-11 flex-1 rounded-lg bg-[var(--brand-coral)] text-sm font-semibold text-white transition-colors hover:bg-[#c1592c]"
+          className="min-h-11 flex-1 rounded-lg bg-[var(--odoo-teal)] text-sm font-semibold text-white transition-colors hover:bg-[var(--odoo-teal-hover)]"
         >
           Approve
         </button>

@@ -25,13 +25,13 @@ export default function NotFound() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/"
-              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--brand-coral)] px-5 text-sm font-semibold text-white shadow-[0_4px_14px_-4px_rgba(184,66,15,0.35)] transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
+              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--odoo-teal)] px-5 text-sm font-semibold text-white transition-colors hover:bg-[var(--odoo-teal-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
             >
               Back to homepage
             </Link>
             <Link
               href="/guides"
-              className="inline-flex min-h-11 items-center justify-center rounded-lg border border-[var(--border)] px-5 text-sm font-semibold text-[var(--foreground)] transition-colors hover:bg-[var(--surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
+              className="inline-flex min-h-11 items-center justify-center rounded-lg border border-[var(--border)] px-5 text-sm font-semibold text-[var(--foreground)] transition-colors hover:bg-[var(--surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
             >
               Browse guides
             </Link>

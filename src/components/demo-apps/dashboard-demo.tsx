@@ -5,21 +5,20 @@ type Kpi = {
   label: string;
   value: string;
   icon: typeof TrendingUp;
-  tone: "teal" | "coral" | "purple";
+  tone: "teal" | "purple";
 };
 
 const KPIS: Kpi[] = [
   { label: "Sales (7d)", value: "$18,420", icon: TrendingUp, tone: "teal" },
-  { label: "Margin", value: "34%", icon: Percent, tone: "coral" },
-  { label: "In stock", value: "1,248", icon: Package, tone: "purple" },
-  { label: "Open POs", value: "6", icon: ShoppingCart, tone: "teal" },
+  { label: "Margin", value: "34%", icon: Percent, tone: "purple" },
+  { label: "In stock", value: "1,248", icon: Package, tone: "teal" },
+  { label: "Open POs", value: "6", icon: ShoppingCart, tone: "purple" },
 ];
 
 const WEEK_BARS = [42, 58, 39, 71, 64, 80, 55];
 
 const toneClass: Record<Kpi["tone"], string> = {
   teal: "text-[var(--odoo-teal)]",
-  coral: "text-[var(--brand-coral)]",
   purple: "text-[var(--odoo-purple)]",
 };
 
