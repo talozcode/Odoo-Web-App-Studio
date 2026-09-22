@@ -53,7 +53,7 @@ export function GuidePageTemplate({
     { name: meta.title, url: canonicalUrl },
   ];
 
-  const readableDate = new Date(meta.datePublished).toLocaleDateString("en-US", {
+  const readableDate = new Date(meta.datePublished).toLocaleDateString("en-GB", {
     year: "numeric",
     month: "long",
     day: "numeric",

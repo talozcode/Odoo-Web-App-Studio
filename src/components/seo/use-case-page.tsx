@@ -133,23 +133,25 @@ export function UseCasePageTemplate({
         ))}
 
         {priceFrom !== undefined ? (
-          <section className="border-b border-[var(--border)] bg-[var(--surface)]">
-            <div className="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6 lg:px-8">
-              <p className="text-sm font-semibold uppercase tracking-wide text-[var(--odoo-purple)]">
-                Pricing
-              </p>
-              <p className="mt-2 text-3xl font-semibold text-[var(--foreground)]">
-                {formatPriceFrom(priceFrom)}
-              </p>
-              {priceNote ? (
-                <p className="mx-auto mt-3 max-w-xl text-sm text-[var(--muted-foreground)]">
-                  {priceNote}
+          <section className="border-b border-[var(--border)]">
+            <div className="mx-auto grid max-w-3xl grid-cols-1 gap-6 px-4 py-14 sm:grid-cols-[minmax(0,12rem)_1fr] sm:gap-10 sm:px-6 lg:px-8">
+              <div>
+                <h2 className="text-base font-semibold text-[var(--foreground)]">Pricing</h2>
+                <p className="mt-1 text-3xl font-semibold tabular-nums text-[var(--foreground)]">
+                  {formatPriceFrom(priceFrom)}
                 </p>
-              ) : null}
-              <div className="mt-6">
-                <ButtonLink href={`/#${CONTACT_SECTION_ID}`}>
-                  Get a scoped quote
-                </ButtonLink>
+              </div>
+              <div>
+                {priceNote ? (
+                  <p className="max-w-xl text-sm leading-relaxed text-[var(--muted-foreground)]">
+                    {priceNote}
+                  </p>
+                ) : null}
+                <div className="mt-5">
+                  <ButtonLink href={`/#${CONTACT_SECTION_ID}`}>
+                    Get a scoped quote
+                  </ButtonLink>
+                </div>
               </div>
             </div>
           </section>
@@ -158,7 +160,7 @@ export function UseCasePageTemplate({
         {relatedLinks && relatedLinks.length > 0 ? (
           <section className="border-b border-[var(--border)]">
             <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-[var(--muted-foreground)]">
+              <h2 className="text-base font-semibold text-[var(--foreground)]">
                 Related reading
               </h2>
               <ul className="mt-4 flex flex-col gap-2">
