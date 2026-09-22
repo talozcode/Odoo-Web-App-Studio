@@ -38,13 +38,11 @@ export default function Guide() {
         </p>
         <p>
           It is not REST in the resource sense. The URL names a model and a
-          method, not a resource and a verb: there is no{" "}
-          <code>GET /api/sale.order/42</code>, you call{" "}
-          <code>/json/2/sale.order/read</code> with a list of ids. What you
-          gain over the RPC protocols is a normal HTTP surface: real status
-          codes, bearer auth, one request per call, and a{" "}
-          <code>/doc</code> page on your own database listing the models,
-          fields and methods that database actually exposes.
+          method, not a resource and a verb. What you gain over the RPC
+          protocols is a normal HTTP surface: real status codes, bearer
+          auth, one request per call, and a <code>/doc</code> page on your
+          own database listing the models, fields and methods that database
+          actually exposes.
         </p>
       </GuideSection>
 
@@ -82,30 +80,6 @@ Content-Type: application/json; charset=utf-8
           JSON-RPC, where a failure is an HTTP 200 with an{" "}
           <code>error</code> key that naive clients read as success.
         </p>
-        <CodeBlock
-          label="Python"
-          code={`import requests
-
-URL = "https://mycompany.example.com"
-API_KEY = "..."          # from a secure location, never in source control
-
-def call(model, method, **body):
-    res = requests.post(
-        f"{URL}/json/2/{model}/{method}",
-        headers={"Authorization": f"bearer {API_KEY}", "Content-Type": "application/json"},
-        json=body,
-        timeout=20,
-    )
-    res.raise_for_status()   # real status codes: 401 for a bad key, 4xx for bad input
-    return res.json()
-
-orders = call("sale.order", "search_read",
-              domain=[["state", "=", "sale"]],
-              fields=["name", "amount_total"],
-              limit=5)
-
-uid = call("res.users", "context_get")   # who am I? (no ids needed)`}
-        />
       </GuideSection>
 
       <GuideSection heading="Who can use it? The plan and edition gate">
@@ -129,24 +103,13 @@ uid = call("res.users", "context_get")   # who am I? (no ids needed)`}
           cannot be retrieved later.
         </p>
         <p>
-          Keys can also be rotated programmatically. Generation is restricted
-          to users with Settings access unless you set the system parameter{" "}
-          <code>base.enable_programmatic_api_keys</code> to{" "}
-          <code>True</code>, and a user can hold up to 10 programmatically
-          generated keys by default (
-          <code>base.programmatic_api_keys_limit</code>).
+          Keys can also be generated and revoked programmatically, which is
+          what a rotation job uses, though Odoo restricts that to privileged
+          users unless a system parameter is changed. Either way, the
+          practical consequence is the one that catches teams out: an
+          integration that nobody maintains will stop working within three
+          months of going live.
         </p>
-        <CodeBlock
-          label="Python, rotating a key before it expires"
-          code={`new_key = call(
-    "res.users.apikeys", "generate",
-    key=API_KEY,              # the current, still-valid key
-    scope="rpc",              # rpc is the scope for bearer API access
-    name="orders sync",
-    expiration_date="2026-12-19",   # ISO 8601, at most three months out
-)
-# store new_key securely, then start using it; the old key stays valid until it expires`}
-        />
       </GuideSection>
 
       <GuideSection heading="One call, one transaction: the rule that changes how you write code">

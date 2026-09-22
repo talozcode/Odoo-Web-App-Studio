@@ -39,7 +39,7 @@ export function Hero() {
       </div>
 
       <div className="border-t border-[var(--border)] bg-[var(--surface)]">
-        <div className="mx-auto flex max-w-sm flex-col px-4 py-12 sm:px-6 lg:max-w-6xl lg:flex-row lg:items-center lg:justify-center lg:px-8 lg:py-14">
+        <div className="mx-auto flex max-w-sm flex-col px-4 py-12 sm:px-6 lg:max-w-6xl lg:flex-row lg:items-center lg:justify-start lg:px-8 lg:py-14">
           <div className="w-full lg:w-[440px] lg:shrink-0">
             <OdooCluster animated />
           </div>

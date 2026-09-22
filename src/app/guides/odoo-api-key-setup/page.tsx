@@ -80,27 +80,12 @@ models.execute_kw(DB, uid, ODOO_API_KEY, "res.partner", "search_read", [[]], {"l
           keep working until the database moves to 19.
         </p>
         <p>
-          Odoo 19 can also generate and revoke keys programmatically through{" "}
-          <code>res.users.apikeys.generate()</code>, which is what a
-          rotation job uses. By default that is limited to users with
-          Settings access; to allow a plain integration user to rotate its
-          own key, set the system parameter{" "}
-          <code>base.enable_programmatic_api_keys</code> to{" "}
-          <code>True</code> under Settings, Technical, System Parameters.
+          Keys can be rotated programmatically too, which is how a
+          long-running integration stays alive without someone diarising it.
+          The part worth planning is not the code: it is deciding who owns
+          the rotation, where the new key is stored, and how you find out
+          that a key is about to expire rather than when the app stops.
         </p>
-        <CodeBlock
-          label="Rotating a key before it expires (Odoo 19+)"
-          code={`POST /json/2/res.users.apikeys/generate
-Authorization: bearer <current key>
-Content-Type: application/json
-
-{
-  "key": "<current key>",
-  "scope": "rpc",
-  "name": "orders sync",
-  "expiration_date": "2026-12-19"
-}`}
-        />
       </GuideSection>
 
       <GuideSection heading="Which user should hold the key?">
@@ -132,7 +117,8 @@ Content-Type: application/json
 
       <GuideSection heading="Why is my API key not working?">
         <p>
-          In rough order of how often we see each one:
+          In rough order of how often we see each one. The first two are
+          configuration, not code, and account for most cases:
         </p>
         <ul className="ml-5 list-disc space-y-2">
           <li>

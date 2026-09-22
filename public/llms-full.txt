@@ -254,41 +254,29 @@ Not a generic connector or a one-size-fits-all SDK: the specific integration for
 
 # Guides
 
-## Odoo API Examples: Python, JavaScript and curl That Actually Run
+## Odoo API Examples: What a Call Looks Like, and What Takes the Time
 URL: https://odoowebapps.com/guides/odoo-api-examples-python-javascript
 Published: 2026-09-22
 
-Working Odoo API calls in Python, Node and curl for JSON-2, JSON-RPC and XML-RPC: authenticate, search_read, create, write and confirm an order, with the domain syntax and the mistakes that break integrations in production.
+What an Odoo API call looks like in JSON-2, JSON-RPC and XML-RPC, which transport your version needs, and why the calls are the easy part: access rights, write-back safety, speed and staying working are the real project.
 
-### Which endpoint should these examples use?
-It depends on your Odoo version, and the difference is only the transport. Odoo 19 has JSON-2, a plain HTTP JSON API at `/json/2/<model>/<method>`. Odoo 16, 17 and 18 have XML-RPC (`/xmlrpc/2/object`) and JSON-RPC ( `/jsonrpc`), both of which call the same ORM methods through one dispatcher called `execute_kw`. Odoo has scheduled the XML-RPC and JSON-RPC endpoints for removal in Odoo 22 (fall 2028), so new code on Odoo 19 should use JSON-2.
-Everything below calls the same three things so you can compare them directly: read open sales orders, create one, then confirm it. Replace `https://example.odoo.com`, the database name and the key with your own; see how to create an Odoo API key .
-### Python, XML-RPC (Odoo 16 to 21)
-The standard library has everything you need. The `common` endpoint gives you a user id; the `object` endpoint runs model methods as that user, under that user's access rights.
-Two details that trip people up. The positional arguments go inside a list, so a domain is a list inside a list ( `[[["state", "=", "sale"]]]` ), and the keyword arguments (`fields`, `limit`, `order`, `context`) go in the separate dict. Many2one fields come back as `[id, "display name"]`, not as a plain id.
-### Python, JSON-RPC (Odoo 16 to 21)
-Same calls, same arguments, JSON instead of XML. This is usually the easier one to debug, because you can reproduce any request with `curl` and read the payload.
-Note the error handling: a JSON-RPC fault comes back with HTTP 200 and an `error` key, so code that only checks the status code will treat a failed write as a success.
-### JavaScript and Node, JSON-RPC and JSON-2
-No library needed on either side; `fetch` is enough. Keep these calls on your server, never in browser code: the API key is a credential with that user's full access rights.
-### curl, for checking a connection quickly
-Before writing any integration code, prove the credentials work. These two commands are the fastest way to find out whether a problem is the URL, the database name, the key or your code.
-On JSON-2 a bad key gives a real `401`. On JSON-RPC the same failure is an HTTP 200 with an error object, which is why the examples above check for `error` explicitly.
-### Which ORM methods do you actually need?
-Most integrations use six, plus the business methods behind Odoo's own buttons.
-Prefer `search_read` over `search` then `read`: it is one transaction, so a record removed between the two calls cannot break it. Prefer `read_group` over fetching rows and summing them in your app: the database does the work and you transfer far less. And prefer calling the real method (`action_confirm`, `button_validate`) over writing a state field directly, which skips every side effect Odoo would normally run.
-### How do domains work?
-A domain is a list of conditions in the form `[field, operator, value]`. Conditions in a flat list are combined with AND. For OR and NOT, add the prefix operators `"|"` and `"!"` before the conditions they apply to.
-### What breaks in production, and how to avoid it
-A short list from apps we run against real Odoo databases every day.
-- Multi-company data. A user with access to several companies returns records from all of them unless you pass `allowed_company_ids` in the context. See the multi-company guide .
-- Silent JSON-RPC errors. HTTP 200 with an `error` key, as above. Check it on every call.
-- Unbounded reads. Always pass `limit` and `fields`. Fetching every field of every record is the usual cause of a slow integration.
-- Chatty loops. One call per record will crawl. Batch: `write` accepts many ids, `create` accepts a list of value dicts, and domains accept `in`.
-- Access rights. The API runs as the user, so an integration user needs the right groups; test as that user, never as an administrator, or you will discover the rules in production.
-- Transactions. Each JSON-2 call is its own transaction and cannot be chained, so a create and a confirm are two separate commits. When both must happen together, call one method that does both.
-### Where does this code belong?
-On a server you control: your app's backend, a scheduled job, a small service. Never in a browser or mobile client, because the API key would ship with it. In the apps we build the pattern is always the same: the Odoo calls live in one module, the screens call that module, and swapping JSON-RPC for JSON-2 later touches one file. If you want that built for a specific workflow rather than assembled from scratch, that is the work we do .
+### What does an Odoo API call actually look like?
+Short, in every language. That is the part people expect to be hard, and it is not. Odoo exposes its models over HTTP, you name a model and a method, and you get JSON back. Below is the same read in each of the three transports Odoo supports, so you can see the shape before deciding which one your version needs.
+In JavaScript it is a `fetch` to the same endpoints; no client library is required on either side. The one rule that is not negotiable: these calls belong on a server you control, never in browser or mobile code, because the API key carries that user's full access rights.
+### Which transport does your version need?
+New work on Odoo 19 should use JSON-2. On Odoo 16 to 18 it does not exist yet, so JSON-RPC is the practical choice. The model names, method names and search domains are identical across all three, so the transport is the only thing that changes; see the JSON-2 guide for the migration detail.
+### So if the calls are simple, what takes the time?
+Everything around them. A demo script that reads five orders is an afternoon. An app that a warehouse uses every day, against a real database, is a different piece of work, and the gap between the two is where integration projects actually run aground:
+- Getting the right records back. Multi-company databases return more than you expect, archived and draft records sneak into results, and the correct domain for "the orders this user should see" is rarely the obvious one.
+- Writing without breaking Odoo's own logic. Setting a field directly and calling the method behind the button are not the same thing: one skips every side effect Odoo would normally run. Knowing which method to call, and what it does downstream, is the job.
+- Failures that do not look like failures. One transport reports errors with a 200 status. Writes can partly apply. Two people can act on the same record at once. Code that assumes the happy path looks fine in testing and quietly corrupts data in production.
+- Access rights. The API acts as a user, so the integration user's groups decide what works. Testing as an administrator hides exactly the errors your users will hit.
+- Speed. The naive version makes one call per row and crawls. Making it fast is about asking Odoo for aggregates and batches instead of looping.
+- Staying working. Field renames, new required fields, expiring API keys, and the removal of the RPC endpoints in Odoo 22 all land on the integration, not on Odoo.
+None of that is exotic, and none of it shows up in a getting-started example. It is simply the difference between code that calls Odoo and an app people can rely on.
+### Do you need an app, or a script?
+If the goal is to pull a few records into a spreadsheet once, a script is right and the snippets above are a fine start. If people are going to use it daily, on a phone, in a warehouse, with real money attached to the records it writes, the API call is the small part: the screens, the validation, the error handling and the maintenance are the project. That is what we build, as the apps on our work page show, usually in a couple of weeks and for a fixed price.
+Tell us the workflow you want simplified and we will tell you honestly which of the two it is, and what it would take.
 
 ## Odoo 19's JSON-2 API: What Changed and What to Do About XML-RPC
 URL: https://odoowebapps.com/guides/odoo-19-json-2-api
@@ -298,7 +286,7 @@ Odoo 19 added an HTTP JSON API at /json/2/<model>/<method> with bearer API keys,
 
 ### What is the JSON-2 API?
 It is the HTTP API Odoo introduced in version 19. You `POST` a JSON object to `/json/2/<model>/<method>` with an `Authorization: bearer <api key>` header, and you get the method's return value back as JSON with a normal HTTP status code. It replaces the pattern every Odoo integration used before it: authenticate to get a user id, then push everything through one generic `execute_kw` dispatcher over XML-RPC or JSON-RPC.
-It is not REST in the resource sense. The URL names a model and a method, not a resource and a verb: there is no `GET /api/sale.order/42`, you call `/json/2/sale.order/read` with a list of ids. What you gain over the RPC protocols is a normal HTTP surface: real status codes, bearer auth, one request per call, and a `/doc` page on your own database listing the models, fields and methods that database actually exposes.
+It is not REST in the resource sense. The URL names a model and a method, not a resource and a verb. What you gain over the RPC protocols is a normal HTTP surface: real status codes, bearer auth, one request per call, and a `/doc` page on your own database listing the models, fields and methods that database actually exposes.
 ### What does a JSON-2 request look like?
 The URL carries the model and method. The body carries the arguments as named fields, plus `ids` for the records to act on (omitted for model-level methods such as `search_read`) and an optional `context`.
 Errors come back with a 4xx or 5xx status and a JSON object naming the Python exception, its message and arguments, the context used, and a traceback for debugging. That is a real improvement over JSON-RPC, where a failure is an HTTP 200 with an `error` key that naive clients read as success.
@@ -306,7 +294,7 @@ Errors come back with a 4xx or 5xx status and a JSON object naming the Python ex
 On Odoo Online, access to the external API, JSON-2 included, is only available on the Custom pricing plan. It is not available on the One App Free or Standard plans. Self-hosted databases and Odoo.sh are not limited that way. This catches people out: the code is correct, the key looks fine, and the calls still fail because the subscription plan does not include external API access.
 ### How do API keys work in Odoo 19?
 A key is created per user under Preferences, Account Security, New API Key, with a description and a duration. Odoo 19 will not create a key that lasts more than three months, so any production integration needs a rotation routine rather than a key pasted once into a config file. The key value is shown once at creation and cannot be retrieved later.
-Keys can also be rotated programmatically. Generation is restricted to users with Settings access unless you set the system parameter `base.enable_programmatic_api_keys` to `True`, and a user can hold up to 10 programmatically generated keys by default ( `base.programmatic_api_keys_limit`).
+Keys can also be generated and revoked programmatically, which is what a rotation job uses, though Odoo restricts that to privileged users unless a system parameter is changed. Either way, the practical consequence is the one that catches teams out: an integration that nobody maintains will stop working within three months of going live.
 ### One call, one transaction: the rule that changes how you write code
 Every JSON-2 call runs in its own SQL transaction, committed on success and discarded on error. You cannot chain several calls inside one transaction. So a sequence like create an order, then confirm it, is two commits: if the second fails you are left with a draft order, not with nothing.
 The fix is to call a single method that does the whole job. `search_read` is the everyday example (a `search` and a `read` in one transaction, so a record deleted between them cannot break it), and business methods prefixed `action_`, such as `sale.order.action_confirm`, are the same idea for writes. When no such method exists for your sequence, the clean answer is a small module that adds one. This matters most for reservations, payments and stock moves, where a half-finished sequence has real consequences.
@@ -332,12 +320,12 @@ That depends on the API. On Odoo 19's JSON-2 the key is a bearer token in the `A
 The login stays in use with the RPC protocols: a key is not a replacement for the user, it is a replacement for that user's password. It gives the same access to the account, so store it exactly as carefully, but it cannot be used to log in through the web interface.
 ### How long does a key last?
 On Odoo 19, at most three months. Odoo will not create a longer key, so every production integration needs a rotation routine. Shorter is recommended for interactive or externally exposed use, typically a day. Earlier versions did not enforce a maximum, which is why many older integrations hold keys that never expire; those keep working until the database moves to 19.
-Odoo 19 can also generate and revoke keys programmatically through `res.users.apikeys.generate()`, which is what a rotation job uses. By default that is limited to users with Settings access; to allow a plain integration user to rotate its own key, set the system parameter `base.enable_programmatic_api_keys` to `True` under Settings, Technical, System Parameters.
+Keys can be rotated programmatically too, which is how a long-running integration stays alive without someone diarising it. The part worth planning is not the code: it is deciding who owns the rotation, where the new key is stored, and how you find out that a key is about to expire rather than when the app stops.
 ### Which user should hold the key?
 A dedicated integration user, never a person and never an administrator. Every API call runs with that user's access rights and record rules, so a key on an admin account turns a small bug into an unbounded one, and a key on a real employee breaks the day they leave and their account is archived.
 A useful side effect of a named integration user: every record it creates or updates shows that name in Odoo's tracking, so an accountant can see at a glance which changes came from the app and which from a person.
 ### Why is my API key not working?
-In rough order of how often we see each one:
+In rough order of how often we see each one. The first two are configuration, not code, and account for most cases:
 - The plan does not include API access. On Odoo Online the external API is only on the Custom plan, not One App Free or Standard. The code is fine; the subscription is the blocker.
 - Wrong database name. On Odoo Online it is usually the subdomain, but not always. A quick `common.version()` or `GET /web/version` proves the URL before you debug the credentials.
 - The key expired. Three months maximum on Odoo 19. Check the Account Security tab for the key's duration.

@@ -20,10 +20,10 @@ export type GuideMeta = {
 export const GUIDES: GuideMeta[] = [
   {
     slug: "odoo-api-examples-python-javascript",
-    title: "Odoo API Examples: Python, JavaScript and curl That Actually Run",
+    title: "Odoo API Examples: What a Call Looks Like, and What Takes the Time",
     seoTitle: "Odoo API Examples: Python, JavaScript, curl",
     description:
-      "Working Odoo API calls in Python, Node and curl for JSON-2, JSON-RPC and XML-RPC: authenticate, search_read, create, write and confirm an order, with the domain syntax and the mistakes that break integrations in production.",
+      "What an Odoo API call looks like in JSON-2, JSON-RPC and XML-RPC, which transport your version needs, and why the calls are the easy part: access rights, write-back safety, speed and staying working are the real project.",
     datePublished: "2026-09-22",
   },
   {
