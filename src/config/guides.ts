@@ -15,11 +15,25 @@ export type GuideMeta = {
   datePublished: string; // ISO date, YYYY-MM-DD
   /** Set when the article is substantively revised. */
   dateModified?: string;
+  /** Topic group, used to section the guides index. */
+  topic: GuideTopic;
 };
+
+export type GuideTopic = "api" | "cost" | "build" | "apps" | "adoption";
+
+/** Display order and labels for the guides index. */
+export const GUIDE_TOPICS: { id: GuideTopic; label: string; blurb: string }[] = [
+  { id: "api", label: "Connecting to Odoo", blurb: "How Odoo's API works, which one your version has, and what it means for an integration." },
+  { id: "cost", label: "Cost and hiring", blurb: "What things actually cost, and who to hire for which kind of work." },
+  { id: "build", label: "Build, customise or configure", blurb: "When a change belongs inside Odoo, and when it belongs in an app next to it." },
+  { id: "apps", label: "Apps and portals", blurb: "The specific builds people ask for most: picking, portals, dashboards, approvals." },
+  { id: "adoption", label: "When Odoo is the problem", blurb: "Signals that a team needs a simpler interface rather than more training." },
+];
 
 export const GUIDES: GuideMeta[] = [
   {
     slug: "odoo-api-examples-python-javascript",
+    topic: "api",
     title: "Odoo API Examples: What a Call Looks Like, and What Takes the Time",
     seoTitle: "Odoo API Examples: Python, JavaScript, curl",
     description:
@@ -28,6 +42,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "odoo-19-json-2-api",
+    topic: "api",
     title: "Odoo 19's JSON-2 API: What Changed and What to Do About XML-RPC",
     seoTitle: "Odoo 19 JSON-2 API: What Changed",
     description:
@@ -36,6 +51,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "odoo-api-key-setup",
+    topic: "api",
     title: "Odoo API Keys: How to Create, Scope and Rotate Them",
     seoTitle: "Odoo API Key: Create, Scope and Rotate",
     description:
@@ -44,6 +60,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "odoo-customization-vs-custom-apps",
+    topic: "build",
     title: "Odoo Customization vs. a Custom Web App: What's the Difference?",
     seoTitle: "Odoo Customization vs Custom Web App",
     description:
@@ -52,6 +69,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "odoo-api-integration-explained",
+    topic: "api",
     title: "How Odoo's API Actually Works (JSON-2, JSON-RPC, XML-RPC and the ORM)",
     seoTitle: "Odoo API Integration: XML-RPC, JSON-RPC, JSON-2",
     description:
@@ -61,6 +79,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "what-happens-when-odoo-upgrades",
+    topic: "build",
     title: "What Happens to a Custom App When Odoo Upgrades?",
     seoTitle: "Odoo Upgrades and Custom Apps: What Breaks",
     description:
@@ -70,6 +89,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "how-much-does-a-custom-odoo-app-cost",
+    topic: "cost",
     title: "How Much Does a Custom Odoo App Cost?",
     seoTitle: "Custom Odoo App Cost: Real Prices",
     description:
@@ -78,6 +98,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "signs-your-team-needs-a-simpler-odoo-interface",
+    topic: "adoption",
     title: "Signs Your Team Needs a Simpler Interface Than Odoo's Backend",
     seoTitle: "Odoo Too Complicated? Signs You Need a Simpler UI",
     description:
@@ -86,6 +107,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "odoo-write-back-vs-read-only-integrations",
+    topic: "api",
     title: "Read-Only vs. Write-Back Odoo Integrations: Which Do You Need?",
     seoTitle: "Read-Only vs Write-Back Odoo Integrations",
     description:
@@ -94,6 +116,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "odoo-rest-api-explained",
+    topic: "api",
     title: "Odoo REST API: What Exists in Odoo 19 (and What Came Before)",
     seoTitle: "Odoo REST API: JSON-2, JSON-RPC and XML-RPC",
     description:
@@ -103,6 +126,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "odoo-barcode-app-buy-or-build",
+    topic: "apps",
     title: "Odoo Barcode App: Use Odoo's, or Build a Custom One?",
     seoTitle: "Odoo Barcode App: Use Odoo's or Build Custom",
     description:
@@ -111,6 +135,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "odoo-customer-self-service-portal",
+    topic: "apps",
     title: "How to Give Customers a Self-Service Portal Without Rebuilding Odoo's Frontend",
     seoTitle: "Odoo Customer Portal: Built-in vs Custom",
     description:
@@ -119,6 +144,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "odoo-developer-vs-web-app-studio",
+    topic: "cost",
     title: "Hiring an Odoo Developer vs. a Web App Studio: What's the Difference?",
     seoTitle: "Hire an Odoo Developer or a Web App Studio?",
     description:
@@ -127,6 +153,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "odoo-studio-limitations",
+    topic: "build",
     title: "Odoo Studio Can't Do This: Where the No-Code Builder Hits a Wall",
     seoTitle: "Odoo Studio Limitations: What It Can't Do",
     description:
@@ -135,6 +162,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "odoo-implementation-partner-cost",
+    topic: "cost",
     title: "Odoo Implementation Partner Cost (And When You Don't Need One)",
     seoTitle: "Odoo Implementation Partner Cost",
     description:
@@ -143,6 +171,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "why-is-my-odoo-dashboard-slow",
+    topic: "apps",
     title: "Why Your Odoo Dashboard Is Slow (and When a Standalone One Fixes It)",
     seoTitle: "Why Your Odoo Dashboard Is Slow",
     description:
@@ -151,6 +180,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "odoo-purchase-approval-mobile-app",
+    topic: "apps",
     title: "Purchase Approvals Stuck in Odoo's Backend? A Simple Mobile Approve/Reject App",
     seoTitle: "Odoo Purchase Approval App for Mobile",
     description:
@@ -159,6 +189,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "odoo-api-multi-company-filtering",
+    topic: "api",
     title: "Why Your Odoo API Call Returns Data From the Wrong Company (and How to Scope It Correctly)",
     seoTitle: "Odoo API Multi-Company Filtering",
     description:
@@ -167,6 +198,7 @@ export const GUIDES: GuideMeta[] = [
   },
   {
     slug: "why-sales-reps-dont-use-odoo-mobile",
+    topic: "adoption",
     title: "Reps Won't Use Odoo on Their Phones? Build the 3 Screens They Actually Need",
     seoTitle: "Odoo Mobile Sales App: Why Reps Don't Use Odoo",
     description:

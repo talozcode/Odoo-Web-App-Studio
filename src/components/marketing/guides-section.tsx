@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { GUIDES } from "@/config/guides";
+import { Plug, Wallet, Wrench, LayoutGrid, type LucideIcon } from "lucide-react";
+import { GUIDES, type GuideTopic } from "@/config/guides";
 import { SectionHeading } from "@/components/ui/section-heading";
 
 const FEATURED_SLUGS = [
@@ -15,9 +16,25 @@ const FEATURED = FEATURED_SLUGS.map((slug) => GUIDES.find((g) => g.slug === slug
   (guide): guide is NonNullable<typeof guide> => Boolean(guide)
 );
 
+const TOPIC_ICON: Record<GuideTopic, LucideIcon> = {
+  api: Plug,
+  cost: Wallet,
+  build: Wrench,
+  apps: LayoutGrid,
+  adoption: Wrench,
+};
+
+const TOPIC_TONE: Record<GuideTopic, "teal" | "purple"> = {
+  api: "purple",
+  cost: "teal",
+  build: "purple",
+  apps: "teal",
+  adoption: "purple",
+};
+
 /**
- * Six guide titles in two columns, full width, titles only. Deliberately a
- * different shape from the FAQ that follows it.
+ * Six guides as cards with a topic icon chip, matching the /guides index so
+ * the two never look like different sites.
  */
 export function GuidesSection() {
   return (
@@ -37,18 +54,33 @@ export function GuidesSection() {
           </Link>
         </div>
 
-        <ul className="mt-10 grid grid-cols-1 gap-x-16 border-t border-[var(--border)] md:grid-cols-2">
-          {FEATURED.map((guide) => (
-            <li key={guide.slug} className="border-b border-[var(--border)]">
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {FEATURED.map((guide) => {
+            const Icon = TOPIC_ICON[guide.topic];
+            const toneVar = TOPIC_TONE[guide.topic] === "teal" ? "var(--odoo-teal)" : "var(--odoo-purple)";
+            return (
               <Link
+                key={guide.slug}
                 href={`/guides/${guide.slug}`}
-                className="block py-5 text-lg font-medium leading-snug text-[var(--foreground)] hover:text-[var(--odoo-teal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-md"
+                className="group flex flex-col rounded-xl border border-[var(--border)] p-5 transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
               >
-                {guide.title}
+                <span
+                  aria-hidden="true"
+                  className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg"
+                  style={{ backgroundColor: `color-mix(in oklab, ${toneVar} 12%, transparent)` }}
+                >
+                  <Icon className="h-4 w-4" style={{ color: toneVar }} />
+                </span>
+                <h3 className="text-base font-semibold leading-snug text-[var(--foreground)] group-hover:text-[var(--odoo-teal)]">
+                  {guide.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--muted-foreground)]">
+                  {guide.description}
+                </p>
               </Link>
-            </li>
-          ))}
-        </ul>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

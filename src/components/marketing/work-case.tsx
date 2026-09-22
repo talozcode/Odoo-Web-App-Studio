@@ -34,7 +34,12 @@ export function WorkCaseRow({ workCase, index, headingLevel = "h3" }: WorkCaseRo
         </p>
       </div>
 
-      <div className={cn("flex flex-col gap-6", flip && "lg:order-1")}>
+      <div
+        className={cn(
+          "flex flex-col gap-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6",
+          flip && "lg:order-1"
+        )}
+      >
         {image ? (
           <Image
             src={image.src}
@@ -45,12 +50,14 @@ export function WorkCaseRow({ workCase, index, headingLevel = "h3" }: WorkCaseRo
             className="h-auto w-full rounded-lg border border-[var(--border)]"
           />
         ) : (
-          <WorkFlowDiagram
-            users={workCase.diagram.users}
-            app={workCase.diagram.app}
-            models={workCase.models}
-            kind={workCase.diagram.kind}
-          />
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--background)] p-4">
+            <WorkFlowDiagram
+              users={workCase.diagram.users}
+              app={workCase.diagram.app}
+              models={workCase.models}
+              kind={workCase.diagram.kind}
+            />
+          </div>
         )}
 
         <dl className="divide-y divide-[var(--border)] border-t border-[var(--border)] text-sm">

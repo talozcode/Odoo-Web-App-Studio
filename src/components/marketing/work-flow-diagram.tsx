@@ -12,7 +12,7 @@ type WorkFlowDiagramProps = {
 };
 
 const W = 520;
-const H = 150;
+const H = 170;
 const NODE_Y = 34;
 const NODE_H = 40;
 
@@ -146,9 +146,10 @@ export function WorkFlowDiagram({ users, app, models, kind = "phone" }: WorkFlow
       {modelLines.map((model, index) => (
         <text
           key={model}
-          x={odooX}
+          x={odooX + odooW}
           y={NODE_Y + NODE_H + 20 + index * 15}
           fontSize={10.5}
+          textAnchor="end"
           fontFamily="var(--font-mono), ui-monospace, monospace"
           fill="var(--odoo-purple)"
         >

@@ -1,13 +1,21 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
+import {
+  Plug,
+  Wallet,
+  Wrench,
+  LayoutGrid,
+  AlertTriangle,
+  type LucideIcon,
+} from "lucide-react";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbSchema } from "@/lib/schema";
-import { GUIDES } from "@/config/guides";
+import { GUIDES, GUIDE_TOPICS, type GuideTopic } from "@/config/guides";
 import { SITE_URL } from "@/config/site";
-
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = pageMetadata({
   title: "Odoo Guides: API, Cost, Upgrades & Customization",
@@ -15,6 +23,24 @@ export const metadata: Metadata = pageMetadata({
     "Practical, technically accurate guides on Odoo integration, customization, API development, upgrade risk, and the real cost of a custom Odoo app.",
   path: "/guides",
 });
+
+const TOPIC_ICON: Record<GuideTopic, LucideIcon> = {
+  api: Plug,
+  cost: Wallet,
+  build: Wrench,
+  apps: LayoutGrid,
+  adoption: AlertTriangle,
+};
+
+// Alternate the two brand colours across topic sections instead of one
+// repeated everywhere; purple stays reserved for Odoo-side meaning.
+const TOPIC_TONE: Record<GuideTopic, "teal" | "purple"> = {
+  api: "purple",
+  cost: "teal",
+  build: "purple",
+  apps: "teal",
+  adoption: "purple",
+};
 
 export default function GuidesIndexPage() {
   const itemListSchema = {
@@ -49,27 +75,60 @@ export default function GuidesIndexPage() {
           </div>
         </section>
 
-        <section>
-          <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
-            <ul className="grid grid-cols-1 gap-x-16 md:grid-cols-2">
-              {GUIDES.map((guide) => (
-                <li key={guide.slug} className="border-b border-[var(--border)]">
-                  <Link
-                    href={`/guides/${guide.slug}`}
-                    className="group block py-7 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-md"
+        {GUIDE_TOPICS.map((topic, topicIndex) => {
+          const guides = GUIDES.filter((g) => g.topic === topic.id);
+          if (guides.length === 0) return null;
+          const Icon = TOPIC_ICON[topic.id];
+          const tone = TOPIC_TONE[topic.id];
+          const toneVar = tone === "teal" ? "var(--odoo-teal)" : "var(--odoo-purple)";
+
+          return (
+            <section
+              key={topic.id}
+              className={cn(
+                "border-b border-[var(--border)]",
+                topicIndex % 2 === 1 && "bg-[var(--surface)]"
+              )}
+            >
+              <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+                <div className="flex items-start gap-4">
+                  <span
+                    aria-hidden="true"
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+                    style={{ backgroundColor: `color-mix(in oklab, ${toneVar} 12%, transparent)` }}
                   >
-                    <h2 className="text-xl font-semibold leading-snug text-[var(--foreground)] group-hover:text-[var(--odoo-teal)]">
-                      {guide.title}
+                    <Icon className="h-5 w-5" style={{ color: toneVar }} />
+                  </span>
+                  <div>
+                    <h2 className="text-xl font-semibold tracking-tight text-[var(--foreground)] sm:text-2xl">
+                      {topic.label}
                     </h2>
-                    <p className="mt-2 text-sm leading-relaxed text-[var(--muted-foreground)]">
-                      {guide.description}
+                    <p className="mt-1 max-w-xl text-sm leading-relaxed text-[var(--muted-foreground)]">
+                      {topic.blurb}
                     </p>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+                  </div>
+                </div>
+
+                <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {guides.map((guide) => (
+                    <Link
+                      key={guide.slug}
+                      href={`/guides/${guide.slug}`}
+                      className="group flex flex-col rounded-xl border border-[var(--border)] bg-[var(--background)] p-5 transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
+                    >
+                      <h3 className="text-base font-semibold leading-snug text-[var(--foreground)] group-hover:text-[var(--odoo-teal)]">
+                        {guide.title}
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-[var(--muted-foreground)]">
+                        {guide.description}
+                      </p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </section>
+          );
+        })}
       </main>
 
       <SiteFooter />
