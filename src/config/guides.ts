@@ -10,6 +10,8 @@ export type GuideMeta = {
   title: string;
   description: string;
   datePublished: string; // ISO date, YYYY-MM-DD
+  /** Set when the article is substantively revised. */
+  dateModified?: string;
 };
 
 export const GUIDES: GuideMeta[] = [

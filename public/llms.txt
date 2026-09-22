@@ -61,6 +61,10 @@ Eight anonymised, in-production apps and automations for our clients on Odoo 18:
 - [Privacy Policy](https://odoowebapps.com/privacy): What the contact form collects and how it's handled (sent by email to the studio; the only analytics is cookieless, aggregate Vercel Web Analytics, no cross-site tracking or ad pixels).
 - [Terms of Service](https://odoowebapps.com/terms): Basic engagement terms: quote-before-work, scoped Odoo API access, no fabricated SLAs.
 
+## Full text
+
+The complete text of every guide and use-case page is at https://odoowebapps.com/llms-full.txt.
+
 ## Contact
 
 Start a project via the contact form at https://odoowebapps.com/#contact.

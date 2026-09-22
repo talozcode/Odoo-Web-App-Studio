@@ -60,7 +60,7 @@ export default function Guide() {
 
       <GuideSection heading="What does a small, single-screen app typically cost?">
         <p>
-          The smallest tier ({tinyTier.name}) starts at {tinyTier.price},
+          The smallest tier ({tinyTier.name}) is priced {tinyTier.price.toLowerCase()},
           for something like {tinyTier.examples.join(", ").toLowerCase()}.
           These are one-screen, one-workflow builds: a single Odoo model,
           a single clear action, no user roles to manage.

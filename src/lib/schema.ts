@@ -7,22 +7,47 @@
  * copy, so the structured data can never drift from what's actually printed
  * on the page.
  */
-import { BRAND_NAME, BRAND_TAGLINE } from "@/config/brand";
+import { BRAND_NAME, BRAND_TAGLINE, FOUNDER } from "@/config/brand";
 import { SITE_URL, SEO } from "@/config/site";
 import type { ExampleApp } from "@/config/examples";
 import type { FaqItem } from "@/config/faq";
 
 const LOGO_URL = `${SITE_URL}/brand/odoowebapps-logo-horizontal-transparent.png`;
+const ORGANIZATION_ID = `${SITE_URL}/#organization`;
+const FOUNDER_ID = `${SITE_URL}/#founder`;
+
+export function personSchema() {
+  return {
+    "@type": "Person",
+    "@id": FOUNDER_ID,
+    name: FOUNDER.name,
+    jobTitle: FOUNDER.jobTitle,
+    url: FOUNDER.url,
+    worksFor: { "@id": ORGANIZATION_ID },
+    knowsAbout: ["Odoo", "Odoo API", "JSON-RPC", "ERP integration", "Web applications"],
+    ...(FOUNDER.sameAs.length > 0 ? { sameAs: FOUNDER.sameAs } : {}),
+  };
+}
 
 export function organizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": ORGANIZATION_ID,
     name: BRAND_NAME,
     url: SITE_URL,
     logo: LOGO_URL,
     description: BRAND_TAGLINE,
     slogan: BRAND_TAGLINE,
+    foundingDate: "2026",
+    founder: personSchema(),
+    knowsAbout: ["Odoo", "Odoo API integration", "Odoo web apps", "ERP front ends"],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "sales",
+      url: `${SITE_URL}/#contact`,
+      availableLanguage: ["English"],
+    },
   };
 }
 
@@ -118,14 +143,15 @@ export function breadcrumbSchema(items: { name: string; url: string }[]) {
 }
 
 /**
- * TechArticle schema for a guide. Attributed to the brand, never to a
- * fictional named author, since no real named author/credentials exist.
+ * TechArticle schema for a guide, written by the founder and published by
+ * the studio. dateModified falls back to datePublished.
  */
 export function articleSchema(params: {
   title: string;
   description: string;
   url: string;
   datePublished: string;
+  dateModified?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -134,12 +160,10 @@ export function articleSchema(params: {
     description: params.description,
     url: params.url,
     datePublished: params.datePublished,
-    dateModified: params.datePublished,
-    author: {
-      "@type": "Organization",
-      name: BRAND_NAME,
-      url: SITE_URL,
-    },
+    dateModified: params.dateModified ?? params.datePublished,
+    image: `${SITE_URL}/opengraph-image.png`,
+    inLanguage: "en",
+    author: personSchema(),
     publisher: {
       "@type": "Organization",
       name: BRAND_NAME,

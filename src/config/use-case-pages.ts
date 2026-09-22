@@ -14,20 +14,23 @@ export type UseCasePageMeta = {
   navLabel: string;
   /** Which EXAMPLE_APPS entry this page expands on, if any. */
   exampleId?: ExampleAppId;
+  /** Last substantive change to the page, YYYY-MM-DD, for the sitemap. */
+  updated: string;
 };
 
 export const USE_CASE_PAGES: UseCasePageMeta[] = [
-  { slug: "odoo-warehouse-app", navLabel: "Warehouse app", exampleId: "warehouse-picking" },
-  { slug: "odoo-sales-app", navLabel: "Sales / mobile ordering app", exampleId: "sales-app" },
-  { slug: "odoo-dashboard", navLabel: "Management dashboard", exampleId: "management-dashboard" },
+  { slug: "odoo-warehouse-app", navLabel: "Warehouse app", exampleId: "warehouse-picking", updated: "2026-09-22" },
+  { slug: "odoo-sales-app", navLabel: "Sales / mobile ordering app", exampleId: "sales-app", updated: "2026-09-22" },
+  { slug: "odoo-dashboard", navLabel: "Management dashboard", exampleId: "management-dashboard", updated: "2026-09-22" },
   {
     slug: "odoo-customer-portal",
     navLabel: "Customer portal",
     exampleId: "customer-ordering-portal",
+    updated: "2026-09-22",
   },
-  { slug: "odoo-supplier-portal", navLabel: "Supplier portal", exampleId: "supplier-portal" },
-  { slug: "custom-odoo-web-app", navLabel: "Custom Odoo web app", exampleId: "custom-workflow" },
-  { slug: "odoo-api-development", navLabel: "Odoo API development" },
+  { slug: "odoo-supplier-portal", navLabel: "Supplier portal", exampleId: "supplier-portal", updated: "2026-09-22" },
+  { slug: "custom-odoo-web-app", navLabel: "Custom Odoo web app", exampleId: "custom-workflow", updated: "2026-09-22" },
+  { slug: "odoo-api-development", navLabel: "Odoo API development", updated: "2026-09-22" },
 ];
 
 /**

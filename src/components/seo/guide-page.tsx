@@ -8,6 +8,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { CONTACT_SECTION_ID, SITE_URL } from "@/config/site";
 import { articleSchema, breadcrumbSchema } from "@/lib/schema";
 import type { GuideMeta } from "@/config/guides";
+import { BRAND_NAME, FOUNDER } from "@/config/brand";
 
 type RelatedLink = {
   href: string;
@@ -36,6 +37,14 @@ export function GuideSection({
   );
 }
 
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString("en-GB", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
 export function GuidePageTemplate({
   meta,
   children,
@@ -53,11 +62,7 @@ export function GuidePageTemplate({
     { name: meta.title, url: canonicalUrl },
   ];
 
-  const readableDate = new Date(meta.datePublished).toLocaleDateString("en-GB", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const readableDate = formatDate(meta.datePublished);
 
   return (
     <>
@@ -67,6 +72,7 @@ export function GuidePageTemplate({
           description: meta.description,
           url: canonicalUrl,
           datePublished: meta.datePublished,
+          dateModified: meta.dateModified,
         })}
       />
       <JsonLd data={breadcrumbSchema(breadcrumbItems)} />
@@ -109,7 +115,8 @@ export function GuidePageTemplate({
             {meta.title}
           </h1>
           <p className="mt-4 text-sm text-[var(--muted-foreground)]">
-            Published {readableDate}
+            By {FOUNDER.name}, {BRAND_NAME}. Published {readableDate}
+            {meta.dateModified ? `, updated ${formatDate(meta.dateModified)}` : ""}.
           </p>
 
           <div className="prose-content mt-8 flex flex-col gap-8 text-base leading-relaxed text-[var(--muted-foreground)]">

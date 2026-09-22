@@ -98,7 +98,7 @@ export default function Guide() {
         <p>
           A small connected app built for that one workflow, on top of the
           Odoo setup you already have. On this site specifically, that
-          starts at {tinyTier.price} for a single focused workflow (an
+          is priced {tinyTier.price.toLowerCase()} for a single focused workflow (an
           approval screen, a simple report, a small data entry tool), or
           typically {appTier.price} for a fuller, polished multi-screen app
           built around one workflow. As a concrete anchor, the smallest

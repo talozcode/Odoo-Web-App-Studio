@@ -1,0 +1,447 @@
+# OdooWebApps, full text
+
+> Every guide and use-case page on https://odoowebapps.com, in full, for answer engines. The short index is at https://odoowebapps.com/llms.txt. OdooWebApps builds small web apps connected to a customer's existing Odoo through its JSON-RPC API; it does not replace Odoo and is not an implementation partner. Written by Tal Oz.
+
+# Use-case pages
+
+## A faster picking app for your Odoo warehouse
+URL: https://odoowebapps.com/odoo-warehouse-app
+
+Odoo Inventory already tracks every stock move correctly. What's usually slow isn't the data model. It's asking a picker to work through general-purpose warehouse screens built for every operation Odoo supports, when their actual job is one thing: pick this order, confirm each line, done.
+
+### How a picking app connects to Odoo Inventory
+Under the hood, a warehouse pick is a `stock.picking` record made up of one or more `stock.move.line` lines, each one a product, a quantity to move, and a source and destination location. A picking app reads the pickings assigned to a user or a warehouse (usually filtered to "ready" transfers) through Odoo's API, shows them as a simple order list, and lets the picker scan a barcode to jump straight to the matching line.
+Confirming a line updates the quantity done on that move line; validating the whole transfer calls the same underlying action Odoo's own interface uses, so stock quantities, reservations, and any downstream automation (like triggering the next step in a delivery route) all behave exactly as they would from Odoo itself. The app is a different front door, not a different set of rules.
+### What changes for the warehouse team
+The practical difference is what's on screen. Instead of a desktop-oriented list view with columns for fields the picker never uses, they see the order they're working on, the lines still outstanding, and a big scan target. Buttons are sized for a phone or handheld scanner held in one hand, not a mouse.
+Training time drops correspondingly: there's effectively one screen to learn, and it mirrors the physical task (walk the aisle, scan the item, confirm the count) rather than a data-entry form.
+### Typical scope and timeline
+A focused first version (one warehouse, one operation type, scan-to-confirm with no lot/serial tracking) is the kind of build the starting price below reflects. Adding lot/serial capture, backorder handling for partial picks, or supporting multiple warehouses with different flows each add scope, and are quoted after a short conversation about what the warehouse actually does day to day.
+As a rough sense of pace: a first working version of a single-flow picking app is realistically a matter of weeks, not months, once the relevant Odoo models and access are confirmed. But any specific timeline should come from an actual scoping conversation, not a number on a landing page.
+
+### Questions about this use case
+**Does this replace Odoo's own Barcode app?** Not necessarily. Odoo's Barcode app is genuinely good and handles a wide range of warehouse operations. A dedicated picking app makes sense when a warehouse only needs one or two of those flows (usually delivery order picking) and wants a screen with zero extra taps, zero unrelated menus, and wording matched to how the team actually talks about the job.
+**Can it handle lots and serial numbers?** Yes, if the products it's picking are tracked by lot or serial number in Odoo. That requirement changes the scope a little, since the interface needs a step to select or scan the correct lot/serial before a line can be marked picked, so it's worth mentioning up front during scoping.
+**Does it work with a low-connectivity or Wi-Fi-only warehouse?** The app itself is a normal web app, so it needs a network connection to read pending pickings and write confirmations back to Odoo. For warehouses with patchy Wi-Fi, the practical fix is usually better AP placement rather than building offline sync, since offline-first inventory apps introduce real conflict-resolution risk (two people picking the same line while offline). We'll flag this honestly if it comes up during scoping rather than quietly building something fragile.
+**What happens with partially picked or backordered lines?** Odoo's own backorder logic (splitting a transfer when not everything was available) still applies: the app calls the same underlying validation Odoo uses, it just presents the decision in a simpler screen instead of Odoo's transfer form.
+
+## A mobile ordering app for your Odoo sales reps
+URL: https://odoowebapps.com/odoo-sales-app
+
+Odoo's Sales app is built for back-office order management: quotations, terms, discounts, approval flows. A rep standing in a customer's shop with a phone doesn't need any of that. They need to pick a customer, add what they're buying, and submit, in under a minute.
+
+### How it connects to Odoo Sales
+The app looks up customers as Odoo `res.partner` records (usually scoped to that rep's assigned accounts), lists sellable `product.product` records with whatever pricelist applies to the selected customer, and on submit creates a `sale.order` with its order lines through the same API path Odoo's own interface uses internally.
+Because it's reading pricing and stock from Odoo rather than a cached copy, a rep sees the same numbers a back-office user would see at that moment, with no separate price list to keep in sync by hand.
+### What changes for the sales team
+Orders get entered once, by the person who took them, at the point they were taken, not scribbled on paper and re-typed into Odoo later that evening. That removes a transcription step where quantities and product names commonly get mixed up.
+It also means stock and order data in Odoo reflects reality closer to real time, which matters for anything downstream that depends on it: replenishment planning, delivery scheduling, or a manager checking today's numbers.
+### Typical scope and timeline
+A first version covering customer selection, a product catalog with pricing, and order submission is the shape the starting price below reflects. Multiple price lists per customer, custom discount rules, photo attachments, or an offline mode each add real scope and are quoted once the actual sales process is understood. This is a case where a short call about how the team currently sells is genuinely more useful than a longer landing page.
+
+### Questions about this use case
+**Can reps see live stock and each customer's pricing?** Yes, the app reads current stock levels and can apply the customer's assigned pricelist the same way Odoo's own Sales app would, since it's calling the same pricing and stock logic through the API rather than reimplementing it.
+**Does it work with no signal in the field?** The core version is online-first: a rep needs a connection to submit an order. If reps regularly work in areas with no signal at all, that's worth raising during scoping. A limited offline queue (save locally, submit when back online) is possible, but it adds real complexity around handling stock and price changes between when the order was drafted and when it's actually submitted.
+**Does the order go straight to a confirmed sales order?** That's a scoping decision, not a technical constraint. Some teams want orders to land as confirmed sale.order records immediately; others want them created as quotations for a back-office review before confirmation. Both are the same underlying API call with a different final state.
+**Can it show a rep their own order history or targets?** It can, if that data already exists in Odoo (past sale.order records for that salesperson, for instance). Anything beyond what's stored in Odoo, like a bespoke commission calculation, would need to be defined explicitly as its own small feature.
+
+## A dashboard with the numbers you actually check
+URL: https://odoowebapps.com/odoo-dashboard
+
+Odoo's reporting tools (pivot tables, generic dashboards, spreadsheet exports) can answer almost any question, which is exactly why they're not built to answer one question fast. A focused dashboard skips the navigation and filters and shows the handful of numbers a specific manager actually looks at every day.
+
+### How it pulls data from Odoo
+A dashboard like this reads from the same models Odoo's own reporting uses: sales analysis (`sale.report` ), on-hand stock (`stock.quant`), open purchase orders (`purchase.order`), invoiced revenue ( `account.move`), using Odoo's search and aggregation methods (`search_read`, `read_group`) rather than duplicating that data anywhere.
+The aggregation and layout (this week's sales next to margin next to open POs) happens in the dashboard itself, so the numbers can be arranged exactly the way a specific manager thinks about the business, instead of however Odoo's generic dashboard widgets happen to group them.
+### What changes for management
+Instead of opening three different Odoo apps and applying filters to answer "how's this week going," the answer is one glance. That matters most for numbers checked daily or multiple times a day: the small friction of navigating Odoo's full interface adds up, and often means the check happens less often than it should.
+### Typical scope and timeline
+A first version (four to six KPIs, one refresh cadence, one audience) is what the starting price below reflects. Dashboards with role-based views (a warehouse manager sees different numbers than a sales manager), drill-down into underlying records, or metrics that require custom calculation logic beyond what Odoo already computes are scoped based on which of those apply.
+
+### Questions about this use case
+**Does this need write access to Odoo?** No. A management dashboard is a read-only integration: it queries Odoo for data and displays it, and never creates or changes records. That makes it lower-risk to build and easier to reason about than an app that writes back.
+**How often does the data refresh?** That's a scoping choice. Some dashboards query Odoo live on every page load; others refresh on a schedule (every few minutes, or hourly) to keep load on the Odoo server predictable. For most \
+**Can I put this on a shared screen or TV in the office?** Yes, a dashboard built this way is just a web page, so it can run full-screen on a browser on any TV or tablet, auto-refreshing on its own schedule with no one needing to touch it.
+**What if I want to add another metric later?** Adding a metric that's already a standard Odoo field or report is usually a small, contained change, since the dashboard already has the data-fetching plumbing in place. A metric that requires new custom logic or a new Odoo field is scoped like any other addition.
+
+## A branded ordering portal your customers actually reorder from
+URL: https://odoowebapps.com/odoo-customer-portal
+
+Odoo ships with a customer portal, and it works, but it looks and behaves like Odoo, and it's built to expose a bit of everything (quotes, invoices, tickets) rather than to make repeat ordering effortless for one specific type of customer. A dedicated portal can be branded to your business and narrowed to exactly the reordering flow your customers actually use.
+
+### How it connects to Odoo
+A customer's portal login is tied to their `res.partner` record in Odoo. Once authenticated, the portal reads the products and pricing that apply to that specific customer (respecting whatever pricelist, minimum order quantities, or hidden-product rules are already set up in Odoo) and, on checkout, creates a `sale.order` the same way any other order in Odoo would be created.
+Because the underlying commercial rules (pricing, what a given customer is allowed to buy) already live in Odoo, the portal doesn't duplicate that logic; it just presents it through a simpler, faster interface than navigating Odoo directly.
+### What changes for the business and its customers
+For wholesale, B2B, or repeat-order businesses, this usually replaces a mix of phone calls, emails, and WhatsApp messages for standard reorders. Customers who order the same handful of products regularly can do it themselves in under a minute, and the order lands in Odoo with no manual entry by staff.
+For the business, that's fewer orders keyed in by hand (and fewer transcription errors), and an accurate picture in Odoo of demand as it happens rather than as it's later typed in.
+### Typical scope and timeline
+This is naturally one of the larger of the six example builds, since it touches three separate concerns (authentication, a per-customer catalog, and checkout) each of which needs to be right. A first version covering those three, for one type of customer with one set of ordering rules, is what the starting price below reflects; multiple customer tiers, payment collection, or approval steps before an order is confirmed each add scope.
+
+### Questions about this use case
+**Do customers need Odoo user logins?** No, not in the sense of full Odoo backend accounts. Customers authenticate into the portal itself, and the portal maps their login to the right res.partner record behind the scenes when it talks to Odoo. What that login looks like (email + password, a magic link, an existing account system) is a scoping decision.
+**Can different customers see different products or prices?** Yes, this is one of the more common reasons businesses want a dedicated portal rather than Odoo's built-in one. The portal can respect each customer's assigned pricelist and, if configured, show only the subset of products relevant to that account.
+**Can it show order history and invoices?** Yes, since past sale.order and account.move records for that customer already exist in Odoo. The portal reads and displays them rather than recreating that data anywhere else.
+**Can it integrate with a payment gateway?** It can, but that's treated as its own explicit piece of scope rather than an assumed default, since it involves a third-party payment provider and its own compliance considerations (PCI scope, refund handling) on top of the Odoo integration itself.
+
+## A supplier portal built on your Odoo purchase orders
+URL: https://odoowebapps.com/odoo-supplier-portal
+
+Giving external suppliers direct access to Odoo is usually the wrong move: it's unfamiliar to them, and it exposes far more than they need. Most purchase order back-and-forth (confirm this, we can't do that quantity, it'll ship Friday) can instead happen through a narrow portal that shows a supplier exactly their own open orders and nothing else.
+
+### How it connects to Odoo Purchase
+The portal reads `purchase.order` and `purchase.order.line` records filtered to the logged-in supplier's `res.partner` record, showing open orders and what's expected on each line. When a supplier confirms an order or updates a date, that action calls the same underlying methods Odoo's own Purchase app uses (like confirming a PO), so the order's state in Odoo stays accurate without anyone on your team re-entering what the supplier said over email.
+### What changes for procurement
+Purchase order status becomes something your team can trust at a glance instead of something scattered across an inbox: a confirmed order in Odoo means the supplier actually confirmed it, not that someone remembered to update the record after a phone call. That matters most for businesses juggling more than a handful of active suppliers at once.
+### Typical scope and timeline
+A first version (one login per supplier, their open orders, confirm and date-update actions) is what the starting price below reflects. Letting suppliers attach documents, handle partial shipments, or manage multiple contacts per supplier company are each additional scope, quoted once the actual purchasing process is understood.
+
+### Questions about this use case
+**Can a supplier see other suppliers' orders?** No. Each supplier's login is scoped to their own purchase orders only, the same way Odoo's own access rules would restrict a portal user to their own records.
+**Can suppliers update expected delivery dates themselves?** Yes, if that's part of the scope: the portal can let a supplier propose or confirm a delivery date, which writes back to the relevant field on the purchase order lines so your team sees it without chasing an email reply.
+**Does this replace RFQ or price negotiation in Odoo?** No. This portal is for the confirm-and-fulfil stage after a purchase order already exists, not for quote requests, supplier price comparison, or negotiation, which stay inside Odoo's Purchase app or your existing process.
+**What about suppliers who aren't comfortable with a screen or scanner?** A supplier portal only helps if suppliers will actually use it. For a supplier base that's more comfortable with a phone call or a printed PO, it's worth being honest that the portal will only reduce email/WhatsApp traffic from the suppliers who adopt it, which is exactly the kind of thing worth discussing before committing to scope.
+
+## A custom web app for your specific Odoo workflow
+URL: https://odoowebapps.com/custom-odoo-web-app
+
+Not every workflow fits neatly into warehouse picking, sales ordering, a dashboard, or a portal. Expense approvals, delivery driver confirmations, a quality inspection checklist, a one-off data cleanup tool: these are all real, common requests, and they usually share the same shape: one clear input, one clear action, one clear result.
+
+### How a custom workflow app is scoped
+The first step is identifying which Odoo model (or models) the workflow actually touches: it might be a standard one like `hr.expense`, or a custom field added to an existing model like `stock.picking`. From there, the goal is defining one clear loop: what triggers the screen, what decision or data entry happens on it, and what changes in Odoo as a result. Once that loop is agreed, the build is usually the smallest of the six example categories: there's deliberately no navigation, no settings, no second screen unless the workflow genuinely needs one.
+### What tends to work well as a custom app
+Approval screens, single-purpose data entry, and notification-driven small actions are the strongest fit: anywhere a specific person needs to do one specific thing against Odoo data, faster or on a device Odoo's own interface isn't well suited to.
+What doesn't fit is reproducing broad ERP functionality. Odoo already does everything a business generally needs: accounting, inventory, sales, purchasing, manufacturing, master data. The apps worth building sit around that core, not inside it.
+### Typical scope and timeline
+Because the scope here is by definition one focused workflow, this is usually the fastest of the six categories to build a first working version of, and the starting price reflects that. If a "custom workflow" conversation reveals something closer to a full portal or dashboard, that's flagged honestly rather than quoted as if it were a one-screen build.
+
+### Questions about this use case
+**What if I'm not sure exactly what I want yet?** That's normal, and it's the starting point of most custom-workflow projects. Describing the problem (what's slow, what's manual, what people currently work around with a spreadsheet or a notebook) is usually enough to start scoping the actual screen and the actual Odoo model behind it.
+**Can it read and write to Odoo?** Yes, either or both, depending on the workflow. An approval screen typically writes a decision back (approve/reject); a lookup tool might only read. Which one applies is usually obvious once the workflow itself is defined.
+**What's explicitly out of scope for a 'custom workflow' app?** Rebuilding functionality Odoo already does well: a second inventory system, a parallel accounting ledger, a general-purpose form builder. If a request starts looking like it wants to become its own small ERP module, the honest answer is usually that it belongs inside Odoo itself (as configuration, or a proper Odoo module), not as an external app.
+**Can a small custom app grow into something bigger later?** Often, yes. A lot of the other five example apps on this site started conceptually as \
+
+## Odoo API development: the connection layer itself
+URL: https://odoowebapps.com/odoo-api-development
+
+Every app on this site (the picking app, the sales app, the dashboard, both portals) is really the same underlying capability applied to a different screen: a reliable connection between an external app and Odoo's data. Sometimes that connection is the whole project, without a bespoke front end wrapped around it: syncing an e-commerce platform's orders into Odoo, or letting an internal tool read live stock levels.
+
+### What Odoo actually exposes
+Odoo exposes its entire ORM over two external protocols: XML-RPC and JSON-RPC. Both let an authenticated external client call the same core methods Odoo's own web client calls internally: `search_read` and `read_group` to query records, `create` and `write` to add or update them, and `unlink` to delete them, plus the ability to call specific business methods on a model, like confirming a sales order or validating a stock transfer, instead of trying to fake that behavior by writing raw field values.
+Authentication runs through a database, a username, and either a password or (on more recent versions) an API key scoped to that user. Every call is then subject to that user's normal Odoo access rights and record rules; the API doesn't bypass Odoo's permission model, it operates inside it.
+### Two integration patterns: read-only vs. write-back
+A read-only integration pulls data out of Odoo to display or export elsewhere (a dashboard, a report, a sync to another system's copy of the catalog). It's inherently lower-risk: there's no way to corrupt Odoo data through a query. A write-back integration creates or updates real records (a new sales order, a confirmed purchase order, an updated stock count) and needs real care: input validation before the write, clear handling of what happens if a call partially fails, and calling the correct workflow method rather than writing raw state fields and hoping Odoo's own business logic doesn't get bypassed in the process. The guide on read-only vs. write-back integrations linked below goes into this in more depth.
+### Common integration points
+The recurring patterns: syncing e-commerce or marketplace orders into `sale.order`; pushing web form or chat leads into `crm.lead`; connecting a mobile or field app to stock or purchase workflows; syncing product and stock data with a separate warehouse or point-of-sale system; and using Odoo's own Automated Actions to trigger outbound calls to another service when something changes inside Odoo. Most integration requests are a variation on one of these.
+### What we actually deliver
+Not a generic connector or a one-size-fits-all SDK: the specific integration for the specific workflow, including error handling and clear behavior when something goes wrong (a call fails, a required field is missing, Odoo rejects the write), and a plain description of exactly which Odoo models and fields the integration touches. Pricing depends entirely on which models and workflows are involved; see the general pricing guide below or the pricing section on the homepage for a starting sense of range.
+
+### Questions about this use case
+**Do you need admin access to our Odoo?** No. An integration should run under a dedicated API user with only the access rights it actually needs, the same way you'd scope any other integration. Standard Odoo access rights and record rules apply to API calls exactly as they do to a logged-in user, so scoping that user correctly is part of doing the integration properly.
+**Is XML-RPC or JSON-RPC better for the integration?** Functionally they expose the same underlying ORM methods, so the choice usually comes down to what's easiest to work with in the external app's own language/stack rather than one being more capable than the other. JSON-RPC tends to be slightly more common in newer integrations simply because JSON tooling is more universal than XML-RPC tooling.
+**Does this work with Odoo Online, Odoo.sh, and self-hosted/on-premise?** The external API is the same across all three hosting options: what differs is how you obtain and manage API credentials and, on self-hosted instances, whether the server is reachable from wherever the integration runs. Both are confirmed early in scoping.
+**Does the integration survive Odoo version upgrades?** The API surface (search, read, create, write, and calling specific model methods) has been stable across recent Odoo versions, but individual field names or method behavior on specific models can change between major versions. A well-built integration isolates those touchpoints so an upgrade means checking a short, known list of things rather than an unpredictable one. See the guide on Odoo upgrades linked below.
+
+# Guides
+
+## Odoo Customization vs. a Custom Web App: What's the Difference?
+URL: https://odoowebapps.com/guides/odoo-customization-vs-custom-apps
+Published: 2026-09-18
+
+How in-Odoo customization (views, studio, custom modules) differs from building a separate web app against Odoo's API, and how to tell which one a given problem actually needs.
+
+### What counts as 'Odoo customization'?
+Customization means changing Odoo from the inside: adding fields and adjusting layouts through Odoo Studio, writing a custom Odoo module (Python models, XML views, security rules) that installs alongside standard apps, or modifying business logic by inheriting existing models. The result runs inside Odoo's own process, uses Odoo's own view framework (form, list, kanban, pivot), and is upgraded, backed up, and deployed as part of Odoo itself.
+### What counts as a 'custom app' in this context?
+A custom app, by contrast, is a separate piece of software (its own front end, its own server if it needs one) that talks to Odoo over its external API (XML-RPC or JSON-RPC) rather than running inside Odoo. It reads and writes Odoo records the same way any other authenticated client would, but the interface, the hosting, and the release cycle are all independent of Odoo's.
+### What are the real tradeoffs between them?
+Customization keeps everything in one system and gives users Odoo's built-in conveniences (chatter/logging, activities, automated actions) for free, but it's constrained by Odoo's own view framework: genuinely simplifying a screen for a non-technical user is limited by what a form or list view can be configured to look like. And it's coupled to Odoo's module and upgrade mechanics, meaning changes need to be tested against every future Odoo upgrade.
+A custom app decouples the interface entirely: it can look like anything, be as simple as one button, and run on hardware or for an audience (customers, suppliers, a warehouse handheld) that shouldn't have Odoo backend access at all. The tradeoff is that it introduces an integration layer to maintain: a piece of software whose correctness depends on Odoo's API continuing to behave the way it was built against.
+### When does customization make more sense?
+When the change is genuinely part of an internal Odoo user's existing workflow (an extra required field on a form that internal staff already fill out, a validation rule, an approval routing change that other Odoo automations depend on), it usually belongs inside Odoo. Internal users who already live in Odoo all day benefit from the change appearing right where they're already working, rather than in a second app to switch to.
+### When does a separate custom app make more sense?
+When the audience is external (customers, suppliers) or mobile field workers who shouldn't be given Odoo backend access; when the interface needs to be dramatically simpler than any Odoo view configuration can achieve (one screen, one action, nothing else visible); or when the workflow doesn't map to Odoo's data model at all and would mean bolting an unrelated concern onto the ERP. In all three cases, a focused external app is usually both faster to build well and safer to change later than trying to force the same result out of Odoo's own view layer.
+### Can you combine both approaches?
+Often, yes, and it's a common pattern in practice: a small, targeted Odoo module adds one API-friendly field, computed value, or callable method inside Odoo, while the actual user-facing interface lives entirely in a separate app. That keeps the in-Odoo change minimal (and therefore low-risk across upgrades) while still giving the external app exactly the data or action it needs.
+
+## How Odoo's API Actually Works (XML-RPC, JSON-RPC and the ORM)
+URL: https://odoowebapps.com/guides/odoo-api-integration-explained
+Published: 2026-09-18
+
+A practical explanation of Odoo's external API surface, authentication, and the ORM methods (search_read, create, write) that a custom app calls under the hood.
+
+### What protocols does Odoo's API actually use?
+Odoo exposes its external API over two RPC protocols: XML-RPC and JSON-RPC. They're not two different feature sets; both are transport-layer options for calling the exact same underlying methods on Odoo's ORM. Which one a given integration uses is mostly a matter of what's convenient in the calling language; most modern client libraries default to JSON-RPC simply because JSON tooling is more universally available than XML-RPC tooling.
+### How does authentication work?
+A client authenticates with a database name, a login, and either a password or an API key generated from that user's own Odoo preferences (the API-key option, available on modern Odoo versions, is the safer choice for integrations since it can be revoked independently of the user's login password). A successful authentication returns a user id, which is then passed alongside the database name on every subsequent call.
+### What can you actually call once authenticated?
+Nearly everything the ORM itself supports, through a single generic dispatch method (commonly called `execute_kw`) that takes a model name, a method name, and its arguments. Standard CRUD methods are always available: `search`, `search_read`, `read`, `create`, `write`, `unlink`, and so is any other public method defined on that model, including business-logic methods like confirming a sales order or validating a stock transfer, which matters because those methods run the same side effects (state changes, related record updates) that clicking the equivalent button in Odoo's own interface would trigger.
+### What does a typical call actually look like?
+Reading data is usually done with `search_read`, which takes a domain (a list of filter conditions, like `[["state", "=", "sale"]]`) and a list of fields to return, combining what would otherwise be a separate search-then-read round trip into one call. Aggregated numbers (totals, counts grouped by a field) generally go through `read_group` instead of pulling every record back and summing client-side. Writing data is a `create` or `write` call with a dictionary of field values, or a call to a specific method when the change needs to trigger Odoo's own business logic rather than just set a field.
+### Does the API respect Odoo's normal permissions?
+Yes, entirely. Every call runs as the authenticated user, subject to that user's model-level access rights and row-level record rules exactly as if they were logged into the Odoo web client. There's no separate, more permissive "API mode," which is also why the right way to scope an integration is a dedicated API user with only the access it needs, not the main admin account.
+### What are the practical gotchas worth knowing up front?
+A few things trip up integrations that weren't built with Odoo's specifics in mind: many2one fields come back as a two-item list ( `[id, display_name]`) rather than a plain id; all datetimes are stored and returned in UTC regardless of the user's timezone, so conversion is the caller's job; and calling `search` in a loop followed by individual `read` calls per record ("N+1" calls) is a common, avoidable performance mistake when `search_read` would do it in one round trip. Field names and available methods can also shift slightly between major Odoo versions, which is worth knowing before assuming an integration will need zero maintenance forever. See the guide on Odoo upgrades linked below.
+
+## What Happens to a Custom App When Odoo Upgrades?
+URL: https://odoowebapps.com/guides/what-happens-when-odoo-upgrades
+Published: 2026-09-18
+
+Why a separate web app is affected differently by an Odoo version upgrade than in-Odoo customizations are, and what actually needs to be checked when Odoo moves versions.
+
+### Why do Odoo upgrades worry people in the first place?
+Odoo ships a new major version roughly once a year, and upgrading a live database, especially one with custom modules installed inside it, is a genuinely well-known risk area. Custom modules need to be migrated to whatever changed in the new version's module API and ORM conventions before they'll even install, view XML can reference fields that moved or were renamed, and any custom Python code that inherited a standard model needs to be checked against whatever changed in that model upstream.
+### How is a separate custom app affected differently?
+A custom app that lives outside Odoo and talks to it only through the external API isn't part of the Odoo upgrade process at all: there's no module to migrate, no view XML to update, nothing that needs to be reinstalled. It keeps running exactly as it did before, continuing to call the same API methods against the newly upgraded database. The only way it breaks is if the upgrade changed something about the specific fields or methods that app actually calls, which is a much smaller and more predictable surface than "everything installed inside Odoo."
+### What could specifically break in a custom app after an upgrade?
+In practice, it's usually one of a short list: a field the app reads or writes was renamed or removed on the Odoo side; a model gained a new required field, so a `create` call that didn't set it starts failing; a business method the app calls changed its expected arguments; or an access right or security group configuration changed in a way that now blocks the API user from something it used to be able to do. None of these are exotic. They're the same kind of change that could affect any integration against any evolving system.
+### What's a practical checklist after an Odoo upgrade?
+Before an upgrade reaches the production Odoo database: run the custom app's actual API calls against a staging copy of the upgraded instance first, not production directly. Check Odoo's own release notes for the specific modules the app depends on (Sales, Inventory, Purchase, whichever apply). Confirm the dedicated API user's access rights and any assigned security groups still exist and mean the same thing. And re-verify the field types and shapes for the specific models the app touches, since even a subtle type change (a field that used to be a plain string becoming a selection field, for instance) can cause silent data issues rather than an obvious error.
+### How much of this risk is avoidable by how the app is built?
+A meaningful amount. An integration built to fail loudly and specifically (a clear error naming the field or method that didn't behave as expected) is far easier to fix after an upgrade than one that fails silently or produces subtly wrong data. So is one that keeps every Odoo-specific field name and model reference in a small, identifiable part of the codebase rather than scattered everywhere. That turns "check if this upgrade broke anything" into reviewing a short, known list instead of an open-ended search.
+
+## How Much Does a Custom Odoo App Cost?
+URL: https://odoowebapps.com/guides/how-much-does-a-custom-odoo-app-cost
+Published: 2026-09-18
+
+A grounded look at what drives the price of a small Odoo-connected app, with real ranges instead of vague 'contact us for pricing.'
+
+### Why is 'it depends' actually the honest answer?
+Because the cost of a custom Odoo-connected app is driven almost entirely by how many distinct concerns it has to get right: authentication, how many Odoo models it reads or writes, whether it needs to handle edge cases like partial stock or backorders, how many user roles see different things. Two apps that sound similar in one sentence ("a portal for our customers") can differ in cost by a wide margin depending on those specifics. That said, vague "contact us for pricing" isn't useful either, so here are real numbers.
+### What does a small, single-screen app typically cost?
+The smallest tier (Tiny) is priced from $390, for something like approval screen, simple report, small data entry tool. These are one-screen, one-workflow builds: a single Odoo model, a single clear action, no user roles to manage.
+### What does a full multi-screen app typically cost?
+A polished, multi-screen application built around one workflow (the kind of build behind most of the example apps on this site) typically falls in the $490-$890 range. Where a specific build lands in that range depends on how many screens it needs, how many Odoo models it touches, and whether it only reads data or also writes back to Odoo (write-back integrations generally cost more, since they need more careful validation and error handling; see the guide on that distinction linked below). As a concrete anchor: a warehouse picking app starts at $590, while a customer ordering portal (which has to handle authentication, a per-customer catalog, and checkout) starts at $890.
+### What pushes a project into 'let's talk' territory?
+Anything that stops being one focused workflow: multiple integrated apps, a system with several distinct user roles each seeing different data, or a workflow that turns out to need changes inside Odoo itself (a custom module) in addition to the external app. These are quoted individually rather than against a fixed tier, because at that scope the cost genuinely depends on specifics that a landing page can't responsibly generalize.
+### What's the single biggest cost driver most people underestimate?
+Whether the app needs to write back to Odoo, and how carefully. A read-only dashboard just displays numbers. If a query is slightly wrong, the fix is trivial and nothing in Odoo is at risk. An app that creates sales orders, confirms purchase orders, or updates stock has to handle what happens when a write fails partway through, when the data submitted doesn't actually satisfy Odoo's own validation, and when two people try to act on the same record at once. That extra care is real engineering time, and it's usually the difference between the low end and the high end of a given app's estimate.
+### How is a final number actually reached?
+Through a short scoping conversation about the actual workflow: which Odoo models it touches, how many screens, read-only or write-back, how many user roles. That's a more useful process than a generic quote calculator, since two projects with the same one-line description can have meaningfully different scope once the details are on the table.
+
+## Signs Your Team Needs a Simpler Interface Than Odoo's Backend
+URL: https://odoowebapps.com/guides/signs-your-team-needs-a-simpler-odoo-interface
+Published: 2026-09-18
+
+Practical signals, from workarounds on paper to reluctant adoption, that indicate a workflow would benefit from a focused front end instead of more Odoo training.
+
+### What does 'needing a simpler interface' actually look like day to day?
+Usually not a dramatic failure. More often a quiet workaround. Staff keep a parallel spreadsheet, a whiteboard, or a paper log alongside Odoo because it's genuinely faster for their specific, repetitive task than the Odoo screen meant to handle it. Or a manager finds themselves walking over to explain the same short sequence of clicks to the same person every week, months after they were first trained.
+### Why does this happen even though Odoo can technically do the job?
+Because Odoo's backend interface is a general-purpose tool built to be configured for many different roles (accountants, warehouse staff, sales managers, admins) from the same underlying form and list views. That flexibility is exactly what makes Odoo powerful as an ERP, but it also means any single repetitive task carries some navigation and cognitive overhead that a purpose-built screen for that one task wouldn't have.
+### What are the concrete signals worth watching for?
+A few recurring patterns are worth treating as real signals rather than one-off complaints: new hires take noticeably longer than expected to work independently on one specific Odoo screen; the same data-entry mistake keeps happening (wrong location, wrong product, wrong quantity) despite training; a workflow only reliably works because one specific person has memorized an exact sequence of clicks that isn't written down anywhere; staff using phones or handhelds visibly struggle with a view that was really designed for a desktop screen and a mouse; or external people (drivers, suppliers, customers) are being asked to use Odoo directly and finding it confusing or intimidating.
+### How do you tell 'needs more training' from 'needs a simpler interface'?
+If the same friction shows up across multiple different people who were all trained reasonably well, the honest read is usually that the interface doesn't match the task, not that everyone individually failed to learn it. Training fixes a knowledge gap; it doesn't fix a screen that requires ten fields of attention for a task that's conceptually one decision.
+### What's a lightweight way to test this before committing to a build?
+Ask the person actually doing the task to narrate, in plain language, exactly what they need to see and exactly what they need to do, nothing more. Then compare that against how many Odoo screens, filters, and clicks it currently takes to get there. A small gap probably isn't worth a new app. A large, consistent gap (where the real task is one clear action buried inside a much bigger interface) is usually a sign that a focused screen would pay for itself quickly.
+
+## Read-Only vs. Write-Back Odoo Integrations: Which Do You Need?
+URL: https://odoowebapps.com/guides/odoo-write-back-vs-read-only-integrations
+Published: 2026-09-18
+
+The difference between an app that only displays Odoo data and one that creates or updates records in Odoo, and why that distinction changes scope, risk and cost.
+
+### What's the actual difference between the two?
+A read-only integration only ever queries Odoo, using calls like `search`, `search_read`, and `read_group`, and never calls anything that creates, updates, or deletes a record. A write-back integration does one or more of those things: it might create a new `sale.order`, update a field on an existing record with `write`, or call a business method that changes a record's state, like confirming a purchase order or validating a stock transfer.
+### Why does this distinction change the risk profile so much?
+A bug in a read-only integration produces a wrong number on a screen somewhere (annoying, and worth fixing), but it never touches Odoo's actual data, so it's fully recoverable by just fixing the query. A bug in a write-back integration can create a malformed sales order, wrongly confirm a stock move that shouldn't have gone through, or write incorrect values directly into records that accounting, other staff, and other automations then rely on as if they were entered correctly by a person. That's a meaningfully higher bar, and it's why write-back work is scoped and built more carefully.
+### What does building a write-back integration responsibly actually require?
+Validating input before it's sent to Odoo, rather than letting Odoo's own error be the first check. Calling the correct higher-level business method (for example, the same action Odoo's "Validate" button triggers on a stock transfer) instead of writing raw state fields directly, so Odoo's own business logic and side effects still run as intended. Handling partial failures explicitly: what happens if an order has five lines and the fourth one fails Odoo's own validation? And keeping a clear, reviewable record of what the integration actually created or changed, so a problem can be traced back to a specific call instead of guessed at.
+### Does using write-back mean giving up on read-only safety everywhere?
+No. Most real apps are a mix of both, applied per action rather than per app. A mobile sales app, for instance, reads stock levels and pricing (read-only) and then writes a new order on submit (write-back). The two patterns coexist inside one app; what matters is being deliberate about which specific action is which, rather than treating "the app" as a single monolithic risk level.
+### How does this affect cost and timeline?
+Write-back work generally costs more than an equivalent read-only feature, because of the extra validation, error-handling, and testing it needs to be done responsibly, not because the API call itself is harder to make. See the guide on custom Odoo app cost, linked below, for how this plays into overall pricing.
+### How do you decide which one a given project actually needs?
+Ask, for each specific screen or action: does this need to change something in Odoo, or only show something? If it's purely informational (a dashboard, a report, a status lookup), it's read-only. If someone needs to submit, confirm, approve, or record something that should end up as a real Odoo record, it's write-back. Most projects turn out to need a specific, identifiable mix of the two rather than being purely one or the other.
+
+## Odoo REST API: What It Can (and Can't) Do
+URL: https://odoowebapps.com/guides/odoo-rest-api-explained
+Published: 2026-09-18
+
+Odoo doesn't actually have a native REST API: it exposes XML-RPC and JSON-RPC over its ORM. What that means in practice, and when a thin REST layer in front of it makes sense.
+
+### Does Odoo actually have a REST API?
+Not a native one, no. This is one of the most common points of confusion for anyone starting to evaluate an Odoo integration. Odoo's built-in external API is exposed over two RPC protocols, XML-RPC and JSON-RPC, both of which call the same underlying ORM methods. Neither of those is REST in the architectural sense: there's no set of resource URLs like `/api/sale.order/42` that you `GET`, `PUT`, or `DELETE` against with plain HTTP verbs and status codes. If you've found documentation or a module claiming Odoo has REST endpoints, it's either describing JSON-RPC loosely as "REST-like," or it's a third-party or self-hosted addition, not something Odoo ships by default.
+### What does Odoo actually expose instead?
+A single generic dispatch method, commonly reached as `execute_kw`, that takes a model name, a method name, and arguments, and runs it against Odoo's ORM as the authenticated user. Standard CRUD (`search`, `search_read`, `create`, `write`, `unlink`) is always available this way, and so is any other public method on that model, including business actions like confirming a sales order. See the guide on how Odoo's API actually works, linked below, for the full mechanics of authentication and calling it.
+### Why does Odoo do it this way instead of shipping REST?
+XML-RPC and JSON-RPC both predate Odoo's current form and map naturally onto exposing an ORM's methods directly: a single endpoint that can call anything the ORM supports, rather than hand-defining a REST resource and set of verbs for every one of the hundreds of models Odoo ships. It's a pragmatic choice for an ORM-centric framework, even though it means Odoo doesn't look like a typical modern REST or GraphQL API out of the box.
+### Does this actually stop you from integrating with Odoo?
+No. Every client language with an HTTP or XML-RPC library can call Odoo's existing RPC API: Python, JavaScript/Node, PHP, and plenty of others have mature libraries for exactly this. The practical effect of "no native REST" isn't that integration is blocked, it's that the calling code has to think in terms of model names and method calls ( `execute_kw("sale.order", "search_read", ...)` ) rather than REST-style URLs and verbs, a different shape of code, not a harder problem.
+### When does a thin REST layer in front of Odoo make sense?
+It's a genuinely common and reasonable pattern: build a small server that exposes a handful of proper REST (or GraphQL) endpoints your own frontend or a third-party system can call, and have that server translate each request into the equivalent Odoo RPC calls behind the scenes. This makes sense when the consuming client expects conventional REST (a mobile app framework, a no-code tool, a partner system you don't control), when you want to expose only a narrow, deliberately scoped slice of Odoo's data instead of the full ORM surface to that client, or when you want a layer that can cache, rate-limit, or reshape Odoo's data before it reaches the outside world.
+### When is it not worth building that layer?
+If the thing calling Odoo is a web app or backend you're building yourself, there's usually no reason to invent a REST layer in between: calling Odoo's RPC API directly from that app's own backend is simpler and has one fewer moving part to maintain. The extra REST layer earns its cost specifically when something outside your control needs a conventional REST contract, not as a default architectural step for every Odoo integration.
+
+## Odoo Barcode App: Use Odoo's, or Build a Custom One?
+URL: https://odoowebapps.com/guides/odoo-barcode-app-buy-or-build
+Published: 2026-09-18
+
+Odoo's own Barcode app is genuinely capable. An honest look at when it's enough and when a narrower custom picking app makes more sense.
+
+### What does Odoo's own Barcode app actually do?
+Odoo ships a dedicated Barcode app that covers a genuinely wide range of warehouse operations out of the box: receiving, delivery picking, internal transfers, inventory adjustments, manufacturing consumption, and more, all driven by scanning barcodes on a phone or handheld scanner. It's a real, actively maintained part of Odoo Inventory and Manufacturing, not an afterthought: for a meaningful share of warehouses, it's simply enough on its own.
+### So when is Odoo's Barcode app the right call?
+When the warehouse needs several of those different operation types, when staff are already reasonably comfortable navigating a menu to pick the right operation before scanning, and when there's no strong reason to avoid installing another Odoo app or giving users Odoo-side access. In that situation, building a custom picking app instead would mean re-implementing functionality Odoo already provides for free, correctly, and kept in sync with the rest of Inventory automatically.
+### When does a narrower custom app make more sense instead?
+A few specific, recurring situations: when a warehouse only ever does one operation type (usually delivery order picking) and having the rest of the Barcode app's menu present at all is unnecessary friction for a role that should see exactly one screen; when the hardware is unusual (an older or industry-specific scanner, a kiosk, a device where Odoo's own Barcode app's interaction pattern doesn't map cleanly onto the device's input method); or when the people doing the scanning shouldn't have any Odoo backend access at all, not even the scoped Barcode app view, for account-management or licensing reasons. See the warehouse app guide, linked below, for what that narrower build actually looks like.
+### Is a custom app actually simpler, or just different?
+Done well, genuinely simpler for that one flow: a purpose-built screen can show exactly the order being picked and one big scan target, with wording matched to how the team already talks about the job, and nothing else visible. But it's worth being honest that this is a narrower tool by design: it does one job, not the full range Odoo's Barcode app covers. If a warehouse's needs grow to include multiple operation types later, that's either additional scope on the custom app or a reason to reconsider Odoo's own tool.
+### Do both approaches use the same underlying Odoo data?
+Yes. This isn't an either/or on the data model. Both Odoo's Barcode app and a custom picking app operate on the same `stock.picking` and `stock.move.line` records, and validating a transfer through either one triggers the same underlying business logic (stock updates, reservations, backorder handling). The choice is purely about which interface sits in front of that same correct data, not about which one is "more accurate."
+### How do you decide, practically?
+Start by listing the actual operation types the warehouse performs day to day. If it's more than one or two, or if staff are comfortable Odoo users already, try Odoo's own Barcode app first, since it costs nothing extra to enable and might already solve the problem. If, after using it, the friction is specifically "this does more than I need and I only ever do one thing," or the hardware genuinely doesn't fit, that's the point where a narrower custom app starts paying for itself.
+
+## How to Give Customers a Self-Service Portal Without Rebuilding Odoo's Frontend
+URL: https://odoowebapps.com/guides/odoo-customer-self-service-portal
+Published: 2026-09-18
+
+The difference between Odoo's built-in customer portal and a fully custom-branded ordering portal, and how to tell which one a given business actually needs.
+
+### What does Odoo's built-in customer portal actually offer?
+Odoo already ships a customer portal as part of its Sales and Invoicing apps: once enabled, a customer with a portal login can view their own quotations, sales orders, invoices, and support tickets through a web page tied to their `res.partner` record. It's a real, working feature that requires no integration work at all: it's part of Odoo itself.
+### What are its actual limits?
+It's built to expose a bit of everything a customer relationship might involve (quotes, invoices, tickets) rather than to make one specific action, like reordering the same few products, as fast as possible. It also looks and behaves like Odoo, which is fine for a customer who occasionally checks an invoice, but adds friction for a customer who wants to place a fast repeat order and doesn't want to learn Odoo's portal navigation to do it. Branding options are limited to what Odoo's website theming supports, not a fully custom design.
+### What does a fully custom-branded portal add instead?
+A separate front end, built and hosted independently, connected to Odoo through its API rather than running inside Odoo's own portal framework, that can look exactly like the rest of a business's branding, and can be narrowed to exactly one flow: a returning wholesale customer sees their usual products with their own pricing and places an order in under a minute, with nothing else on screen to navigate past. See the customer ordering portal use case, linked below, for what that build actually looks like in practice.
+### Does 'custom portal' mean rebuilding what Odoo already does?
+No, and this is the key distinction the question in this guide's title is getting at: the commercial rules (pricing, what a given customer is allowed to buy, order history) already live correctly in Odoo, and a custom portal doesn't duplicate that logic. It authenticates the customer, reads what applies to their specific account through Odoo's API, and on checkout creates a real `sale.order` the same way any other order in Odoo would be created. It's a different front door onto the same data and rules, not a second system to keep in sync.
+### When does Odoo's built-in portal remain the right call?
+When customers only occasionally need to check a quote, invoice, or order status, genuinely self-service in the lightweight sense, and there's no strong reordering or branding requirement, Odoo's own portal already does the job with zero extra build cost. It's worth honestly starting there rather than assuming a custom portal is always the better answer.
+### How do you decide between the two?
+Ask what the customer is actually trying to do most often. If it's checking on something (an invoice, a quote, a ticket), Odoo's built-in portal is usually enough. If it's a specific, frequent, repeatable action (reordering the same products, submitting a standard request) that a customer would ideally do in under a minute without learning Odoo's navigation, a narrower custom-branded portal built around that one flow tends to be worth the extra build cost.
+
+## Hiring an Odoo Developer vs. a Web App Studio: What's the Difference?
+URL: https://odoowebapps.com/guides/odoo-developer-vs-web-app-studio
+Published: 2026-09-18
+
+An honest, even-handed comparison of when an Odoo developer or implementation partner is the right call, and when a narrow web app studio is the better fit instead.
+
+### What does an Odoo developer or implementation partner actually do?
+An Odoo developer or implementation partner works inside Odoo itself: configuring modules, building custom modules (Python models, XML views, security rules), migrating data during onboarding, and handling version upgrades of the Odoo instance as a whole. Their job is Odoo's correctness and configuration as a complete ERP: accounting, inventory, manufacturing, and everything else it runs.
+### What does a web app studio (like this one) do instead?
+A narrower, specific thing: building a standalone interface, a web app with its own front end, hosted independently, that connects to an already-running Odoo instance through its API. It doesn't touch Odoo's configuration, doesn't install Odoo modules by default, and isn't involved in Odoo's own upgrade process. The scope is one focused workflow layered on top of data that already lives correctly in Odoo.
+### When is an Odoo developer the right call?
+When the actual need is inside Odoo: a new required field on an existing form that internal staff already use, a change to approval routing that other Odoo automations depend on, a custom module that needs to run as part of Odoo's own business logic, or handling an Odoo version upgrade for a database with existing customizations. Anything that's fundamentally about changing how Odoo itself behaves belongs with someone who works inside Odoo's module and view framework day to day.
+### When is a web app studio the better fit?
+When the need is a small, standalone interface for a narrow audience or workflow that shouldn't (or can't reasonably) live inside Odoo's own backend: a mobile picking screen for warehouse staff, a branded ordering portal for customers, a dashboard for management, an approval screen for one specific process. The defining trait is that the interface itself, not Odoo's underlying configuration, is the thing that needs to change or be built.
+### Can the two overlap on the same project?
+Yes, and it's a common, sensible pattern: an Odoo developer adds one small, API-friendly field or method inside Odoo, while a web app studio builds the actual external interface that calls it. Neither role needs to cover the other's territory for that to work. It just means a project sometimes genuinely needs both, scoped as two separate, well-defined pieces of work rather than one vendor trying to do everything.
+### Why does this site say 'no' to some requests instead of taking every project?
+Because scope discipline is the whole point of the distinction above. The FAQ on this site is direct about it: asked "can you build anything," the honest answer is no: if a request starts becoming another ERP, or is really an in-Odoo configuration or module change, Odoo itself (or an Odoo implementation partner) is the better place for it, not a web app studio stretching outside its actual expertise. That's meant as a trust signal, not a limitation to work around: it's the same honesty this guide is trying to give you about the developer-vs-studio choice itself.
+
+## Odoo Studio Can't Do This: Where the No-Code Builder Hits a Wall
+URL: https://odoowebapps.com/guides/odoo-studio-limitations
+Published: 2026-09-19
+
+What Odoo Studio is genuinely good at, where its no-code approach hits real limits, and when a workflow needs a different kind of interface entirely.
+
+### What is Odoo Studio actually good at?
+Genuinely a lot, and it deserves credit for it. Studio is Odoo's built-in no-code customization tool: it lets someone with no development background add fields to a form, rearrange a view, create a new report layout, add a simple automated action, or spin up a basic new model with its own list and form views, all from inside the Odoo UI, without writing a module. For the kind of tweak most businesses actually need day to day ("we need one more field on this form," "change this report's layout," "add a simple approval step"), Studio is fast, safe compared to editing code directly, and doesn't require hiring anyone.
+### Where does Studio start to struggle?
+With coordination across multiple models. Studio is built around editing one model's view or fields at a time, so a workflow that needs data to move between several models in a specific sequence, with conditional logic at each step, tends to outgrow what Studio's point-and-click tools were designed for. It also has limited reach into advanced security and permission configuration: fine-grained, conditional access rules (who can see or edit exactly what, under exactly which conditions) generally need real record rules and group configuration, which sits closer to Odoo development than to Studio's drag-and-drop scope.
+### Does Studio hold up at production scale, for complex logic?
+Not as well as hand-written code does. Studio-built automations and computed fields are convenient for straightforward rules, but once the logic gets genuinely complex (several branching conditions, calculations that depend on multiple related records, performance-sensitive computation over a lot of data) it becomes harder to build, harder to debug when something looks wrong, and harder for anyone else to understand later, compared to the same logic written directly in a custom module.
+### What happens to Studio customizations across an Odoo upgrade?
+They generally carry forward, but not with a guarantee of zero rework. Because Studio changes are still stored as real configuration inside Odoo (fields, views, rules), a major version upgrade or migration can require some of that configuration to be reviewed or redone, particularly for anything that leaned on a specific view layout or interaction that changed between versions. It's not unique to Studio (in-Odoo customization of any kind has this exposure), but it's worth planning for rather than assuming Studio work is upgrade-proof.
+### So where's the actual wall?
+The wall isn't "Studio is bad," it's that Studio is a tool for changing Odoo's own screens, and some workflows need something that isn't an Odoo screen at all: a different kind of interface for a different kind of user, running outside Odoo's own UI and view framework entirely. A supplier who shouldn't see any Odoo menu, a warehouse handheld running one giant scan button, a customer-facing order form that looks nothing like a form view; none of that is a Studio limitation to work around, it's a different problem than the one Studio was built to solve.
+### Is a standalone app a 'better Studio,' then?
+No, and it's worth being precise about that: a small standalone app connected to Odoo through its API isn't a replacement for Studio, and it doesn't compete with what Studio does well. For an internal field tweak or a report layout change, Studio remains the right, cheapest tool. A standalone app becomes the better tool specifically at the point where the requirement is a genuinely different interface for a different audience, not a more powerful way to edit an Odoo form. See the broader customization vs. custom apps guide, linked below, for that fuller comparison.
+
+## Odoo Implementation Partner Cost (And When You Don't Need One)
+URL: https://odoowebapps.com/guides/odoo-implementation-partner-cost
+Published: 2026-09-19
+
+Honest, hedged ranges for what a full Odoo implementation typically costs, and how to tell whether your actual problem needs one or just a single connected app.
+
+### What does a full Odoo implementation partner actually cost?
+Honestly, it varies enormously, and anyone quoting one precise number without knowing your scope is guessing. A small, single-module deployment for a small business can start in the low thousands of dollars. A larger rollout spanning multiple modules (Sales, Inventory, Accounting, Manufacturing) across a multi-location or multi-company business, with data migration, staff training, and ongoing support, can run well into five or six figures. The range is wide because "implementation" covers fundamentally different amounts of work depending on how many modules are involved and how much of the business it touches.
+### What is a full implementation actually doing, that justifies that cost?
+A real, substantial job: configuring Odoo's modules to match how the business actually operates, migrating existing data in, setting up the chart of accounts and multi-company structure if relevant, training staff across departments, and being available to fix configuration issues as the business starts relying on the new system day to day. That's a genuinely different scope of work than building one small app, and it's a legitimate, different job done by people who specialize in it.
+### When does a full implementation engagement make sense?
+When Odoo itself needs to be set up, configured, or substantially reworked across multiple modules: a new deployment from scratch, a business restructuring how several departments use Odoo together, or a migration where the underlying data model and processes are changing, not just one screen. If the actual need touches how Sales, Inventory, and Accounting all work together, that's implementation-partner territory, and trying to solve it with a single small app would be the wrong tool.
+### When is a full re-implementation the wrong tool instead?
+When the Odoo setup underneath already works, and the actual pain point is narrow: one workflow, one screen, one specific need that isn't being served well by Odoo's existing interface. Re-opening a full implementation engagement to fix one workflow is overkill in both cost and disruption; it re-touches parts of a working system that didn't need to change, for the sake of the one part that did.
+### What does the right-sized fix look like instead?
+A small connected app built for that one workflow, on top of the Odoo setup you already have. On this site specifically, that is priced from $390 for a single focused workflow (an approval screen, a simple report, a small data entry tool), or typically $490-$890 for a fuller, polished multi-screen app built around one workflow. As a concrete anchor, the smallest "tell us the workflow you wish were easier" build starts at $390. None of that replaces or competes with a real implementation; it's simply a different, smaller-scoped fix for a different, smaller-scoped problem.
+### How do you actually tell which one you need?
+Ask whether the problem is "Odoo isn't set up right for us" or "Odoo is set up fine, but this one thing is painful." The first question points to an implementation partner: the underlying configuration itself needs work. The second points to a small connected app: the foundation is sound, and only the interface for one specific workflow needs to change. Most businesses that already have a working Odoo instance and one recurring point of friction fall into the second category, even though it can feel, from the inside, like it might need a bigger project than it actually does.
+
+## Why Your Odoo Dashboard Is Slow (and When a Standalone One Fixes It)
+URL: https://odoowebapps.com/guides/why-is-my-odoo-dashboard-slow
+Published: 2026-09-19
+
+The real technical reason cross-module Odoo dashboards and reports can be slow, and how a standalone read-only dashboard app sidesteps that specific problem.
+
+### What's actually going on when an Odoo dashboard feels slow?
+Odoo's database is built and tuned for transactional work: create one sales order, update one stock quant, save one invoice, quickly and reliably, over and over. A dashboard or KPI report asks a very different kind of question: not "give me this one record," but "aggregate a large number of records, possibly across several modules, into a summary number." Those are genuinely different workloads, and a database optimized for the first doesn't automatically handle the second at the same speed, especially as the amount of data grows.
+### Why does it get worse specifically with cross-module reports?
+Because pulling one number that depends on Sales, Inventory, and Accounting all agreeing (say, real margin per order) usually means joining and aggregating across several of Odoo's underlying tables at once, computed live, inside the same transactional database that's also handling everyone's day-to-day record creation. A report view built to do that inside Odoo's own UI reruns that aggregation live, on demand, which is exactly the kind of query that gets slower as the number of underlying records grows.
+### Is this an Odoo problem specifically, or would any system have it?
+It's a general database pattern, not a flaw unique to Odoo: transactional databases everywhere face this same tension between fast individual writes and fast broad aggregation. Odoo isn't doing anything wrong by prioritizing the former; it's simply that a live, ad hoc, cross-module report is a heavier kind of query than the system was primarily built to make fast.
+### How does a standalone dashboard app sidestep this?
+By not asking Odoo to do that heavy aggregation live, on every page load, inside its own transactional UI. A standalone read-only dashboard can instead fetch only the specific aggregated numbers it actually needs, on a schedule (say, refreshed every few minutes or hourly rather than recalculated on every view) or through a lightweight caching layer that holds the last computed result. The dashboard itself then just displays fast-to-read cached numbers, rather than triggering the expensive cross-module query every time someone opens it.
+### Does this fix Odoo's performance in general?
+No, and it's worth being precise about the boundary. This approach addresses reporting and dashboard slowness specifically: the pattern of heavy, cross-module aggregation being requested live. It does nothing for general Odoo slowness caused by other things entirely, like undersized server resources, an overloaded database instance, or an unrelated performance issue elsewhere in the system. If day-to-day Odoo itself (creating an order, opening a normal form) feels slow, that's a different problem with a different fix, not something a standalone dashboard addresses.
+### How do you tell if this is actually your situation?
+If normal day-to-day Odoo use feels fine, but a specific report or dashboard view is the slow part, especially one that pulls from multiple modules or a large date range, that matches this pattern well. If everything in Odoo feels sluggish, including simple single-record actions, that points to a different root cause (server sizing, database load, network) that a standalone dashboard won't fix on its own, even though it might still be worth building for the reporting slice of the problem.
+
+## Purchase Approvals Stuck in Odoo's Backend? A Simple Mobile Approve/Reject App
+URL: https://odoowebapps.com/guides/odoo-purchase-approval-mobile-app
+Published: 2026-09-19
+
+Why purchase order approvals bottleneck when managers are away from a desktop, and how a minimal mobile approve/reject screen writes decisions straight back to Odoo.
+
+### Why do purchase order approvals actually get stuck?
+Not because Odoo's approval flow is broken; it works. The bottleneck is usually access: the person who needs to approve is traveling, between meetings, or otherwise away from a desktop, and opening the full Odoo backend on a phone to find one purchase order among everything else in the interface is enough friction that approvals sit unactioned for longer than they should. It's a well-documented, ordinary operational pain point, not a sign anything is misconfigured.
+### How does Odoo's own purchase approval flow actually work?
+A purchase order moves through a sequence of states, generally draft, then sent to the vendor, then to approve, then confirmed as an actual purchase. Depending on how purchasing is configured, approval authority can be tied to approval limits, meaning orders above a certain amount require a manager's sign-off before they can move forward, while smaller orders may not need that extra step. The mechanism is real and already enforces this correctly; the only friction is the interface it has to be done through.
+### What would a minimal mobile approval screen actually show?
+Only what a manager needs to decide, and nothing else: the vendor, the total amount, the line items being purchased, and ideally a short reason or note field if the requester attached one. Two large, unambiguous actions, approve and reject, sized for a thumb on a phone screen. No navigation menu, no unrelated Odoo modules visible, no need to understand where else in Odoo this order lives.
+### Does an approval made in the app actually count as a real Odoo approval?
+Yes, if it's built correctly: the app should write the decision straight back to the real `purchase.order` record through Odoo's API, calling the same underlying approval action Odoo's own backend button would trigger, rather than some separate tracking mechanism that then has to be manually reconciled with Odoo later. Done that way, there's exactly one source of truth: Odoo's own record, just reachable through a faster interface for that one specific action.
+### Is this a read-only or a write-back build?
+Write-back, and worth treating with the same care as any other write-back integration: the app is creating a real state change on a real financial record, so it needs to handle what happens if the write fails partway, and it needs the approve/reject action tied to a properly authenticated user, not a shared login, so the record of who approved what stays accurate. See the read-only vs. write-back guide, linked below, for what that care actually involves in practice.
+### Does this replace Odoo's purchasing workflow?
+No, it sits on top of it. Nothing about the underlying draft-to-purchase flow, approval limits, or vendor management changes; the app is a narrow, faster front door for one specific action (approve or reject) that a manager currently has to open the full Odoo backend to perform. Everything else about how purchasing works in Odoo stays exactly as it is.
+
+## Why Your Odoo API Call Returns Data From the Wrong Company (and How to Scope It Correctly)
+URL: https://odoowebapps.com/guides/odoo-api-multi-company-filtering
+Published: 2026-09-19
+
+A recurring multi-company Odoo API gotcha: queries can return records across every company a user can access unless the request explicitly scopes company context.
+
+### What's the actual gotcha here?
+A recurring one, documented across plenty of Odoo community forum threads: when you call Odoo's external API (XML-RPC or JSON-RPC) as a user who has access to multiple companies, a query can quietly return records from every company that user is allowed to see, not just the one company your integration meant to query. It doesn't throw an error or warn you; the call just succeeds and hands back more data than intended.
+### Why does this happen at all?
+Because company scoping in Odoo isn't automatically inferred from "which company does this record belong to" on every read; it's governed by context. A multi-company user's session context determines which companies' records are visible to them at all, and unless a request explicitly narrows that further, an API call runs with the same broad visibility that user would have anywhere else in Odoo. It's consistent with how Odoo's access rules work generally, but it's easy to overlook if you're assuming an API call for "this company's sales orders" is automatically scoped that way by default.
+### How do you actually scope a request to one company?
+Two real, complementary mechanisms. One is passing the `allowed_company_ids` context key on the call, which constrains which companies' records the request can see for that specific call. The other is adding an explicit domain filter on the `company_id` field of the model you're querying, so the query itself states which company's records it wants rather than relying on ambient context. Using an explicit domain filter on `company_id` is generally the more defensive of the two, since it makes the intended scope part of the query itself rather than something set elsewhere and easy to forget.
+### Why is this easy to miss in a one-off script?
+Because it often works perfectly fine in testing. If the user credentials used during development only have access to one company, or the test data doesn't have overlapping records across companies, an unscoped query returns exactly what you expect, and the missing company filter never surfaces as a bug until the integration runs against a real multi-company account or a second company is added to the setup later.
+### What's the actual risk if it's missed?
+Data leaking across company boundaries inside your own integration: a dashboard showing figures blended across companies that should have stayed separate, a report meant for one entity quietly including another's orders or invoices, or a write-back action operating against the wrong company's records entirely. For a multi-company business, that's not a cosmetic bug; it can mean genuinely incorrect numbers being acted on.
+### Why does this matter for a properly built app versus a quick script?
+Because it's exactly the kind of small, easy-to-skip detail that a one-off integration script written quickly is likely to miss, and that a properly scoped, tested app is built to get right from the start. If your Odoo setup involves more than one company at all, this is worth confirming explicitly for every model any integration touches, rather than assuming the default behavior already does the right thing.
+
+## Reps Won't Use Odoo on Their Phones? Build the 3 Screens They Actually Need
+URL: https://odoowebapps.com/guides/why-sales-reps-dont-use-odoo-mobile
+Published: 2026-09-19
+
+Why desktop-first CRM/Sales interfaces see low adoption from field reps on phones, and why a narrow 3-screen order flow written back to Odoo works better.
+
+### Why do reps stop using Odoo in the field, even when it's set up correctly?
+Because Odoo's CRM and Sales apps, like most full ERP interfaces, are built desktop-first: lots of fields, menus, and options available on one screen, which is genuinely useful for someone sitting at a computer managing a full pipeline. A rep standing in front of a customer, working from a phone, is in a completely different context, and a full-featured interface that wasn't designed for a small screen and a rushed moment tends to feel slow and cluttered exactly when speed matters most.
+### What actually happens when adoption drops like this?
+Reps don't stop selling, they stop entering data where it belongs. The order gets written on paper, typed into a personal notes app, or sent over a messaging app to someone back at the office to enter later. The sale still happens, but it takes longer to reach Odoo, sometimes with details lost or altered in the hand-off, and Odoo's own records fall behind what's actually happening in the field. It's a well-documented pattern: the problem usually isn't reluctance to use software, it's a genuine mismatch between the interface and the moment it's being used in.
+### What do reps actually need, in the moment, to make a sale?
+Almost always the same three things, in the same order: pick the customer they're standing in front of, add the products being ordered, submit it. That's the entire field workflow for most in-person or on-site sales, and it doesn't require anything else Odoo's full Sales app also shows, like pipeline stages, marketing fields, or reporting views that only matter back at a desk.
+### Why is a narrow 3-screen app a better answer than more training on the full app?
+Because the problem isn't knowledge, it's fit. More training on Odoo's full Sales app doesn't make a desktop-oriented interface fit a rushed, one-handed, small-screen moment any better; it just asks reps to work around the mismatch more diligently. A purpose-built three-screen flow, by contrast, mirrors exactly what a rep does in the field and nothing more, which is precisely the kind of narrow-but-exact fit that tends to actually get used rather than worked around.
+### Does the order actually end up in Odoo, or somewhere separate?
+It should end up as a real `sale.order` written directly into Odoo through its API on submit, the same underlying record a rep entering it through Odoo's own Sales app would create. This is a write-back integration, not a read-only lookup tool, so it needs the same care around validation and authenticated, per-user submission that any write-back build does; see the read-only vs. write-back guide, linked below, for what that involves.
+### How does this match what's already built for this use case?
+Directly: this is exactly the pattern behind the sales / mobile ordering app on this site, linked below, with its own live demo of the customer-products-submit flow. The three-screen shape isn't a simplification for its own sake, it's what the actual field workflow already looks like once everything not needed in that moment is left out.
+

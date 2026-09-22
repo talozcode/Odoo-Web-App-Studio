@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useId, useState } from "react";
+import { useActionState, useEffect, useId, useState } from "react";
+import { track } from "@vercel/analytics";
 import { useFormStatus } from "react-dom";
 import { CheckCircle2, AlertCircle } from "lucide-react";
 import { submitContactForm } from "@/app/actions";
@@ -28,6 +29,11 @@ export function ContactForm() {
   );
   const [selectedChips, setSelectedChips] = useState<string[]>([]);
   const formId = useId();
+
+  // One event per successful submission, so pages can be judged by leads.
+  useEffect(() => {
+    if (state.status === "success") track("contact_submitted");
+  }, [state.status]);
 
   function toggleChip(label: string) {
     setSelectedChips((prev) =>

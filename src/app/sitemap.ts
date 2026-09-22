@@ -3,58 +3,43 @@ import { SITE_URL } from "@/config/site";
 import { USE_CASE_PAGES } from "@/config/use-case-pages";
 import { GUIDES } from "@/config/guides";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+// Real dates, not the build time: a sitemap that says everything changed
+// today on every deploy tells crawlers nothing. Bump these when the page
+// content changes.
+const STATIC_UPDATED: Record<string, string> = {
+  "": "2026-09-22",
+  "/work": "2026-09-22",
+  "/guides": "2026-09-22",
+  "/about": "2026-09-22",
+  "/privacy": "2026-09-22",
+  "/terms": "2026-09-22",
+};
 
+export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
-    {
-      url: SITE_URL,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${SITE_URL}/work`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/guides`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.7,
-    },
-    {
-      url: `${SITE_URL}/about`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.4,
-    },
-    {
-      url: `${SITE_URL}/privacy`,
-      lastModified: now,
-      changeFrequency: "yearly",
-      priority: 0.2,
-    },
-    {
-      url: `${SITE_URL}/terms`,
-      lastModified: now,
-      changeFrequency: "yearly",
-      priority: 0.2,
-    },
-  ];
+    { path: "", changeFrequency: "weekly" as const, priority: 1 },
+    { path: "/work", changeFrequency: "monthly" as const, priority: 0.8 },
+    { path: "/guides", changeFrequency: "weekly" as const, priority: 0.7 },
+    { path: "/about", changeFrequency: "monthly" as const, priority: 0.4 },
+    { path: "/privacy", changeFrequency: "yearly" as const, priority: 0.2 },
+    { path: "/terms", changeFrequency: "yearly" as const, priority: 0.2 },
+  ].map(({ path, changeFrequency, priority }) => ({
+    url: `${SITE_URL}${path}`,
+    lastModified: new Date(STATIC_UPDATED[path]),
+    changeFrequency,
+    priority,
+  }));
 
   const useCaseRoutes: MetadataRoute.Sitemap = USE_CASE_PAGES.map((page) => ({
     url: `${SITE_URL}/${page.slug}`,
-    lastModified: now,
+    lastModified: new Date(page.updated),
     changeFrequency: "monthly",
     priority: 0.8,
   }));
 
   const guideRoutes: MetadataRoute.Sitemap = GUIDES.map((guide) => ({
     url: `${SITE_URL}/guides/${guide.slug}`,
-    lastModified: new Date(guide.datePublished),
+    lastModified: new Date(guide.dateModified ?? guide.datePublished),
     changeFrequency: "monthly",
     priority: 0.6,
   }));
