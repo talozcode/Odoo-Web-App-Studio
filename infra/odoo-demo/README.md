@@ -39,8 +39,8 @@ every night at 03:00, so anything a visitor does disappears within a day.
 
 ## What bootstrap.sh does
 
-- installs Docker and ufw, opens 22/80/443 only
-- writes `/opt/odoo-demo/.env` with random Postgres and Odoo master passwords
+- installs Docker, accepts 80/443 on the host firewall (22 is already open)
+- writes `/opt/odoo-demo/.env` with random Postgres and Odoo master passwords and renders `odoo.conf` from `odoo.conf.template` with the master password filled in
 - creates `odoo_demo_template` with `base, sale_management, sale_margin,
   stock, purchase, mrp, account` and Odoo's demo data
 - creates the `api-demo` user (Sales, Inventory, Purchase user; Accounting
@@ -69,8 +69,10 @@ ODOO_DEMO_URL=... ODOO_DEMO_DB=odoo_demo ODOO_DEMO_LOGIN=api-demo ODOO_DEMO_API_
 ## Limits and safety
 
 - 8069 and 8072 are never published; Caddy is the only entry point and
-  `/web/database/*` returns 404.
-- `api-demo` has no admin rights. The site's server actions only create
-  sale orders tagged `client_order_ref = odoowebapps-demo` and mark move
-  lines picked, and they are rate limited per visitor.
+  `/web/database/*` returns 404. The Odoo master password is set (not the
+  image default) and lives only in `/opt/odoo-demo/.env` and `odoo.conf` on
+  the VM.
+- `api-demo` has no admin rights. The site's only write is a server action
+  that creates sale orders tagged `client_order_ref = odoowebapps-demo`,
+  rate limited per visitor.
 - The nightly reset is the hard backstop for anything else.

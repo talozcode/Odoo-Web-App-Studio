@@ -1,8 +1,8 @@
 "use server";
 
 import { headers } from "next/headers";
-import { callButton, create, getOdooConfig, mergeTraces, OdooRpcError, searchRead } from "@/lib/odoo/client";
-import { getDemoData } from "@/lib/odoo/demo-source";
+import { callButton, create, getOdooConfig, mergeTraces, searchRead } from "@/lib/odoo/client";
+import { getSalesSeed, isDemoWritesEnabled } from "@/lib/odoo/demo-source";
 import { allowDemoWrite } from "@/lib/odoo/rate-limit";
 import type { RpcTrace } from "@/lib/odoo/types";
 
@@ -16,31 +16,32 @@ export type CreateDemoOrderResult =
   | { ok: false; reason: "offline" | "rate-limited" | "invalid" | "failed"; message: string };
 
 const DEMO_REF = "odoowebapps-demo";
+const MAX_LINES = 10;
 
-function writesEnabled(): boolean {
-  return process.env.DEMO_WRITES_ENABLED === "1" && getOdooConfig() !== null;
+function isValidInput(input: unknown): input is CreateDemoOrderInput {
+  if (!input || typeof input !== "object") return false;
+  const candidate = input as Record<string, unknown>;
+  return (
+    Number.isInteger(candidate.partnerId) &&
+    Array.isArray(candidate.productIds) &&
+    candidate.productIds.length > 0 &&
+    candidate.productIds.length <= MAX_LINES &&
+    candidate.productIds.every((id) => Number.isInteger(id))
+  );
 }
 
 /**
  * Create and confirm a sale order in the demo Odoo from the sales app demo.
- * Only partners and products the page itself offered are accepted, every
- * order is tagged so it is recognisable in Odoo, and the nightly reset
- * clears them all.
+ * Rate limited before anything touches Odoo; only partners and products the
+ * page itself offered are accepted; every order is tagged so it is
+ * recognisable in Odoo; the nightly reset clears them all.
  */
 export async function createDemoSaleOrder(input: CreateDemoOrderInput): Promise<CreateDemoOrderResult> {
   const config = getOdooConfig();
-  if (!config || !writesEnabled()) {
+  if (!config || !isDemoWritesEnabled()) {
     return { ok: false, reason: "offline", message: "The live demo is not connected right now." };
   }
-
-  const data = await getDemoData();
-  if (data.salesSeed.source !== "live") {
-    return { ok: false, reason: "offline", message: "The live demo is not reachable right now." };
-  }
-
-  const partner = data.salesSeed.data.partners.find((p) => p.id === input.partnerId);
-  const products = data.salesSeed.data.products.filter((p) => input.productIds.includes(p.id));
-  if (!partner || products.length === 0 || products.length !== new Set(input.productIds).size) {
+  if (!isValidInput(input)) {
     return { ok: false, reason: "invalid", message: "Pick a customer and at least one product." };
   }
 
@@ -52,6 +53,18 @@ export async function createDemoSaleOrder(input: CreateDemoOrderInput): Promise<
       reason: "rate-limited",
       message: "That is enough demo orders for a few minutes. Try again later.",
     };
+  }
+
+  const seed = await getSalesSeed();
+  if (seed.source !== "live") {
+    return { ok: false, reason: "offline", message: "The live demo is not reachable right now." };
+  }
+
+  const uniqueIds = [...new Set(input.productIds)];
+  const partner = seed.data.partners.find((p) => p.id === input.partnerId);
+  const products = seed.data.products.filter((p) => uniqueIds.includes(p.id));
+  if (!partner || products.length === 0 || products.length !== uniqueIds.length) {
+    return { ok: false, reason: "invalid", message: "Pick a customer and at least one product." };
   }
 
   try {
@@ -73,7 +86,8 @@ export async function createDemoSaleOrder(input: CreateDemoOrderInput): Promise<
     const trace = mergeTraces(created.trace, [confirmed.trace, named.trace], `create sale.order ${name}, action_confirm`);
     return { ok: true, name, id: created.result, trace };
   } catch (error) {
-    const message = error instanceof OdooRpcError ? error.message : "Odoo did not accept the order.";
-    return { ok: false, reason: "failed", message };
+    // Odoo's error text can name access rules and records; keep it server side.
+    console.error("[odoo-demo] createDemoSaleOrder failed:", error instanceof Error ? error.message : error);
+    return { ok: false, reason: "failed", message: "Odoo did not accept the order. The order stays local." };
   }
 }

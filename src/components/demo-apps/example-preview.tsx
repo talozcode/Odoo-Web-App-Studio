@@ -1,5 +1,5 @@
 import type { ExampleAppId } from "@/config/examples";
-import { getDemoData, isDemoWritesEnabled } from "@/lib/odoo/demo-source";
+import { getKpis, getPickings, getSalesSeed, isDemoWritesEnabled } from "@/lib/odoo/demo-source";
 import { WarehousePickingDemo } from "./warehouse-picking-demo";
 import { SalesAppDemo } from "./sales-app-demo";
 import { DashboardDemo } from "./dashboard-demo";
@@ -17,40 +17,49 @@ type ExamplePreviewProps = {
 };
 
 /**
- * Server component: fetches the demo data (live Odoo, or the bundled
- * snapshot when live is unavailable) and renders the matching demo. Keeping
- * the switch here means pages never touch the data layer directly.
+ * Server component: fetches only the dataset a demo needs (live Odoo, or the
+ * bundled snapshot when live is unavailable) and renders the matching demo.
+ * Keeping the switch here means pages never touch the data layer directly.
  */
 export async function ExamplePreview({ appId, withReadout = false, animateIn }: ExamplePreviewProps) {
-  const data = await getDemoData();
-
   switch (appId) {
     case "warehouse-picking": {
-      const picking = data.pickings.data[0];
+      const pickings = await getPickings();
+      const picking = pickings.data[0];
       if (!picking) return null;
       return (
+        <WarehousePickingDemo
+          key={picking.id}
+          picking={picking}
+          animateIn={animateIn}
+          readout={withReadout ? pickings : undefined}
+        />
+      );
+    }
+    case "sales-app": {
+      const seed = await getSalesSeed();
+      return (
+        <SalesAppDemo
+          key={seed.fetchedAt}
+          seed={seed.data}
+          writesEnabled={isDemoWritesEnabled() && seed.source === "live"}
+          readout={withReadout ? seed : undefined}
+        />
+      );
+    }
+    case "management-dashboard": {
+      const kpis = await getKpis();
+      return (
         <div className="flex w-full max-w-sm flex-col gap-3">
-          <WarehousePickingDemo picking={picking} animateIn={animateIn} />
-          {withReadout ? <RpcReadout result={data.pickings} /> : null}
+          <DashboardDemo kpis={kpis.data} />
+          {withReadout ? <RpcReadout result={kpis} /> : null}
         </div>
       );
     }
-    case "sales-app":
-      return (
-        <div className="flex w-full max-w-sm flex-col gap-3">
-          <SalesAppDemo seed={data.salesSeed.data} writesEnabled={isDemoWritesEnabled()} />
-          {withReadout ? <RpcReadout result={data.salesSeed} /> : null}
-        </div>
-      );
-    case "management-dashboard":
-      return (
-        <div className="flex w-full max-w-sm flex-col gap-3">
-          <DashboardDemo kpis={data.kpis.data} />
-          {withReadout ? <RpcReadout result={data.kpis} /> : null}
-        </div>
-      );
-    case "customer-ordering-portal":
-      return <CustomerPortalPreview seed={data.salesSeed.data} />;
+    case "customer-ordering-portal": {
+      const seed = await getSalesSeed();
+      return <CustomerPortalPreview seed={seed.data} />;
+    }
     case "supplier-portal":
       return <SupplierPortalPreview />;
     case "custom-workflow":

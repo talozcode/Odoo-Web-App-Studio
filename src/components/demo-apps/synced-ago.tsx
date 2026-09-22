@@ -14,11 +14,15 @@ function describe(fetchedAt: string, nowSeconds: number): string {
 
 // A one-second clock as an external store: the server snapshot is null so
 // the markup hydrates identically however long the page sat in the cache.
+let tick = Math.round(Date.now() / 1000);
 function subscribe(onChange: () => void) {
-  const id = window.setInterval(onChange, 1000);
+  const id = window.setInterval(() => {
+    tick = Math.round(Date.now() / 1000);
+    onChange();
+  }, 1000);
   return () => window.clearInterval(id);
 }
-const getSnapshot = () => Math.round(Date.now() / 1000);
+const getSnapshot = () => tick;
 const getServerSnapshot = () => null;
 
 export function SyncedAgo({ fetchedAt }: { fetchedAt: string }) {

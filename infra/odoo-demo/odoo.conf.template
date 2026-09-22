@@ -1,6 +1,7 @@
 [options]
+; Rendered to odoo.conf by bootstrap.sh, which fills in the master password.
 ; Connection details come from the container environment (HOST/USER/PASSWORD).
-; The master password is read from ODOO_ADMIN_PASSWD by the entrypoint.
+admin_passwd = __ADMIN_PASSWD__
 addons_path = /mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
 data_dir = /var/lib/odoo
 

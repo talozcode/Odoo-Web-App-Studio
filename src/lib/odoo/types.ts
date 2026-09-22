@@ -49,8 +49,8 @@ export type DemoKpis = {
   currency: string;
   /** Sum of confirmed sale orders over the seven most recent order days. */
   salesRecent: number;
-  /** Margin over the same orders, as a percentage of untaxed sales. */
-  marginPct: number;
+  /** Margin over the same orders as a percentage of untaxed sales; null when sale_margin is not installed. */
+  marginPct: number | null;
   /** Units on hand across internal locations. */
   onHandUnits: number;
   /** Confirmed purchase orders not yet fully received. */

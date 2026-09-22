@@ -7,8 +7,9 @@ import { SectionHeading } from "@/components/ui/section-heading";
 const DEMO_IDS = ["sales-app", "management-dashboard"] as const;
 
 /**
- * Two more working apps over the same Odoo: one that writes (a sales order)
- * and one that only reads (a dashboard). Each prints the ORM calls behind it.
+ * Two more working apps over the same Odoo: one that builds an order (and
+ * writes it when live writes are on) and one that only reads. Each prints
+ * the ORM calls behind it.
  */
 export function LiveDemosSection() {
   return (
@@ -16,7 +17,7 @@ export function LiveDemosSection() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <SectionHeading
           align="left"
-          title="Two more apps, same Odoo."
+          title="Two more apps on the same Odoo"
           description="Every screen here is a small app talking to one Odoo 18 database through its API. The line under each one is the actual call."
         />
 
@@ -32,7 +33,7 @@ export function LiveDemosSection() {
                     {page ? (
                       <Link
                         href={`/${page.slug}`}
-                        className="underline-offset-4 hover:text-[var(--odoo-teal)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-sm"
+                        className="underline decoration-[var(--odoo-gray)]/60 underline-offset-4 hover:text-[var(--odoo-teal)] hover:decoration-[var(--odoo-teal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-sm"
                       >
                         {app.name}
                       </Link>

@@ -27,7 +27,7 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Will it work on phones?",
     answer:
-      "Yes. Mobile usability should be considered a core requirement for every application unless the use case is specifically desktop-only.",
+      "Yes. Mobile usability is a core requirement for every app unless the use case is specifically desktop-only.",
   },
   {
     question: "How much does an app cost?",
@@ -37,6 +37,6 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Can you build anything?",
     answer:
-      "No. That's intentional. We focus on narrow applications that make a specific workflow dramatically easier. If the project starts becoming another ERP, Odoo itself is probably the better place for it.",
+      "No. That's intentional. We focus on narrow applications that make a specific workflow noticeably easier. If the project starts becoming another ERP, Odoo itself is probably the better place for it.",
   },
 ];

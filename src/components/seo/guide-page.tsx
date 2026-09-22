@@ -48,8 +48,8 @@ export function GuidePageTemplate({
   const canonicalUrl = `${SITE_URL}/guides/${meta.slug}`;
 
   const breadcrumbItems = [
-    { name: "Home", url: "/" },
-    { name: "Guides", url: "/guides" },
+    { name: "Home", url: SITE_URL },
+    { name: "Guides", url: `${SITE_URL}/guides` },
     { name: meta.title, url: canonicalUrl },
   ];
 

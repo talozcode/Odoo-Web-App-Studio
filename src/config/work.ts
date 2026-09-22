@@ -29,6 +29,8 @@ export type WorkCase = {
   /** Optional concrete, true figures. */
   facts?: string[];
   images?: WorkImage[];
+  /** Short labels for the flow diagram drawn with each case. */
+  diagram: { users: string; app: string; kind: "phone" | "screen" | "cron" };
 };
 
 export const WORK_CONTEXT =
@@ -44,6 +46,7 @@ export const WORK_CASES: WorkCase[] = [
     summary:
       "A mobile web app that lists the day's transfers, lets a picker scan each line and writes the picked quantities and lots straight back to the transfer. It checks lot expiry as lines are picked so short-dated stock is caught on the floor, not by the customer.",
     facts: ["Installs to the phone home screen", "Every write is logged for audit"],
+    diagram: { users: "Pickers", app: "Picking app", kind: "phone" },
   },
   {
     slug: "wholesale-ordering-portal",
@@ -54,6 +57,7 @@ export const WORK_CASES: WorkCase[] = [
     summary:
       "Customers log in, see their own prices and only the products relevant to them, and place an order that lands in Odoo as a confirmed sale order. Stock shown is scoped to the warehouse that actually ships to them. Invoices are emailed by the portal's own scheduler; one of Odoo's mail rules had to be scoped so customers were not emailed twice.",
     facts: ["Live on the client's own domain", "Per-customer product visibility, by design"],
+    diagram: { users: "Trade customers", app: "Ordering portal", kind: "screen" },
   },
   {
     slug: "kitchen-production-board",
@@ -63,6 +67,7 @@ export const WORK_CASES: WorkCase[] = [
     models: ["mrp.production", "stock.warehouse.orderpoint", "mrp.bom"],
     summary:
       "A read-only board on a screen in each kitchen showing what to make today, in what order, for which customers. It is driven entirely by Odoo's automatic manufacturing orders and min/max replenishment rules. Getting the board right meant fixing lead times on 184 bills of materials and 113 replenishment rules in Odoo first.",
+    diagram: { users: "Kitchen staff", app: "Production board", kind: "screen" },
   },
   {
     slug: "container-planning",
@@ -73,6 +78,7 @@ export const WORK_CASES: WorkCase[] = [
     summary:
       "Plan a container against open purchase orders, see the cubic metres fill up as products are added, and keep a register of every shipment. Carton dimensions are measured once per packaging group and inherited by every product in it, so the volume maths is right the first time.",
     facts: ["2,855 products, 1,312 measured cartons", "974 automated tests"],
+    diagram: { users: "Purchasing", app: "Container planner", kind: "screen" },
   },
   {
     slug: "catering-orders",
@@ -82,6 +88,7 @@ export const WORK_CASES: WorkCase[] = [
     models: ["sale.order", "res.company", "res.partner"],
     summary:
       "One order form that knows which company in the group the order belongs to and creates the sale order there, with the right customer and the right products. Multi-company access is the whole difficulty; the form is the easy part.",
+    diagram: { users: "Event staff", app: "Catering orders", kind: "phone" },
   },
   {
     slug: "quality-forms",
@@ -91,6 +98,7 @@ export const WORK_CASES: WorkCase[] = [
     models: ["mrp.production"],
     summary:
       "Five critical control point forms filled in on a phone, each one linked to the manufacturing order it belongs to so an inspector can go from a batch to its records in one step. Records live outside Odoo; the link to the MO is what makes them useful.",
+    diagram: { users: "Production staff", app: "Quality forms", kind: "phone" },
   },
   {
     slug: "expenses",
@@ -100,6 +108,7 @@ export const WORK_CASES: WorkCase[] = [
     models: ["hr.expense", "hr.employee"],
     summary:
       "Enter the expense, pick the category, submit. It appears in Odoo against the right employee and company, ready for approval in the standard flow. Deliberately tiny.",
+    diagram: { users: "Everyone", app: "Expenses", kind: "phone" },
   },
   {
     slug: "digests-and-automations",
@@ -109,6 +118,7 @@ export const WORK_CASES: WorkCase[] = [
     models: ["ir.cron", "mail.template", "stock.warehouse.orderpoint", "pos.session", "account.move"],
     summary:
       "Not every improvement needs an app. A daily replenishment digest to purchasing, an end-of-day summary to each shop manager when a session closes, and a nightly list of point-of-sale invoices still unpaid are scheduled actions and mail templates configured inside Odoo. Knowing when not to build is part of the job.",
+    diagram: { users: "Managers", app: "Scheduled digests", kind: "cron" },
   },
 ];
 

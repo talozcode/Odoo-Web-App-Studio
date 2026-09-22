@@ -40,7 +40,7 @@ export const PROBLEM_CHIPS = [
 
 export const FOOTER_LINKS = [
   { label: "Live demos", href: "/#demos" },
-  { label: "What we build", href: "/#examples" },
+  { label: "What we build", href: "/#work" },
   { label: "How it works", href: "/#how-it-works" },
   { label: "Pricing", href: "/#pricing" },
   { label: "FAQ", href: "/#faq" },

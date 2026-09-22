@@ -56,17 +56,17 @@ export default function GuidesIndexPage() {
 
         <section>
           <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
-            <ul className="divide-y divide-[var(--border)]">
+            <ul className="grid grid-cols-1 gap-x-16 md:grid-cols-2">
               {GUIDES.map((guide) => (
-                <li key={guide.slug}>
+                <li key={guide.slug} className="border-b border-[var(--border)]">
                   <Link
                     href={`/guides/${guide.slug}`}
-                    className="group block py-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-md sm:py-8"
+                    className="group block py-7 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-md"
                   >
-                    <h2 className="max-w-3xl text-xl font-semibold text-[var(--foreground)] group-hover:text-[var(--odoo-teal)] sm:text-2xl">
+                    <h2 className="text-xl font-semibold leading-snug text-[var(--foreground)] group-hover:text-[var(--odoo-teal)]">
                       {guide.title}
                     </h2>
-                    <p className="mt-2 max-w-2xl text-base leading-relaxed text-[var(--muted-foreground)]">
+                    <p className="mt-2 text-sm leading-relaxed text-[var(--muted-foreground)]">
                       {guide.description}
                     </p>
                   </Link>

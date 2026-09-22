@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { WorkCase } from "@/config/work";
 import { cn } from "@/lib/utils";
+import { WorkFlowDiagram } from "./work-flow-diagram";
 
 type WorkCaseRowProps = {
   workCase: WorkCase;
@@ -43,9 +44,16 @@ export function WorkCaseRow({ workCase, index, headingLevel = "h3" }: WorkCaseRo
             sizes="(min-width: 1024px) 40vw, 100vw"
             className="h-auto w-full rounded-lg border border-[var(--border)]"
           />
-        ) : null}
+        ) : (
+          <WorkFlowDiagram
+            users={workCase.diagram.users}
+            app={workCase.diagram.app}
+            models={workCase.models}
+            kind={workCase.diagram.kind}
+          />
+        )}
 
-        <dl className="divide-y divide-[var(--border)] border-y border-[var(--border)] text-sm">
+        <dl className="divide-y divide-[var(--border)] border-t border-[var(--border)] text-sm">
           <div className="grid grid-cols-[7rem_1fr] gap-4 py-3">
             <dt className="text-[var(--muted-foreground)]">Used by</dt>
             <dd className="text-[var(--foreground)]">{workCase.users}</dd>
@@ -53,12 +61,6 @@ export function WorkCaseRow({ workCase, index, headingLevel = "h3" }: WorkCaseRo
           <div className="grid grid-cols-[7rem_1fr] gap-4 py-3">
             <dt className="text-[var(--muted-foreground)]">Replaced</dt>
             <dd className="text-[var(--foreground)]">{workCase.replaced}</dd>
-          </div>
-          <div className="grid grid-cols-[7rem_1fr] gap-4 py-3">
-            <dt className="text-[var(--muted-foreground)]">Connects to</dt>
-            <dd className="font-mono text-xs leading-6 text-[var(--odoo-purple)]">
-              {workCase.models.join(", ")}
-            </dd>
           </div>
           {workCase.facts && workCase.facts.length > 0 ? (
             <div className="grid grid-cols-[7rem_1fr] gap-4 py-3">

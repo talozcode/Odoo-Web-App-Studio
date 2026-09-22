@@ -20,8 +20,8 @@ export function PricingSection() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <SectionHeading
           align="left"
-          title="Small apps. Small projects. Clear prices."
-          description="Every project is scoped to one workflow, so the price is a number, not a discovery phase."
+          title="Prices for small, scoped projects"
+          description="Every project is scoped to one workflow, so the starting price is known before the conversation starts."
         />
 
         <div className="mt-12 border-t border-[var(--border)]">
@@ -73,7 +73,7 @@ export function PricingSection() {
                             {page ? (
                               <Link
                                 href={`/${page.slug}`}
-                                className="text-sm font-medium text-[var(--foreground)] underline-offset-4 hover:text-[var(--odoo-teal)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-sm"
+                                className="text-sm font-medium text-[var(--foreground)] underline decoration-[var(--odoo-gray)]/60 underline-offset-4 hover:text-[var(--odoo-teal)] hover:decoration-[var(--odoo-teal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-sm"
                               >
                                 {app.name}
                               </Link>
@@ -97,7 +97,7 @@ export function PricingSection() {
                       variant="secondary"
                       className="mt-5"
                     >
-                      Let&apos;s talk
+                      Tell us what you want to simplify
                     </ButtonLink>
                   ) : null}
                 </div>

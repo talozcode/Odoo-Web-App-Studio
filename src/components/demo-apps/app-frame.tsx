@@ -12,8 +12,7 @@ type AppFrameProps = {
  * Shared "looks like a real small app screen" shell used by every demo-app
  * mock. Deliberately plain: a thin border, a compact title bar, no
  * gradients or drop shadows, so the app's own content carries the visual
- * interest. The title bar's small label is set in the mono face because it
- * names the app, the way a window title would.
+ * interest.
  */
 export function AppFrame({ title, subtitle, children, className }: AppFrameProps) {
   return (
@@ -24,7 +23,7 @@ export function AppFrame({ title, subtitle, children, className }: AppFrameProps
       )}
     >
       <div className="border-b border-[var(--border)] bg-[var(--surface)] px-4 py-3">
-        <p className="font-mono text-[11px] text-[var(--muted-foreground)]">
+        <p className="text-[11px] font-medium text-[var(--muted-foreground)]">
           {subtitle ?? "Your app"}
         </p>
         <p className="text-sm font-semibold text-[var(--foreground)]">{title}</p>

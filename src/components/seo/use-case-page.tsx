@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/marketing/site-footer";
 import { Accordion } from "@/components/ui/accordion";
 import { ButtonLink } from "@/components/ui/button";
 import { JsonLd } from "@/components/seo/json-ld";
-import { CONTACT_SECTION_ID } from "@/config/site";
+import { CONTACT_SECTION_ID, SITE_URL } from "@/config/site";
 import { formatPriceFrom } from "@/config/examples";
 import { breadcrumbSchema, faqPageSchema } from "@/lib/schema";
 import type { FaqItem } from "@/config/faq";
@@ -55,7 +55,7 @@ export function UseCasePageTemplate({
   canonicalUrl,
 }: UseCasePageTemplateProps) {
   const breadcrumbItems = [
-    { name: "Home", url: "/" },
+    { name: "Home", url: SITE_URL },
     { name: breadcrumbLabel, url: canonicalUrl },
   ];
 
@@ -100,10 +100,10 @@ export function UseCasePageTemplate({
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <ButtonLink href={`/#${CONTACT_SECTION_ID}`}>
-                  Tell us about your workflow
+                  Tell us what you want to simplify
                 </ButtonLink>
                 <ButtonLink href="/#examples" variant="secondary">
-                  See all example apps
+                  All example apps and prices
                 </ButtonLink>
               </div>
             </div>
@@ -121,12 +121,14 @@ export function UseCasePageTemplate({
 
         {sections.map((section) => (
           <section key={section.heading} className="border-b border-[var(--border)]">
-            <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+              <div className="max-w-3xl">
               <h2 className="text-2xl font-semibold tracking-tight text-[var(--foreground)]">
                 {section.heading}
               </h2>
               <div className="prose-content mt-4 space-y-4 text-base leading-relaxed text-[var(--muted-foreground)]">
                 {section.body}
+              </div>
               </div>
             </div>
           </section>
@@ -134,7 +136,7 @@ export function UseCasePageTemplate({
 
         {priceFrom !== undefined ? (
           <section className="border-b border-[var(--border)]">
-            <div className="mx-auto grid max-w-3xl grid-cols-1 gap-6 px-4 py-14 sm:grid-cols-[minmax(0,12rem)_1fr] sm:gap-10 sm:px-6 lg:px-8">
+            <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 py-14 sm:grid-cols-[minmax(0,12rem)_minmax(0,36rem)] sm:gap-10 sm:px-6 lg:px-8">
               <div>
                 <h2 className="text-base font-semibold text-[var(--foreground)]">Pricing</h2>
                 <p className="mt-1 text-3xl font-semibold tabular-nums text-[var(--foreground)]">
@@ -159,7 +161,7 @@ export function UseCasePageTemplate({
 
         {relatedLinks && relatedLinks.length > 0 ? (
           <section className="border-b border-[var(--border)]">
-            <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
               <h2 className="text-base font-semibold text-[var(--foreground)]">
                 Related reading
               </h2>
@@ -181,11 +183,11 @@ export function UseCasePageTemplate({
 
         {faqs.length > 0 ? (
           <section className="border-b border-[var(--border)]">
-            <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
               <h2 className="text-2xl font-semibold tracking-tight text-[var(--foreground)]">
                 {faqHeading}
               </h2>
-              <div className="mt-8">
+              <div className="mt-8 max-w-3xl">
                 <Accordion items={faqs} />
               </div>
             </div>
@@ -193,11 +195,11 @@ export function UseCasePageTemplate({
         ) : null}
 
         <section>
-          <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-3xl">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+            <h2 className="max-w-xl text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-3xl">
               Have a workflow like this?
             </h2>
-            <p className="mx-auto mt-3 max-w-xl text-base text-[var(--muted-foreground)]">
+            <p className="mt-3 max-w-xl text-base text-[var(--muted-foreground)]">
               Tell us what&apos;s slow or manual today. We&apos;ll tell you honestly
               whether a focused app is the right fix.
             </p>

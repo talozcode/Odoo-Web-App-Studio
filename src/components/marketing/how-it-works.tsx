@@ -1,5 +1,4 @@
 import { SectionHeading } from "@/components/ui/section-heading";
-import { OdooCluster } from "./odoo-cluster";
 
 // A genuine sequence, so numbering it is honest.
 const STEPS = [
@@ -47,27 +46,21 @@ export function HowItWorks() {
           description="We don't customise Odoo and we don't replace it. We put a small, separate app next to it."
         />
 
-        <div className="mt-12 grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-          <OdooCluster />
-
-          <ol className="flex flex-col divide-y divide-[var(--border)] border-y border-[var(--border)]">
-            {STEPS.map((step, index) => (
-              <li key={step.title} className="grid grid-cols-[2.5rem_1fr] gap-4 py-5">
-                <span className="font-mono text-sm tabular-nums text-[var(--odoo-teal)]">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <h3 className="text-base font-semibold text-[var(--foreground)]">
-                    {step.title}
-                  </h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-[var(--muted-foreground)]">
-                    {step.description}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <ol className="mt-12 grid grid-cols-1 gap-8 border-t border-[var(--border)] pt-8 md:grid-cols-3 md:gap-10">
+          {STEPS.map((step, index) => (
+            <li key={step.title}>
+              <span className="text-3xl font-semibold tabular-nums text-[var(--odoo-teal)]">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-3 text-base font-semibold text-[var(--foreground)]">
+                {step.title}
+              </h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-[var(--muted-foreground)]">
+                {step.description}
+              </p>
+            </li>
+          ))}
+        </ol>
 
         <div className="mt-16 grid grid-cols-1 gap-12 border-t border-[var(--border)] pt-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
           <div>

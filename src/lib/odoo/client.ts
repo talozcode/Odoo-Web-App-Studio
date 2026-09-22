@@ -63,7 +63,9 @@ async function jsonRpc<T>(
       params: { service, method, args },
     }),
     signal: AbortSignal.timeout(RPC_TIMEOUT_MS),
-    cache: "no-store",
+    // No cache option on purpose: an explicit no-store would force the whole
+    // route dynamic and defeat the page-level revalidate. Fetch is not data
+    // cached by default, so the call simply re-runs on each regeneration.
   });
 
   if (!response.ok) {
@@ -78,25 +80,44 @@ async function jsonRpc<T>(
   return payload.result;
 }
 
-// The uid is stable for the life of the API key, so cache it per process
-// and only re-authenticate if the config changes.
+// The uid is stable for the life of the API key, so cache it per process.
+// The in-flight promise is cached too, so six parallel calls on a cold start
+// share one authenticate round trip.
 let cachedUid: { key: string; uid: number } | null = null;
+let inflightAuth: { key: string; promise: Promise<number> } | null = null;
+
+function configKey(config: OdooConfig) {
+  return `${config.url}|${config.db}|${config.login}`;
+}
 
 export async function authenticate(config: OdooConfig): Promise<number> {
-  const key = `${config.url}|${config.db}|${config.login}`;
+  const key = configKey(config);
   if (cachedUid?.key === key) return cachedUid.uid;
+  if (inflightAuth?.key === key) return inflightAuth.promise;
 
-  const uid = await jsonRpc<number | false>(config, "common", "authenticate", [
-    config.db,
-    config.login,
-    config.apiKey,
-    {},
-  ]);
-  if (!uid) {
-    throw new OdooRpcError("Authentication failed for the demo API user");
+  const promise = (async () => {
+    const uid = await jsonRpc<number | false>(config, "common", "authenticate", [
+      config.db,
+      config.login,
+      config.apiKey,
+      {},
+    ]);
+    if (!uid) {
+      throw new OdooRpcError("Authentication failed for the demo API user");
+    }
+    cachedUid = { key, uid };
+    return uid;
+  })();
+  inflightAuth = { key, promise };
+  try {
+    return await promise;
+  } finally {
+    inflightAuth = null;
   }
-  cachedUid = { key, uid };
-  return uid;
+}
+
+function forgetUid(config: OdooConfig) {
+  if (cachedUid?.key === configKey(config)) cachedUid = null;
 }
 
 export type RpcCall<T> = { result: T; trace: RpcTrace };
@@ -122,14 +143,13 @@ export async function executeKw<T>(
       kwargs,
     ]);
   } catch (error) {
-    if (error instanceof OdooRpcError) {
-      throw new OdooRpcError(error.message, model, method);
+    const message = error instanceof Error ? error.message : String(error);
+    // A rotated key or revoked user shows up as an access error; drop the
+    // cached uid so the next call re-authenticates instead of failing forever.
+    if (/AccessDenied|Access Denied|session|authentication/i.test(message)) {
+      forgetUid(config);
     }
-    throw new OdooRpcError(
-      error instanceof Error ? error.message : String(error),
-      model,
-      method
-    );
+    throw new OdooRpcError(message, model, method);
   }
   const ms = Math.round(performance.now() - started);
   const records = Array.isArray(result) ? result.length : 1;

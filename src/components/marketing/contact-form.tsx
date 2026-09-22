@@ -16,7 +16,7 @@ function SubmitButton() {
       disabled={pending}
       className="min-h-11 w-full rounded-lg bg-[var(--odoo-teal)] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--odoo-teal-hover)] disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--odoo-teal)] sm:w-auto"
     >
-      {pending ? "Sending…" : "Show us the problem"}
+      {pending ? "Sending" : "Send message"}
     </button>
   );
 }
@@ -85,7 +85,7 @@ export function ContactForm() {
           htmlFor={`${formId}-message`}
           className="mb-1.5 block text-sm font-semibold text-[var(--foreground)]"
         >
-          Describe what you&apos;re doing today...
+          Describe what you do today
         </label>
         <textarea
           id={`${formId}-message`}

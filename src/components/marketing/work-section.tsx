@@ -17,7 +17,7 @@ export function WorkSection() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <SectionHeading
           align="left"
-          title="Built for one client. In daily use."
+          title="What we have built for one client"
           description={WORK_CONTEXT}
         />
 

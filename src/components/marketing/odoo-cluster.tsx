@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import {
   ShoppingCart,
   Package,
@@ -6,63 +7,77 @@ import {
   Calculator,
   Users,
   Database,
-  Smartphone,
   type LucideIcon,
 } from "lucide-react";
 
-const BOX_HEIGHT = 32;
-const ICON_SIZE = 13;
+const BOX_HEIGHT = 38;
+const ICON_SIZE = 15;
+const FONT_SIZE = 13;
 
 // Size each box to its own label so "Manufacturing" is never clipped.
 function boxWidth(label: string): number {
-  return Math.max(84, label.length * 6.5 + 40);
+  return Math.max(96, label.length * 7.6 + 48);
 }
 
 const MODULE_DEFS: { label: string; x: number; y: number; icon: LucideIcon }[] = [
-  { label: "Sales", x: 36, y: 26, icon: ShoppingCart },
-  { label: "Inventory", x: 14, y: 96, icon: Package },
-  { label: "Purchase", x: 24, y: 172, icon: ClipboardList },
-  { label: "Manufacturing", x: 64, y: 220, icon: Factory },
-  { label: "Accounting", x: 202, y: 210, icon: Calculator },
-  { label: "Contacts", x: 232, y: 58, icon: Users },
+  { label: "Sales", x: 40, y: 22, icon: ShoppingCart },
+  { label: "Contacts", x: 200, y: 62, icon: Users },
+  { label: "Inventory", x: 14, y: 110, icon: Package },
+  { label: "Purchase", x: 26, y: 196, icon: ClipboardList },
+  { label: "Manufacturing", x: 74, y: 258, icon: Factory },
+  { label: "Accounting", x: 222, y: 236, icon: Calculator },
 ];
 
 const MODULES = MODULE_DEFS.map((mod) => ({ ...mod, width: boxWidth(mod.label) }));
 
-const HUB_X = 326;
-const HUB_Y = 125;
-const HUB_RADIUS = 11;
+export const CLUSTER_WIDTH = 400;
+export const CLUSTER_HEIGHT = 320;
+const HUB_X = 366;
+const HUB_Y = 160;
+const HUB_RADIUS = 14;
 
-const APP_X = 392;
-const APP_WIDTH = 80;
+type OdooClusterProps = {
+  /** Records travelling along the lines into the hub. */
+  animated?: boolean;
+  className?: string;
+};
 
 /**
- * Static system diagram: Odoo's modules feed one database, and the app sits
- * outside it, connected only through the API. No motion; the picture is the
- * point.
+ * Odoo's modules feeding one database. The hub sits on the right edge so
+ * the composition can continue, through an ApiLink, into a real app card.
  */
-export function OdooCluster({ className }: { className?: string }) {
+export function OdooCluster({ animated = false, className }: OdooClusterProps) {
   return (
     <svg
-      viewBox="0 0 480 264"
+      viewBox={`0 0 ${CLUSTER_WIDTH} ${CLUSTER_HEIGHT}`}
       role="img"
-      aria-label="Odoo modules for Sales, Inventory, Purchase, Manufacturing, Accounting and Contacts feed one Odoo database; a separate app connects to it through the API"
-      className={className ?? "h-auto w-full max-w-lg"}
+      aria-label="Odoo modules for Sales, Contacts, Inventory, Purchase, Manufacturing and Accounting all feed one Odoo database"
+      className={className ?? "h-auto w-full"}
     >
-      {MODULES.map((mod) => {
+      {MODULES.map((mod, index) => {
         const x1 = mod.x + mod.width / 2;
         const y1 = mod.y + BOX_HEIGHT / 2;
+        const path = `M ${x1} ${y1} L ${HUB_X} ${HUB_Y}`;
+        const style = {
+          offsetPath: `path("${path}")`,
+          "--flow-delay": `${index * 0.45}s`,
+          "--flow-duration": `${2.4 + (index % 3) * 0.3}s`,
+        } as CSSProperties;
         return (
-          <line
-            key={`line-${mod.label}`}
-            x1={x1}
-            y1={y1}
-            x2={HUB_X}
-            y2={HUB_Y}
-            stroke="var(--odoo-purple)"
-            strokeOpacity={0.3}
-            strokeWidth={1.5}
-          />
+          <g key={`line-${mod.label}`}>
+            <line
+              x1={x1}
+              y1={y1}
+              x2={HUB_X}
+              y2={HUB_Y}
+              stroke="var(--odoo-purple)"
+              strokeOpacity={0.28}
+              strokeWidth={1.5}
+            />
+            {animated ? (
+              <circle className="flow-dot" r={3} fill="var(--odoo-purple)" style={style} />
+            ) : null}
+          </g>
         );
       })}
 
@@ -73,28 +88,28 @@ export function OdooCluster({ className }: { className?: string }) {
             y={mod.y}
             width={mod.width}
             height={BOX_HEIGHT}
-            rx={8}
+            rx={9}
             fill="var(--background)"
             stroke="var(--odoo-gray)"
-            strokeOpacity={0.6}
+            strokeOpacity={0.55}
           />
           <mod.icon
-            x={mod.x + 10}
+            x={mod.x + 13}
             y={mod.y + BOX_HEIGHT / 2 - ICON_SIZE / 2}
             width={ICON_SIZE}
             height={ICON_SIZE}
             stroke="var(--odoo-purple)"
-            strokeOpacity={0.8}
+            strokeOpacity={0.85}
             strokeWidth={2}
             aria-hidden="true"
           />
           <text
-            x={mod.x + 10 + ICON_SIZE + 6}
-            y={mod.y + BOX_HEIGHT / 2 + 4}
-            fontSize={11}
+            x={mod.x + 13 + ICON_SIZE + 8}
+            y={mod.y + BOX_HEIGHT / 2 + 4.5}
+            fontSize={FONT_SIZE}
             fontWeight={600}
             fill="var(--foreground)"
-            fillOpacity={0.75}
+            fillOpacity={0.85}
           >
             {mod.label}
           </text>
@@ -102,83 +117,43 @@ export function OdooCluster({ className }: { className?: string }) {
       ))}
 
       {/* Odoo database hub */}
-      <circle cx={HUB_X} cy={HUB_Y} r={HUB_RADIUS + 4} fill="var(--odoo-purple)" fillOpacity={0.12} />
-      <circle cx={HUB_X} cy={HUB_Y} r={HUB_RADIUS - 4} fill="var(--background)" />
+      {animated ? (
+        <circle
+          className="flow-pulse"
+          cx={HUB_X}
+          cy={HUB_Y}
+          r={HUB_RADIUS + 4}
+          fill="var(--odoo-purple)"
+        />
+      ) : null}
+      <circle cx={HUB_X} cy={HUB_Y} r={HUB_RADIUS + 6} fill="var(--odoo-purple)" fillOpacity={0.12} />
+      <circle cx={HUB_X} cy={HUB_Y} r={HUB_RADIUS} fill="var(--background)" />
       <circle
         cx={HUB_X}
         cy={HUB_Y}
-        r={HUB_RADIUS - 4}
+        r={HUB_RADIUS}
         fill="none"
         stroke="var(--odoo-purple)"
-        strokeWidth={1.5}
+        strokeWidth={1.75}
       />
       <Database
-        x={HUB_X - 6.5}
-        y={HUB_Y - 6.5}
-        width={13}
-        height={13}
+        x={HUB_X - 8}
+        y={HUB_Y - 8}
+        width={16}
+        height={16}
         stroke="var(--odoo-purple)"
         strokeWidth={2}
         aria-hidden="true"
       />
       <text
         x={HUB_X}
-        y={HUB_Y + 30}
-        fontSize={10}
+        y={HUB_Y + HUB_RADIUS + 20}
+        fontSize={12}
+        fontWeight={600}
         textAnchor="middle"
-        fill="var(--muted-foreground)"
+        fill="var(--odoo-purple)"
       >
         Odoo
-      </text>
-
-      {/* API link to the app */}
-      <line
-        x1={HUB_X + HUB_RADIUS + 4}
-        y1={HUB_Y}
-        x2={APP_X}
-        y2={HUB_Y}
-        stroke="var(--odoo-teal)"
-        strokeWidth={1.5}
-        strokeDasharray="3 3"
-      />
-      <text
-        x={(HUB_X + HUB_RADIUS + 4 + APP_X) / 2}
-        y={HUB_Y - 7}
-        fontSize={9}
-        textAnchor="middle"
-        fontFamily="var(--font-mono), ui-monospace, monospace"
-        fill="var(--odoo-teal)"
-      >
-        API
-      </text>
-
-      <rect
-        x={APP_X}
-        y={HUB_Y - BOX_HEIGHT / 2}
-        width={APP_WIDTH}
-        height={BOX_HEIGHT}
-        rx={8}
-        fill="var(--background)"
-        stroke="var(--odoo-teal)"
-        strokeWidth={1.5}
-      />
-      <Smartphone
-        x={APP_X + 10}
-        y={HUB_Y - ICON_SIZE / 2}
-        width={ICON_SIZE}
-        height={ICON_SIZE}
-        stroke="var(--odoo-teal)"
-        strokeWidth={2}
-        aria-hidden="true"
-      />
-      <text
-        x={APP_X + 10 + ICON_SIZE + 6}
-        y={HUB_Y + 4}
-        fontSize={11}
-        fontWeight={600}
-        fill="var(--foreground)"
-      >
-        Your app
       </text>
     </svg>
   );

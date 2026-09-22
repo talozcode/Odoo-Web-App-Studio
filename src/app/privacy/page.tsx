@@ -35,9 +35,10 @@ export default function PrivacyPage() {
         contact form. When it&apos;s submitted, it includes: your name, a work
         email address, your company name, which Odoo version you&apos;re on,
         which problem area(s) you selected, and your message describing the
-        workflow you want help with. Nothing is collected passively. There
-        is no tracking script, advertising pixel, or third-party cookie
-        currently running on this site.
+        workflow you want help with. Nothing else is collected from you
+        directly. There is no advertising pixel or third-party cookie on this
+        site; the only script beyond the site itself is the cookieless
+        page-view counter described below.
       </p>
 
       <h2 className="text-xl font-semibold text-[var(--foreground)]">
@@ -87,7 +88,7 @@ export default function PrivacyPage() {
         Changes to this policy
       </h2>
       <p>
-        As this site adds real infrastructure (a database, analytics, or
+        As this site adds real infrastructure (a database, new analytics, or
         anything else that touches your data), this page will be updated in
         the same change that introduces it, so it always reflects what the
         site actually does rather than a generic template.

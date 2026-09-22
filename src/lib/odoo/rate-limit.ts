@@ -25,14 +25,14 @@ function take(bucket: Bucket, limit: number, now: number): boolean {
 
 export function allowDemoWrite(key: string): boolean {
   const now = Date.now();
-  if (!take(globalBucket, GLOBAL_LIMIT, now)) return false;
 
+  // Per-key first, so one noisy visitor cannot burn the global allowance.
   let bucket = buckets.get(key);
   if (!bucket) {
     bucket = { count: 0, resetAt: 0 };
     buckets.set(key, bucket);
   }
-  const allowed = take(bucket, PER_KEY_LIMIT, now);
+  const allowed = take(bucket, PER_KEY_LIMIT, now) && take(globalBucket, GLOBAL_LIMIT, now);
 
   // Keep the map from growing without bound on a long-lived instance.
   if (buckets.size > 5000) {

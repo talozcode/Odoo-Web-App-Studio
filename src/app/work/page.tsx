@@ -13,10 +13,12 @@ import { CONTACT_SECTION_ID, SITE_URL } from "@/config/site";
 
 const CANONICAL_URL = `${SITE_URL}/work`;
 
+const COUNT_WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+const COUNT = COUNT_WORDS[WORK_CASES.length] ?? String(WORK_CASES.length);
+
 export const metadata: Metadata = {
   title: `Work: Odoo-connected apps in production | ${BRAND_NAME}`,
-  description:
-    "Nine shipped apps and automations around one client's Odoo 18: barcode picking, a B2B ordering portal, a kitchen production board, container planning and more. Anonymised, all in daily use.",
+  description: `${COUNT.charAt(0).toUpperCase()}${COUNT.slice(1)} shipped apps and automations around one client's Odoo 18: barcode picking, a B2B ordering portal, a kitchen production board, container planning and more. Anonymised, all in daily use.`,
   alternates: { canonical: CANONICAL_URL },
   openGraph: {
     title: "Work: Odoo-connected apps in production",
@@ -41,7 +43,7 @@ export default function WorkPage() {
 
   return (
     <>
-      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "/" }, { name: "Work", url: CANONICAL_URL }])} />
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: SITE_URL }, { name: "Work", url: CANONICAL_URL }])} />
       <JsonLd data={itemListSchema} />
       <SiteHeader />
 

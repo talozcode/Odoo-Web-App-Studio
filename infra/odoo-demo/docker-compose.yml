@@ -25,7 +25,6 @@ services:
       HOST: db
       USER: odoo
       PASSWORD: ${POSTGRES_PASSWORD}
-      ODOO_ADMIN_PASSWD: ${ODOO_ADMIN_PASSWD}
     volumes:
       - odoo-data:/var/lib/odoo
       - ./odoo.conf:/etc/odoo/odoo.conf:ro

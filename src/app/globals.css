@@ -44,7 +44,65 @@ body {
   font-family: var(--font-sans), Inter, system-ui, sans-serif;
 }
 
+/* The system diagram in the hero: records flowing from Odoo's modules into
+   the database, and the API link carrying them on to the app. Pure CSS so it
+   costs nothing and honours the reduced-motion rule below. */
+@keyframes flow-travel {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+@keyframes flow-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+.flow-dot {
+  offset-rotate: 0deg;
+  animation: flow-travel var(--flow-duration, 2.6s) linear infinite;
+  animation-delay: var(--flow-delay, 0s);
+}
+
+.flow-dash {
+  animation: flow-dash 1.2s linear infinite;
+}
+
+.flow-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: flow-pulse 2.8s ease-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .flow-dot,
+  .flow-pulse {
+    display: none;
+  }
   html {
     scroll-behavior: auto;
   }

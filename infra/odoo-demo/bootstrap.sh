@@ -21,26 +21,26 @@ SRC="$(cd "$(dirname "$0")" && pwd)"
 
 echo "== packages"
 apt-get update -qq
-apt-get install -y -qq ca-certificates curl ufw >/dev/null
+apt-get install -y -qq ca-certificates curl >/dev/null
 if ! command -v docker >/dev/null; then
   curl -fsSL https://get.docker.com | sh
 fi
 
-echo "== firewall (22, 80, 443 only)"
-# Oracle's Ubuntu image ships iptables rules that drop everything but 22.
+echo "== host firewall"
+# Oracle's Ubuntu image ships iptables rules that reject everything but 22
+# on INPUT. Docker's published ports are DNATed and pass through FORWARD, so
+# they work regardless, but accept 80/443 on INPUT too so nothing depends on
+# that detail. The VCN security list is the real gate; see README.
+# ufw is deliberately not used: it fights both Oracle's rules and Docker's.
 for port in 80 443; do
-  iptables -C INPUT -p tcp --dport "$port" -j ACCEPT 2>/dev/null ||
-    iptables -I INPUT 6 -p tcp --dport "$port" -m state --state NEW -j ACCEPT
+  iptables -C INPUT -p tcp --dport "$port" -m conntrack --ctstate NEW -j ACCEPT 2>/dev/null ||
+    iptables -I INPUT 1 -p tcp --dport "$port" -m conntrack --ctstate NEW -j ACCEPT
 done
 netfilter-persistent save >/dev/null 2>&1 || true
-ufw allow 22/tcp >/dev/null
-ufw allow 80/tcp >/dev/null
-ufw allow 443/tcp >/dev/null
-ufw --force enable >/dev/null
 
 echo "== files -> $TARGET"
 mkdir -p "$TARGET"
-cp "$SRC"/docker-compose.yml "$SRC"/odoo.conf "$SRC"/Caddyfile "$SRC"/reset-demo.sh "$TARGET"/
+cp "$SRC"/docker-compose.yml "$SRC"/Caddyfile "$SRC"/reset-demo.sh "$TARGET"/
 chmod +x "$TARGET"/reset-demo.sh
 cd "$TARGET"
 
@@ -54,6 +54,11 @@ fi
 # shellcheck disable=SC1091
 source .env
 
+# The official image does not read a master-password variable; it has to be
+# in the config file. Render it here so the secret never lives in git.
+sed "s/__ADMIN_PASSWD__/$ODOO_ADMIN_PASSWD/" "$SRC"/odoo.conf.template >odoo.conf
+chmod 600 odoo.conf
+
 echo "== database"
 docker compose up -d db
 until docker compose exec -T db pg_isready -U odoo -d postgres >/dev/null 2>&1; do sleep 2; done
@@ -64,7 +69,9 @@ if ! docker compose exec -T db psql -U odoo -d postgres -tAc "SELECT 1 FROM pg_d
 fi
 
 echo "== api-demo user and key"
-API_KEY=$(docker compose run --rm -T odoo -- shell -d odoo_demo_template --no-http 2>/dev/null <<'PY' | sed -n 's/^API_KEY=//p'
+# odoo shell executes piped stdin when it is not a tty. The key is printed on
+# one line and everything else (logs) goes to stderr.
+API_KEY=$( { docker compose run --rm -T odoo -- shell -d odoo_demo_template --no-http 2>/dev/null <<'PY' || true; } | sed -n 's/^API_KEY=//p'
 Users = env['res.users']
 user = Users.search([('login', '=', 'api-demo')], limit=1)
 if not user:

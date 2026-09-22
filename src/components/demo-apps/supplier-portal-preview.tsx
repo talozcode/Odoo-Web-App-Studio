@@ -31,7 +31,7 @@ export function SupplierPortalPreview() {
         ))}
       </div>
       <ul className="flex flex-col gap-2">
-        {PURCHASE_ORDERS.map((po) => (
+        {PURCHASE_ORDERS.filter((po) => po.status === activeFilter.toLowerCase()).map((po) => (
           <li
             key={po.id}
             className="rounded-lg border border-[var(--border)] px-3 py-2.5"

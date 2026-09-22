@@ -92,7 +92,14 @@ export default function AboutPage() {
         >
           the example apps
         </Link>{" "}
-        for the kinds of workflows this typically applies to, and{" "}
+        for the kinds of workflows this typically applies to,{" "}
+        <Link
+          href="/work"
+          className="font-medium text-[var(--odoo-teal)] underline underline-offset-4 hover:no-underline"
+        >
+          the work page
+        </Link>{" "}
+        for the apps already running this way for a real client, and{" "}
         <Link
           href="/guides/odoo-developer-vs-web-app-studio"
           className="font-medium text-[var(--odoo-teal)] underline underline-offset-4 hover:no-underline"
@@ -108,7 +115,7 @@ export default function AboutPage() {
       </h2>
       <p>
         {BRAND_NAME} is a new name, but not a new skill set. Behind it is
-        over five years of hands-on Odoo implementation work: configuring
+        5+ years of hands-on Odoo implementation and automation work: configuring
         Odoo for real businesses, and building the automations and
         integrations that keep it running smoothly once the initial setup is
         done. This site exists because that work kept turning up the same
@@ -123,9 +130,10 @@ export default function AboutPage() {
       <p>
         The brand is new; the experience isn&apos;t. Rather than pad this
         page with claims that aren&apos;t true, the honest version is
-        simpler: the approach above is the actual approach, the example apps
-        on the homepage are real working demonstrations of the pattern (not
-        mockups of hypothetical clients), and every project is scoped and
+        simpler: the approach above is the actual approach, the apps on the
+        work page are shipped and in daily use for one real client, the demos
+        on the homepage are working apps built the same way against a real
+        Odoo (not mockups of hypothetical clients), and every project is scoped and
         quoted individually through a direct conversation, based on the
         specific Odoo setup and workflow in front of it. See{" "}
         <Link

@@ -44,3 +44,7 @@ next-env.d.ts
 # files copied into public/brand/ and src/app/ are tracked)
 /odoowebapps_brand_pack/
 /OdooWebApps_Brand_Pack.zip
+
+# rendered on the demo VM only
+infra/odoo-demo/odoo.conf
+infra/odoo-demo/.env
