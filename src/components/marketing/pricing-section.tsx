@@ -16,7 +16,7 @@ export function PricingSection() {
               key={tier.id}
               className={
                 tier.id === "app"
-                  ? "relative flex flex-col rounded-xl border-2 border-[var(--brand-coral)]/40 bg-[var(--brand-coral)]/[0.04] p-6 pt-7 sm:-translate-y-2 sm:shadow-[0_16px_40px_-16px_rgba(255,107,74,0.35)]"
+                  ? "relative flex flex-col rounded-xl border-2 border-[var(--brand-coral)]/40 bg-[var(--brand-coral)]/[0.04] p-6 pt-7 sm:-translate-y-2 sm:shadow-[0_16px_40px_-16px_rgba(184,66,15,0.3)]"
                   : "flex flex-col rounded-xl border border-[var(--border)] p-6"
               }
             >

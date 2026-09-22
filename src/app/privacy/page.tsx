@@ -17,7 +17,6 @@ export default function PrivacyPage() {
   return (
     <StaticPageTemplate
       breadcrumbLabel="Privacy"
-      eyebrow="Legal"
       h1="Privacy Policy"
       subtitle={`Last updated ${LAST_UPDATED}`}
     >

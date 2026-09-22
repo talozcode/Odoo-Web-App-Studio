@@ -51,7 +51,6 @@ export default function OdooCustomerPortalPage() {
   return (
     <UseCasePageTemplate
       breadcrumbLabel="Odoo Customer Portal"
-      eyebrow="Customer-Facing"
       h1="A branded ordering portal your customers actually reorder from"
       intro="Odoo ships with a customer portal, and it works, but it looks and behaves like Odoo, and it's built to expose a bit of everything (quotes, invoices, tickets) rather than to make repeat ordering effortless for one specific type of customer. A dedicated portal can be branded to your business and narrowed to exactly the reordering flow your customers actually use."
       demo={<CustomerPortalPreview />}

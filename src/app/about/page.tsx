@@ -23,7 +23,6 @@ export default function AboutPage() {
   return (
     <StaticPageTemplate
       breadcrumbLabel="About"
-      eyebrow="About"
       h1={`About ${BRAND_NAME}`}
       subtitle={BRAND_TAGLINE}
     >

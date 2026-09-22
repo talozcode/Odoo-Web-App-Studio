@@ -51,7 +51,6 @@ export default function CustomOdooWebAppPage() {
   return (
     <UseCasePageTemplate
       breadcrumbLabel="Custom Odoo Web App"
-      eyebrow="Custom Workflow"
       h1="A custom web app for your specific Odoo workflow"
       intro="Not every workflow fits neatly into warehouse picking, sales ordering, a dashboard, or a portal. Expense approvals, delivery driver confirmations, a quality inspection checklist, a one-off data cleanup tool: these are all real, common requests, and they usually share the same shape: one clear input, one clear action, one clear result."
       demo={<CustomWorkflowPreview />}

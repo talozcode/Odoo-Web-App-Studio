@@ -105,10 +105,7 @@ export function GuidePageTemplate({
         </nav>
 
         <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-          <p className="text-sm font-semibold uppercase tracking-wide text-[var(--odoo-teal)]">
-            Guide
-          </p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl">
             {meta.title}
           </h1>
           <p className="mt-4 text-sm text-[var(--muted-foreground)]">
@@ -121,7 +118,7 @@ export function GuidePageTemplate({
 
           {relatedLinks && relatedLinks.length > 0 ? (
             <div className="mt-14 border-t border-[var(--border)] pt-8">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-[var(--muted-foreground)]">
+              <h2 className="text-sm font-semibold text-[var(--muted-foreground)]">
                 Related pages
               </h2>
               <ul className="mt-4 flex flex-col gap-2">

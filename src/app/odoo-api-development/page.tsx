@@ -54,7 +54,6 @@ export default function OdooApiDevelopmentPage() {
   return (
     <UseCasePageTemplate
       breadcrumbLabel="Odoo API Development"
-      eyebrow="Integration & API"
       h1="Odoo API development: the connection layer itself"
       intro="Every app on this site (the picking app, the sales app, the dashboard, both portals) is really the same underlying capability applied to a different screen: a reliable connection between an external app and Odoo's data. Sometimes that connection is the whole project, without a bespoke front end wrapped around it: syncing an e-commerce platform's orders into Odoo, or letting an internal tool read live stock levels."
       demo={

@@ -11,13 +11,11 @@ import { SiteFooter } from "@/components/marketing/site-footer";
  */
 export function StaticPageTemplate({
   breadcrumbLabel,
-  eyebrow,
   h1,
   subtitle,
   children,
 }: {
   breadcrumbLabel: string;
-  eyebrow: string;
   h1: string;
   subtitle?: string;
   children: ReactNode;
@@ -47,10 +45,7 @@ export function StaticPageTemplate({
         </nav>
 
         <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-          <p className="text-sm font-semibold uppercase tracking-wide text-[var(--odoo-teal)]">
-            {eyebrow}
-          </p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl">
             {h1}
           </h1>
           {subtitle ? (

@@ -31,12 +31,11 @@ export function Hero() {
       />
       <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-wide text-[var(--muted-foreground)]">
+          <p className="text-base font-medium text-[var(--muted-foreground)]">
             {BRAND_TAGLINE}
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl lg:text-5xl">
-            <span className="text-[var(--brand-coral)]">Odoo</span> doesn&apos;t
-            have to feel like <span className="text-[var(--brand-coral)]">Odoo</span>.
+            Odoo doesn&apos;t have to feel like Odoo.
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-[var(--muted-foreground)]">
             We build fast, beautiful web apps connected to your existing

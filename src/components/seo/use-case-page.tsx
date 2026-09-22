@@ -24,7 +24,6 @@ type RelatedLink = {
 export type UseCasePageTemplateProps = {
   /** Short label used in the breadcrumb trail, e.g. "Odoo Warehouse App". */
   breadcrumbLabel: string;
-  eyebrow: string;
   h1: string;
   intro: string;
   demo: ReactNode;
@@ -42,7 +41,6 @@ export type UseCasePageTemplateProps = {
 
 export function UseCasePageTemplate({
   breadcrumbLabel,
-  eyebrow,
   h1,
   intro,
   demo,
@@ -94,10 +92,7 @@ export function UseCasePageTemplate({
         <section className="border-b border-[var(--border)]">
           <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:px-8">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-wide text-[var(--odoo-teal)]">
-                {eyebrow}
-              </p>
-              <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl lg:text-5xl">
+              <h1 className="text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl lg:text-5xl">
                 {h1}
               </h1>
               <p className="mt-5 max-w-xl text-base leading-relaxed text-[var(--muted-foreground)]">

@@ -51,7 +51,6 @@ export default function OdooWarehouseAppPage() {
   return (
     <UseCasePageTemplate
       breadcrumbLabel="Odoo Warehouse App"
-      eyebrow="Warehouse & Inventory"
       h1="A faster picking app for your Odoo warehouse"
       intro="Odoo Inventory already tracks every stock move correctly. What's usually slow isn't the data model. It's asking a picker to work through general-purpose warehouse screens built for every operation Odoo supports, when their actual job is one thing: pick this order, confirm each line, done."
       demo={<WarehousePickingDemo />}

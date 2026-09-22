@@ -51,7 +51,6 @@ export default function OdooDashboardPage() {
   return (
     <UseCasePageTemplate
       breadcrumbLabel="Odoo Dashboard"
-      eyebrow="Reporting & Visibility"
       h1="A dashboard with the numbers you actually check"
       intro="Odoo's reporting tools (pivot tables, generic dashboards, spreadsheet exports) can answer almost any question, which is exactly why they're not built to answer one question fast. A focused dashboard skips the navigation and filters and shows the handful of numbers a specific manager actually looks at every day."
       demo={<DashboardDemo />}

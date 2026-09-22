@@ -37,7 +37,7 @@ export function PhilosophySection() {
 
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div className="rounded-xl border border-[var(--border)] bg-white p-6">
-            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--odoo-purple)]">
+            <p className="text-base font-semibold text-[var(--odoo-purple)]">
               Odoo stays responsible for
             </p>
             <ul className="mt-4 flex flex-wrap gap-2">
@@ -53,7 +53,7 @@ export function PhilosophySection() {
           </div>
 
           <div className="rounded-xl border border-[var(--border)] bg-white p-6">
-            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--brand-coral)]">
+            <p className="text-base font-semibold text-[var(--brand-coral)]">
               We build
             </p>
             <ul className="mt-4 flex flex-wrap gap-2">

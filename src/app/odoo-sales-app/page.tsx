@@ -51,7 +51,6 @@ export default function OdooSalesAppPage() {
   return (
     <UseCasePageTemplate
       breadcrumbLabel="Odoo Sales App"
-      eyebrow="Sales & Field Ordering"
       h1="A mobile ordering app for your Odoo sales reps"
       intro="Odoo's Sales app is built for back-office order management: quotations, terms, discounts, approval flows. A rep standing in a customer's shop with a phone doesn't need any of that. They need to pick a customer, add what they're buying, and submit, in under a minute."
       demo={<SalesAppDemo />}

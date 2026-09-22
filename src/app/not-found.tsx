@@ -10,7 +10,7 @@ export default function NotFound() {
 
       <main className="flex-1">
         <div className="mx-auto flex max-w-2xl flex-col items-center px-4 py-20 text-center sm:px-6 sm:py-28 lg:px-8">
-          <p className="text-sm font-semibold uppercase tracking-wide text-[var(--odoo-teal)]">
+          <p className="text-sm font-semibold text-[var(--odoo-teal)]">
             404
           </p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl">
@@ -25,7 +25,7 @@ export default function NotFound() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/"
-              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--brand-coral)] px-5 text-sm font-semibold text-white shadow-[0_8px_24px_-8px_rgba(255,107,74,0.5)] transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
+              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--brand-coral)] px-5 text-sm font-semibold text-white shadow-[0_4px_14px_-4px_rgba(184,66,15,0.35)] transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]"
             >
               Back to homepage
             </Link>
@@ -38,7 +38,7 @@ export default function NotFound() {
           </div>
 
           <div className="mt-14 w-full border-t border-[var(--border)] pt-8">
-            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--muted-foreground)]">
+            <p className="text-sm font-semibold text-[var(--muted-foreground)]">
               Or one of these
             </p>
             <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">

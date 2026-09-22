@@ -9,10 +9,7 @@ export function ExamplesSection() {
   return (
     <section id="examples" className="border-b border-[var(--border)]">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <SectionHeading
-          eyebrow="Example apps"
-          title="One job. One simple app."
-        />
+        <SectionHeading title="One job. One simple app." />
 
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {EXAMPLE_APPS.map((app) => {

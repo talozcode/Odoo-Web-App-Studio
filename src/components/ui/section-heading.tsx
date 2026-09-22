@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 
 type SectionHeadingProps = {
-  eyebrow?: string;
   title: string;
   description?: string;
   align?: "left" | "center";
@@ -9,7 +8,6 @@ type SectionHeadingProps = {
 };
 
 export function SectionHeading({
-  eyebrow,
   title,
   description,
   align = "center",
@@ -23,12 +21,7 @@ export function SectionHeading({
         className
       )}
     >
-      {eyebrow ? (
-        <p className="text-sm font-semibold uppercase tracking-wide text-[var(--odoo-teal)]">
-          {eyebrow}
-        </p>
-      ) : null}
-      <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-3xl">
+      <h2 className="text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-3xl">
         {title}
       </h2>
       {description ? (

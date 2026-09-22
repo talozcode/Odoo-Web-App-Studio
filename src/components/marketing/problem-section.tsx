@@ -25,7 +25,7 @@ export function ProblemSection() {
 
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div className="rounded-xl border border-[var(--border)] bg-white p-6">
-            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--odoo-purple)]">
+            <p className="text-base font-semibold text-[var(--odoo-purple)]">
               What Odoo gives them
             </p>
             <ul className="mt-4 flex flex-col gap-3">
@@ -42,7 +42,7 @@ export function ProblemSection() {
           </div>
 
           <div className="rounded-xl border border-[var(--brand-coral)]/30 bg-white p-6">
-            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--brand-coral)]">
+            <p className="text-base font-semibold text-[var(--brand-coral)]">
               What they actually need
             </p>
             <ul className="mt-4 flex flex-col gap-3">

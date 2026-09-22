@@ -45,10 +45,7 @@ export default function GuidesIndexPage() {
       <main className="flex-1">
         <section className="border-b border-[var(--border)]">
           <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 sm:py-20 lg:px-8">
-            <p className="text-sm font-semibold uppercase tracking-wide text-[var(--odoo-teal)]">
-              Guides
-            </p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl">
+            <h1 className="text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl">
               Straight answers about building on Odoo
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-[var(--muted-foreground)]">

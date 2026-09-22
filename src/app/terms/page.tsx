@@ -17,7 +17,6 @@ export default function TermsPage() {
   return (
     <StaticPageTemplate
       breadcrumbLabel="Terms"
-      eyebrow="Legal"
       h1="Terms of Service"
       subtitle={`Last updated ${LAST_UPDATED}`}
     >

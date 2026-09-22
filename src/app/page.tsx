@@ -3,6 +3,7 @@ import { websiteSchema, faqPageSchema } from "@/lib/schema";
 import { FAQ_ITEMS } from "@/config/faq";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { Hero } from "@/components/marketing/hero";
+import { CredibilityStrip } from "@/components/marketing/credibility-strip";
 import { ProblemSection } from "@/components/marketing/problem-section";
 import { ExamplesSection } from "@/components/marketing/examples-section";
 import { HowItWorks } from "@/components/marketing/how-it-works";
@@ -22,6 +23,7 @@ export default function Home() {
       <SiteHeader />
       <main className="flex-1">
         <Hero />
+        <CredibilityStrip />
         <ProblemSection />
         <ExamplesSection />
         <HowItWorks />

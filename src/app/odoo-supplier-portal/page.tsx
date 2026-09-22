@@ -51,7 +51,6 @@ export default function OdooSupplierPortalPage() {
   return (
     <UseCasePageTemplate
       breadcrumbLabel="Odoo Supplier Portal"
-      eyebrow="Purchasing & Suppliers"
       h1="A supplier portal built on your Odoo purchase orders"
       intro="Giving external suppliers direct access to Odoo is usually the wrong move: it's unfamiliar to them, and it exposes far more than they need. Most purchase order back-and-forth (confirm this, we can't do that quantity, it'll ship Friday) can instead happen through a narrow portal that shows a supplier exactly their own open orders and nothing else."
       demo={<SupplierPortalPreview />}
