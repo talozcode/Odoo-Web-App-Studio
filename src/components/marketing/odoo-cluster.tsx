@@ -32,7 +32,7 @@ const MODULE_DEFS: { label: string; x: number; y: number; icon: LucideIcon }[] =
 
 const MODULES = MODULE_DEFS.map((mod) => ({ ...mod, width: boxWidth(mod.label) }));
 
-const CONVERGE_X = 300;
+const CONVERGE_X = 326;
 const CONVERGE_Y = 125;
 const HUB_RADIUS = 11;
 

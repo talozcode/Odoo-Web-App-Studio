@@ -52,18 +52,18 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 items-center gap-6 lg:grid-cols-[1fr_auto_1fr] lg:gap-4">
-          <div className="flex justify-center">
+        <div className="mt-16 grid grid-cols-1 items-center gap-6 lg:grid-cols-[1fr_auto_1fr] lg:gap-0">
+          <div className="flex justify-center lg:justify-end">
             <OdooCluster />
           </div>
 
-          <ApiConnector className="hidden w-24 lg:flex" />
+          <ApiConnector className="hidden w-32 lg:flex" />
           <ApiConnector
             orientation="vertical"
             className="mx-auto flex h-16 lg:hidden"
           />
 
-          <div className="flex justify-center">
+          <div className="flex justify-center lg:justify-start">
             <TodaysPicksCard />
           </div>
         </div>
