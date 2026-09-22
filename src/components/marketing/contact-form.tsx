@@ -14,7 +14,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="min-h-11 w-full rounded-lg bg-[var(--brand-coral)] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#e85a3c] disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)] sm:w-auto"
+      className="min-h-11 w-full rounded-lg bg-[var(--brand-coral)] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#c1592c] disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)] sm:w-auto"
     >
       {pending ? "Sending…" : "Show us the problem"}
     </button>

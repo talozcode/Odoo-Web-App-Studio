@@ -131,7 +131,7 @@ export function WarehousePickingDemo() {
           type="button"
           onClick={scanItem}
           disabled={isComplete}
-          className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg bg-[var(--brand-coral)] text-sm font-semibold text-white transition-colors hover:bg-[#e85a3c] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
+          className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg bg-[var(--brand-coral)] text-sm font-semibold text-white transition-colors hover:bg-[#c1592c] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
         >
           <ScanLine aria-hidden="true" className="h-4 w-4" />
           Scan item

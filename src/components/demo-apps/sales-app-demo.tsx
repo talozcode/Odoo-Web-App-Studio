@@ -119,7 +119,7 @@ export function SalesAppDemo() {
             type="button"
             onClick={submit}
             disabled={selected.length === 0}
-            className="mt-4 min-h-11 w-full rounded-lg bg-[var(--brand-coral)] text-sm font-semibold text-white transition-colors hover:bg-[#e85a3c] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
+            className="mt-4 min-h-11 w-full rounded-lg bg-[var(--brand-coral)] text-sm font-semibold text-white transition-colors hover:bg-[#c1592c] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
           >
             Submit order ({selected.length})
           </button>

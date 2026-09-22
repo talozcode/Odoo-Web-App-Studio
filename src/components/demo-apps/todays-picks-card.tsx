@@ -42,7 +42,7 @@ export function TodaysPicksCard() {
       </ul>
       <button
         type="button"
-        className="mt-4 min-h-11 w-full rounded-lg bg-[var(--brand-coral)] text-sm font-semibold text-white transition-colors hover:bg-[#e85a3c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
+        className="mt-4 min-h-11 w-full rounded-lg bg-[var(--brand-coral)] text-sm font-semibold text-white transition-colors hover:bg-[#c1592c] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]"
       >
         Start picking
       </button>

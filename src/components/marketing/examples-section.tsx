@@ -3,16 +3,63 @@ import { ArrowRight } from "lucide-react";
 import { EXAMPLE_APPS, formatPriceFrom } from "@/config/examples";
 import { findUseCasePageByExampleId } from "@/config/use-case-pages";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { ButtonLink } from "@/components/ui/button";
 import { ExamplePreview } from "@/components/demo-apps/example-preview";
 
 export function ExamplesSection() {
+  const [featured, ...rest] = EXAMPLE_APPS;
+  const featuredPage = findUseCasePageByExampleId(featured.id);
+
   return (
     <section id="examples" className="border-b border-[var(--border)]">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <SectionHeading title="One job. One simple app." />
 
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {EXAMPLE_APPS.map((app) => {
+        {/* Featured example: rendered larger and side-by-side with its demo,
+            since one convincing interactive screen does more for credibility
+            than six equally-weighted small ones. */}
+        <div className="mt-12 grid grid-cols-1 items-center gap-10 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-10 lg:grid-cols-[1fr_1fr]">
+          <div>
+            <h3 className="text-2xl font-semibold text-[var(--foreground)]">
+              {featuredPage ? (
+                <Link
+                  href={`/${featuredPage.slug}`}
+                  className="hover:text-[var(--odoo-teal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] rounded-md"
+                >
+                  {featured.name}
+                </Link>
+              ) : (
+                featured.name
+              )}
+            </h3>
+            <p className="mt-1 text-base font-medium text-[var(--odoo-teal)]">
+              {featured.flow}
+            </p>
+            <p className="mt-3 max-w-sm text-base leading-relaxed text-[var(--muted-foreground)]">
+              {featured.description} Try it below: scan a line, watch the
+              count update, mark the order complete.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <p className="text-base font-semibold text-[var(--foreground)]">
+                {formatPriceFrom(featured.priceFrom)}
+              </p>
+              {featuredPage ? (
+                <ButtonLink href={`/${featuredPage.slug}`} variant="secondary">
+                  Full details
+                </ButtonLink>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="flex justify-center">
+            <div className="w-full max-w-md">
+              <ExamplePreview app={featured} />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {rest.map((app) => {
             const useCasePage = findUseCasePageByExampleId(app.id);
 
             return (
