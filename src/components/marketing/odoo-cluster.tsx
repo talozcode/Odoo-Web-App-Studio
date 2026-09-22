@@ -10,30 +10,36 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-const BOX_HEIGHT = 38;
+const BOX_HEIGHT = 36;
+const BOX_WIDTH = 146;
 const ICON_SIZE = 15;
 const FONT_SIZE = 13;
+const ROW_GAP = 50;
 
-// Size each box to its own label so "Manufacturing" is never clipped.
-function boxWidth(label: string): number {
-  return Math.max(96, label.length * 7.6 + 48);
-}
-
-const MODULE_DEFS: { label: string; x: number; y: number; icon: LucideIcon }[] = [
-  { label: "Sales", x: 40, y: 22, icon: ShoppingCart },
-  { label: "Contacts", x: 200, y: 62, icon: Users },
-  { label: "Inventory", x: 14, y: 110, icon: Package },
-  { label: "Purchase", x: 26, y: 196, icon: ClipboardList },
-  { label: "Manufacturing", x: 74, y: 258, icon: Factory },
-  { label: "Accounting", x: 222, y: 236, icon: Calculator },
+// One tidy column: every module box shares a left edge, and every line
+// leaves the box's right edge for the hub, so no line crosses a box.
+const MODULE_DEFS: { label: string; icon: LucideIcon }[] = [
+  { label: "Sales", icon: ShoppingCart },
+  { label: "Inventory", icon: Package },
+  { label: "Purchase", icon: ClipboardList },
+  { label: "Manufacturing", icon: Factory },
+  { label: "Accounting", icon: Calculator },
+  { label: "Contacts", icon: Users },
 ];
 
-const MODULES = MODULE_DEFS.map((mod) => ({ ...mod, width: boxWidth(mod.label) }));
+const MODULES = MODULE_DEFS.map((mod, index) => ({
+  ...mod,
+  x: 2,
+  y: 10 + index * ROW_GAP,
+  width: BOX_WIDTH,
+}));
 
-export const CLUSTER_WIDTH = 400;
-export const CLUSTER_HEIGHT = 320;
-const HUB_X = 366;
-const HUB_Y = 160;
+export const CLUSTER_WIDTH = 330;
+export const CLUSTER_HEIGHT = 10 + (MODULE_DEFS.length - 1) * ROW_GAP + BOX_HEIGHT + 10;
+const HUB_X = 296;
+/** Where the hub sits across the diagram width; the hero aligns the stacked link to it. */
+export const HUB_FRACTION = HUB_X / 330;
+const HUB_Y = CLUSTER_HEIGHT / 2;
 const HUB_RADIUS = 14;
 
 type OdooClusterProps = {
@@ -55,7 +61,7 @@ export function OdooCluster({ animated = false, className }: OdooClusterProps) {
       className={className ?? "h-auto w-full"}
     >
       {MODULES.map((mod, index) => {
-        const x1 = mod.x + mod.width / 2;
+        const x1 = mod.x + mod.width;
         const y1 = mod.y + BOX_HEIGHT / 2;
         const path = `M ${x1} ${y1} L ${HUB_X} ${HUB_Y}`;
         const style = {
@@ -126,7 +132,7 @@ export function OdooCluster({ animated = false, className }: OdooClusterProps) {
           fill="var(--odoo-purple)"
         />
       ) : null}
-      <circle cx={HUB_X} cy={HUB_Y} r={HUB_RADIUS + 6} fill="var(--odoo-purple)" fillOpacity={0.12} />
+      <circle cx={HUB_X} cy={HUB_Y} r={HUB_RADIUS + 8} fill="var(--odoo-purple)" fillOpacity={0.1} />
       <circle cx={HUB_X} cy={HUB_Y} r={HUB_RADIUS} fill="var(--background)" />
       <circle
         cx={HUB_X}
@@ -147,7 +153,7 @@ export function OdooCluster({ animated = false, className }: OdooClusterProps) {
       />
       <text
         x={HUB_X}
-        y={HUB_Y + HUB_RADIUS + 20}
+        y={HUB_Y + HUB_RADIUS + 24}
         fontSize={12}
         fontWeight={600}
         textAnchor="middle"

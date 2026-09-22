@@ -6,6 +6,7 @@ type ApiLinkProps = {
   animated?: boolean;
   label?: string;
   className?: string;
+  style?: CSSProperties;
 };
 
 /**
@@ -17,9 +18,10 @@ export function ApiLink({
   animated = false,
   label = "JSON-RPC API",
   className,
+  style,
 }: ApiLinkProps) {
   const horizontal = orientation === "horizontal";
-  const length = 120;
+  const length = 100;
   const thickness = 40;
   const width = horizontal ? length : thickness;
   const height = horizontal ? thickness : length;
@@ -36,7 +38,8 @@ export function ApiLink({
     <svg
       viewBox={`0 0 ${width} ${height}`}
       aria-hidden="true"
-      className={cn(horizontal ? "h-10 w-[120px] shrink-0" : "h-[120px] w-10 shrink-0", className)}
+      className={cn(horizontal ? "h-10 w-[100px] shrink-0" : "h-[100px] w-10 shrink-0", className)}
+      style={style}
     >
       <line
         x1={x1}

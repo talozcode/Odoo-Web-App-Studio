@@ -3,7 +3,7 @@ import { Smartphone } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { CONTACT_SECTION_ID } from "@/config/site";
 import { ExamplePreview } from "@/components/demo-apps/example-preview";
-import { OdooCluster } from "./odoo-cluster";
+import { OdooCluster, HUB_FRACTION } from "./odoo-cluster";
 import { ApiLink } from "./api-link";
 
 /**
@@ -38,19 +38,30 @@ export function Hero() {
       </div>
 
       <div className="border-t border-[var(--border)] bg-[var(--surface)]">
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-4 py-12 sm:px-6 lg:flex-row lg:items-center lg:justify-center lg:gap-4 lg:px-8 lg:py-14">
-          <div className="w-full max-w-md lg:max-w-[520px] lg:flex-1">
+        <div className="mx-auto flex max-w-sm flex-col px-4 py-12 sm:px-6 lg:max-w-6xl lg:flex-row lg:items-center lg:justify-center lg:px-8 lg:py-14">
+          <div className="w-full lg:w-[440px] lg:shrink-0">
             <OdooCluster animated />
           </div>
 
-          <ApiLink animated className="hidden lg:block" />
-          <ApiLink animated orientation="vertical" className="lg:hidden" />
+          <ApiLink animated label="API" className="hidden lg:block" />
+          {/* Stacked: the link and the node sit under the hub, which is at
+              HUB_FRACTION of the diagram's width. */}
+          <ApiLink
+            animated
+            orientation="vertical"
+            className="self-start lg:hidden"
+            style={{ marginLeft: `calc(${HUB_FRACTION * 100}% - 20px)` }}
+          />
 
-          <div className="flex w-full max-w-sm flex-col gap-3 lg:shrink-0">
-            <p className="inline-flex w-fit items-center gap-2 rounded-[9px] border-[1.75px] border-[var(--odoo-teal)] bg-[var(--background)] px-3.5 py-2 text-[13px] font-semibold text-[var(--foreground)]">
-              <Smartphone aria-hidden="true" className="h-4 w-4 text-[var(--odoo-teal)]" />
-              Your app
-            </p>
+          <p
+            className="z-10 inline-flex shrink-0 items-center gap-2 self-start whitespace-nowrap rounded-[9px] border-[1.75px] border-[var(--odoo-teal)] bg-[var(--background)] px-3.5 py-2 text-[13px] font-semibold text-[var(--foreground)] lg:self-auto lg:-mr-px"
+            style={{ marginLeft: `min(calc(${HUB_FRACTION * 100}% - 54px), calc(100% - 112px))` }}
+          >
+            <Smartphone aria-hidden="true" className="h-4 w-4 text-[var(--odoo-teal)]" />
+            Your app
+          </p>
+
+          <div className="mt-4 flex w-full flex-col gap-3 lg:mt-0 lg:w-96 lg:shrink-0">
             <ExamplePreview appId="warehouse-picking" withReadout animateIn />
             <p className="text-xs text-[var(--muted-foreground)]">
               Working demo. Scan a line or tap it to mark it picked.
