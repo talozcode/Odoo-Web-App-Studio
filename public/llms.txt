@@ -46,7 +46,7 @@ Odoo already does everything a business generally needs: accounting, inventory, 
 - [Homepage](https://odoowebapps.com/): Overview, all six example apps with live interactive demos, how-it-works, pricing, and FAQ.
 - [Guides index](https://odoowebapps.com/guides): All guide articles listed above.
 - [About](https://odoowebapps.com/about): Studio positioning and approach; no fabricated founding story, team size, or client count.
-- [Privacy Policy](https://odoowebapps.com/privacy): What the contact form collects and how it's handled (sent by email to the studio; no analytics or tracking scripts run on this site).
+- [Privacy Policy](https://odoowebapps.com/privacy): What the contact form collects and how it's handled (sent by email to the studio; the only analytics is cookieless, aggregate Vercel Web Analytics, no cross-site tracking or ad pixels).
 - [Terms of Service](https://odoowebapps.com/terms): Basic engagement terms: quote-before-work, scoped Odoo API access, no fabricated SLAs.
 
 ## Contact

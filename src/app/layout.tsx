@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import { BRAND_NAME } from "@/config/brand";
 import { SEO, SITE_URL } from "@/config/site";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <JsonLd data={organizationSchema()} />
         {children}
+        <Analytics />
       </body>
     </html>
   );

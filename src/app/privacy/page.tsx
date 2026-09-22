@@ -56,12 +56,15 @@ export default function PrivacyPage() {
         Analytics and cookies
       </h2>
       <p>
-        This site does not currently run any analytics service, tracking
-        cookie, or third-party script of any kind. There is no Google
-        Analytics, no advertising pixel, no session-replay tool, and no
-        cookie banner because there is nothing on this site that requires
-        one. If that changes in the future, this policy will be updated
-        before any such tool goes live, not after.
+        This site uses Vercel Web Analytics to see which pages get visited
+        and roughly how much traffic the site gets. It doesn&apos;t use
+        cookies, doesn&apos;t track you across other sites, and doesn&apos;t build
+        an individual profile of any visitor; it counts anonymized,
+        aggregate page views. There is no Google Analytics, no advertising
+        pixel, no session-replay tool, and still no cookie banner, since
+        nothing on this site sets a tracking cookie or requires consent to
+        run. If that changes, this policy will be updated before any such
+        tool goes live, not after.
       </p>
 
       <h2 className="text-xl font-semibold text-[var(--foreground)]">
