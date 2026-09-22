@@ -1,23 +1,13 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { GuidePageTemplate, GuideSection } from "@/components/seo/guide-page";
 import { guideBySlug } from "@/config/guides";
-import { BRAND_NAME } from "@/config/brand";
-import { SITE_URL } from "@/config/site";
+import { guideMetadata } from "@/lib/seo";
 
 const SLUG = "why-is-my-odoo-dashboard-slow";
 const meta = guideBySlug(SLUG)!;
 
-export const metadata: Metadata = {
-  title: `${meta.title} | ${BRAND_NAME}`,
-  description: meta.description,
-  alternates: { canonical: `${SITE_URL}/guides/${SLUG}` },
-  openGraph: {
-    title: meta.title,
-    description: meta.description,
-    url: `${SITE_URL}/guides/${SLUG}`,
-    type: "article",
-  },
-};
+export const metadata: Metadata = guideMetadata(meta);
 
 export default function Guide() {
   return (
@@ -80,7 +70,18 @@ export default function Guide() {
           numbers, rather than triggering the expensive cross-module query
           every time someone opens it.
         </p>
-      </GuideSection>
+              <p>
+          The same idea runs on a screen in each kitchen of a food group
+          we work with: a{" "}
+          <Link href="/work#kitchen-production-board" className="font-medium text-[var(--odoo-teal)] underline underline-offset-4 hover:no-underline">
+            read-only production board
+          </Link>{" "}
+          that shows what to make today, fed by a handful of{" "}
+          <code>search_read</code> calls on <code>mrp.production</code>{" "}
+          rather than by opening Odoo&apos;s manufacturing views on a shared
+          terminal.
+        </p>
+</GuideSection>
 
       <GuideSection heading="Does this fix Odoo's performance in general?">
         <p>

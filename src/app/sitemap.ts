@@ -33,15 +33,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const useCaseRoutes: MetadataRoute.Sitemap = USE_CASE_PAGES.map((page) => ({
     url: `${SITE_URL}/${page.slug}`,
     lastModified: new Date(page.updated),
-    changeFrequency: "monthly",
-    priority: 0.8,
   }));
 
   const guideRoutes: MetadataRoute.Sitemap = GUIDES.map((guide) => ({
     url: `${SITE_URL}/guides/${guide.slug}`,
     lastModified: new Date(guide.dateModified ?? guide.datePublished),
-    changeFrequency: "monthly",
-    priority: 0.6,
   }));
 
   return [...staticRoutes, ...useCaseRoutes, ...guideRoutes];

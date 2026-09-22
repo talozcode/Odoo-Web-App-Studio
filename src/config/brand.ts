@@ -12,7 +12,7 @@ export const BRAND_TAGLINE = "A web app studio for businesses that already use O
 export const FOUNDER = {
   name: "Tal Oz",
   jobTitle: "Founder, Odoo integration developer",
-  url: `https://odoowebapps.com/about`,
+  url: "https://odoowebapps.com/about#founder",
   /** Public profiles, added as they exist. */
   sameAs: [] as string[],
 };

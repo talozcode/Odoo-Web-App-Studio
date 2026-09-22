@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SectionHeading } from "@/components/ui/section-heading";
 
 // A genuine sequence, so numbering it is honest.
@@ -10,7 +11,7 @@ const STEPS = [
   {
     title: "The app talks to Odoo through its API",
     description:
-      "It reads what it needs and writes decisions back, over the same JSON-RPC interface Odoo's own clients use. Nothing is installed or modified inside Odoo.",
+      "It reads what it needs and writes decisions back through Odoo's external API (JSON-2 on Odoo 19, JSON-RPC before it), as a normal Odoo user with normal access rights. No custom code is installed inside Odoo.",
   },
   {
     title: "Your users get one screen for their job",
@@ -28,12 +29,13 @@ const ODOO_OWNS: { label: string; models: string[] }[] = [
   { label: "Master data", models: ["res.partner", "product.product"] },
 ];
 
-const WE_BUILD = [
-  "Focused interfaces for one team",
-  "Mobile workflows for the floor",
-  "Portals for customers and suppliers",
-  "Dashboards on live numbers",
-  "Specialist tools Odoo has no screen for",
+const WE_BUILD: { label: string; href: string }[] = [
+  { label: "Mobile picking apps for the warehouse floor", href: "/odoo-warehouse-app" },
+  { label: "Ordering apps for sales reps", href: "/odoo-sales-app" },
+  { label: "Portals for customers and suppliers", href: "/odoo-customer-portal" },
+  { label: "Dashboards on live numbers", href: "/odoo-dashboard" },
+  { label: "Custom web apps for the workflow Odoo has no screen for", href: "/custom-odoo-web-app" },
+  { label: "Odoo API development and integrations", href: "/odoo-api-development" },
 ];
 
 export function HowItWorks() {
@@ -83,16 +85,23 @@ export function HowItWorks() {
             <h3 className="text-base font-semibold text-[var(--foreground)]">We build</h3>
             <ul className="mt-4 flex flex-col gap-2">
               {WE_BUILD.map((item) => (
-                <li key={item} className="text-sm text-[var(--foreground)]">
-                  {item}
+                <li key={item.href} className="text-sm text-[var(--foreground)]">
+                  <Link
+                    href={item.href}
+                    className="underline decoration-[var(--odoo-gray)]/60 underline-offset-4 hover:text-[var(--odoo-teal)] hover:decoration-[var(--odoo-teal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-sm"
+                  >
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
             <p className="mt-6 max-w-md text-sm leading-relaxed text-[var(--muted-foreground)]">
-              Because nothing lives inside your Odoo database, there is no
-              custom code to clash with another module or to break the next
+              Because no custom code lives inside your Odoo database, there
+              is nothing to clash with another module or to break the next
               time Odoo upgrades. If Odoo changes an API field, the app is
-              adjusted; your Odoo is untouched.
+              adjusted; your Odoo is untouched. When a job is better done
+              inside Odoo, with a scheduled action or a mail template, we say
+              so and configure that instead.
             </p>
           </div>
         </div>

@@ -8,7 +8,7 @@
  * on the page.
  */
 import { BRAND_NAME, BRAND_TAGLINE, FOUNDER } from "@/config/brand";
-import { SITE_URL, SEO } from "@/config/site";
+import { SITE_URL, SEO, CONTACT_EMAIL } from "@/config/site";
 import type { ExampleApp } from "@/config/examples";
 import type { FaqItem } from "@/config/faq";
 
@@ -36,9 +36,10 @@ export function organizationSchema() {
     "@id": ORGANIZATION_ID,
     name: BRAND_NAME,
     url: SITE_URL,
-    logo: LOGO_URL,
+    logo: { "@type": "ImageObject", url: LOGO_URL },
+    image: `${SITE_URL}/opengraph-image.png`,
     description: BRAND_TAGLINE,
-    slogan: BRAND_TAGLINE,
+    email: CONTACT_EMAIL,
     foundingDate: "2026",
     founder: personSchema(),
     knowsAbout: ["Odoo", "Odoo API integration", "Odoo web apps", "ERP front ends"],
@@ -58,6 +59,8 @@ export function websiteSchema() {
     name: BRAND_NAME,
     url: SITE_URL,
     description: SEO.description,
+    inLanguage: "en",
+    publisher: { "@id": ORGANIZATION_ID },
   };
 }
 

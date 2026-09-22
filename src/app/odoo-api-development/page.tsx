@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { UseCasePageTemplate } from "@/components/seo/use-case-page";
 import { ExamplePreview } from "@/components/demo-apps/example-preview";
 import { capabilityServiceSchema } from "@/lib/schema";
-import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
 
 // Demo data is re-fetched from the demo Odoo at most every 45 seconds.
@@ -12,21 +12,14 @@ const SLUG = "odoo-api-development";
 const CANONICAL_URL = `${SITE_URL}/${SLUG}`;
 const SERVICE_NAME = "Odoo API Development";
 const SERVICE_DESCRIPTION =
-  "Custom integration work connecting external apps, portals and services to Odoo's XML-RPC/JSON-RPC API and ORM.";
+  "Custom integration work connecting external apps, portals and services to Odoo's external API (JSON-2 on Odoo 19, JSON-RPC and XML-RPC before it) and ORM.";
 
-export const metadata: Metadata = {
-  title: `Odoo API Development & Integration | ${BRAND_NAME}`,
+export const metadata: Metadata = pageMetadata({
+  title: "Odoo API Development & Integration",
   description:
-    "How Odoo's external API (XML-RPC/JSON-RPC over its ORM) works, and what it takes to build a reliable read-only or read-write integration against it.",
-  alternates: { canonical: CANONICAL_URL },
-  openGraph: {
-    title: "Odoo API Development & Integration",
-    description:
-      "How Odoo's external API works, and what it takes to build a reliable integration against it.",
-    url: CANONICAL_URL,
-    type: "website",
-  },
-};
+    "How Odoo's external API works (JSON-2 on Odoo 19, JSON-RPC and XML-RPC before it) and what it takes to build a reliable read-only or read-write integration against it.",
+  path: `/${SLUG}`,
+});
 
 const FAQS = [
   {
@@ -35,9 +28,9 @@ const FAQS = [
       "No. An integration should run under a dedicated API user with only the access rights it actually needs, the same way you'd scope any other integration. Standard Odoo access rights and record rules apply to API calls exactly as they do to a logged-in user, so scoping that user correctly is part of doing the integration properly.",
   },
   {
-    question: "Is XML-RPC or JSON-RPC better for the integration?",
+    question: "JSON-2, JSON-RPC or XML-RPC: which one should the integration use?",
     answer:
-      "Functionally they expose the same underlying ORM methods, so the choice usually comes down to what's easiest to work with in the external app's own language/stack rather than one being more capable than the other. JSON-RPC tends to be slightly more common in newer integrations simply because JSON tooling is more universal than XML-RPC tooling.",
+      "On Odoo 19 or later, JSON-2: it is the supported HTTP API, and Odoo has scheduled the XML-RPC and JSON-RPC endpoints for removal in Odoo 22 (fall 2028). On Odoo 16 to 18, JSON-RPC, since JSON tooling is universal and it is easier to debug than XML-RPC. All three expose the same ORM methods, so we keep the transport in one layer and the model and method calls unchanged.",
   },
   {
     question: "Does this work with Odoo Online, Odoo.sh, and self-hosted/on-premise?",
@@ -79,10 +72,11 @@ export default function OdooApiDevelopmentPage() {
           body: (
             <>
               <p>
-                Odoo exposes its entire ORM over two external protocols:
-                XML-RPC and JSON-RPC. Both let an authenticated external
-                client call the same core methods Odoo&apos;s own web client
-                calls internally: <code>search_read</code> and{" "}
+                Odoo exposes its ORM to external clients over JSON-2 (an
+                HTTP JSON API, new in Odoo 19) and, on every version from 16
+                up, over XML-RPC and JSON-RPC. All three let an authenticated
+                external client call the same core methods Odoo&apos;s own web
+                client calls internally: <code>search_read</code> and{" "}
                 <code>read_group</code> to query records, <code>create</code>{" "}
                 and <code>write</code> to add or update them, and{" "}
                 <code>unlink</code> to delete them, plus the ability to call
@@ -91,9 +85,10 @@ export default function OdooApiDevelopmentPage() {
                 fake that behavior by writing raw field values.
               </p>
               <p>
-                Authentication runs through a database, a username, and
-                either a password or (on more recent versions) an API key
-                scoped to that user. Every call is then subject to that
+                Authentication is an API key generated for a dedicated
+                integration user (a bearer header with JSON-2; a login step
+                that returns a user id with the RPC protocols). Every call is
+                then subject to that
                 user&apos;s normal Odoo access rights and record rules;
                 the API doesn&apos;t bypass Odoo&apos;s permission model, it
                 operates inside it.
@@ -154,6 +149,8 @@ export default function OdooApiDevelopmentPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/guides/odoo-api-multi-company-filtering", label: "Odoo API multi-company filtering" },
+        { href: "/guides/odoo-rest-api-explained", label: "Odoo REST API: JSON-2, JSON-RPC and XML-RPC" },
         { href: "/guides/odoo-api-integration-explained", label: "How Odoo's API actually works" },
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs. write-back Odoo integrations" },
         { href: "/guides/what-happens-when-odoo-upgrades", label: "What happens to a custom app when Odoo upgrades?" },

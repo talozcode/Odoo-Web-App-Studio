@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { UseCasePageTemplate } from "@/components/seo/use-case-page";
 import { ExamplePreview } from "@/components/demo-apps/example-preview";
 import { EXAMPLE_APPS } from "@/config/examples";
 import { serviceSchema } from "@/lib/schema";
-import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
 
 // Demo data is re-fetched from the demo Odoo at most every 45 seconds.
@@ -13,19 +13,12 @@ const SLUG = "odoo-dashboard";
 const CANONICAL_URL = `${SITE_URL}/${SLUG}`;
 const APP = EXAMPLE_APPS.find((a) => a.id === "management-dashboard")!;
 
-export const metadata: Metadata = {
-  title: `Odoo Management Dashboard: The Numbers That Matter | ${BRAND_NAME}`,
+export const metadata: Metadata = pageMetadata({
+  title: "Odoo Management Dashboard: The Numbers That Matter",
   description:
     "A focused management dashboard pulling live sales, margin, inventory and purchasing numbers from Odoo. Read-only, no risk to your data. Pricing and scope inside.",
-  alternates: { canonical: CANONICAL_URL },
-  openGraph: {
-    title: "Odoo Management Dashboard: The Numbers That Matter",
-    description:
-      "A focused management dashboard pulling live sales, margin, inventory and purchasing numbers from Odoo.",
-    url: CANONICAL_URL,
-    type: "website",
-  },
-};
+  path: `/${SLUG}`,
+});
 
 const FAQS = [
   {
@@ -54,7 +47,7 @@ export default function OdooDashboardPage() {
   return (
     <UseCasePageTemplate
       breadcrumbLabel="Odoo Dashboard"
-      h1="A dashboard with the numbers you actually check"
+      h1="A custom Odoo dashboard with the numbers you actually check"
       intro="Odoo's reporting tools (pivot tables, generic dashboards, spreadsheet exports) can answer almost any question, which is exactly why they're not built to answer one question fast. A focused dashboard skips the navigation and filters and shows the handful of numbers a specific manager actually looks at every day."
       demo={<ExamplePreview appId="management-dashboard" withReadout />}
       demoCaption="Interactive demo: a sample weekly management view."
@@ -117,7 +110,8 @@ export default function OdooDashboardPage() {
         },
       ]}
       relatedLinks={[
-        { href: "/odoo-sales-app", label: "Feed it from a mobile sales app" },
+        { href: "/odoo-sales-app", label: "Odoo mobile sales app for reps" },
+        { href: "/guides/why-is-my-odoo-dashboard-slow", label: "Why your Odoo dashboard is slow" },
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs. write-back Odoo integrations" },
         { href: "/guides/odoo-api-integration-explained", label: "How Odoo's API actually works" },
       ]}

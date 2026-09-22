@@ -1,23 +1,12 @@
 import type { Metadata } from "next";
 import { GuidePageTemplate, GuideSection } from "@/components/seo/guide-page";
 import { guideBySlug } from "@/config/guides";
-import { BRAND_NAME } from "@/config/brand";
-import { SITE_URL } from "@/config/site";
+import { guideMetadata } from "@/lib/seo";
 
 const SLUG = "odoo-rest-api-explained";
 const meta = guideBySlug(SLUG)!;
 
-export const metadata: Metadata = {
-  title: `${meta.title} | ${BRAND_NAME}`,
-  description: meta.description,
-  alternates: { canonical: `${SITE_URL}/guides/${SLUG}` },
-  openGraph: {
-    title: meta.title,
-    description: meta.description,
-    url: `${SITE_URL}/guides/${SLUG}`,
-    type: "article",
-  },
-};
+export const metadata: Metadata = guideMetadata(meta);
 
 export default function Guide() {
   return (
@@ -31,70 +20,111 @@ export default function Guide() {
     >
       <GuideSection heading="Does Odoo actually have a REST API?">
         <p>
-          Not a native one, no. This is one of the most common points
-          of confusion for anyone starting to evaluate an Odoo integration.
-          Odoo&apos;s built-in external API is exposed over two RPC
-          protocols, XML-RPC and JSON-RPC, both of which call the same
-          underlying ORM methods. Neither of those is REST in the
-          architectural sense: there&apos;s no set of resource URLs like{" "}
-          <code>/api/sale.order/42</code> that you <code>GET</code>,{" "}
-          <code>PUT</code>, or <code>DELETE</code> against with plain HTTP
-          verbs and status codes. If you&apos;ve found documentation or a
-          module claiming Odoo has REST endpoints, it&apos;s either
-          describing JSON-RPC loosely as &quot;REST-like,&quot; or it&apos;s a
-          third-party or self-hosted addition, not something Odoo ships by
-          default.
+          Since Odoo 19, yes: a plain HTTP JSON API that Odoo calls JSON-2.
+          You <code>POST</code> a JSON body to{" "}
+          <code>/json/2/&lt;model&gt;/&lt;method&gt;</code> with an{" "}
+          <code>Authorization: bearer &lt;api key&gt;</code> header and get
+          the method&apos;s return value back as JSON, with normal HTTP status
+          codes for errors. Before Odoo 19 the answer was no: the external
+          API was only exposed over two RPC protocols, XML-RPC and JSON-RPC,
+          which call the same ORM methods through a single generic{" "}
+          <code>execute_kw</code> dispatcher. Those RPC endpoints still work
+          on Odoo 19 but are officially deprecated, with removal scheduled
+          for Odoo 22 in fall 2028.
+        </p>
+        <p>
+          Two things people miss when they read &quot;REST&quot;: JSON-2 is
+          still organised around model methods, not resource URLs (there is
+          no <code>GET /api/sale.order/42</code>; you call{" "}
+          <code>/json/2/sale.order/read</code> with an id list), and on Odoo
+          Online the external API, JSON-2 included, is only available on the
+          Custom plan, not on One App Free or Standard. Self-hosted and
+          Odoo.sh databases are not limited that way.
         </p>
       </GuideSection>
 
-      <GuideSection heading="What does Odoo actually expose instead?">
+      <GuideSection heading="What does a JSON-2 call look like?">
         <p>
-          A single generic dispatch method, commonly reached as{" "}
-          <code>execute_kw</code>, that takes a model name, a method name,
-          and arguments, and runs it against Odoo&apos;s ORM as the
-          authenticated user. Standard CRUD (<code>search</code>,{" "}
-          <code>search_read</code>, <code>create</code>, <code>write</code>,{" "}
-          <code>unlink</code>) is always available this way, and so is any
-          other public method on that model, including business actions
-          like confirming a sales order. See the guide on how Odoo&apos;s API
-          actually works, linked below, for the full mechanics of
-          authentication and calling it.
+          One request per method call. The URL names the model and method,
+          the body carries the arguments as named JSON fields, and{" "}
+          <code>ids</code> carries the records to act on (empty or omitted
+          for model-level methods such as <code>search_read</code>). Odoo&apos;s
+          own example searches partners:
+        </p>
+        <pre className="overflow-x-auto rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-[13px] leading-6 text-[var(--foreground)]">{`POST /json/2/res.partner/search_read
+Host: mycompany.example.com
+Authorization: bearer <api key>
+Content-Type: application/json
+
+{
+  "domain": [["is_company", "=", true], ["name", "ilike", "%deco%"]],
+  "fields": ["name"]
+}
+
+HTTP/1.1 200 OK
+[{ "id": 25, "name": "Deco Addict" }]`}</pre>
+        <p>
+          The API key comes from the user&apos;s Preferences under Account
+          Security. Odoo 19 caps every key at three months, so a production
+          integration needs a rotation routine; keys can also be generated
+          and revoked programmatically through{" "}
+          <code>res.users.apikeys/generate</code> once the{" "}
+          <code>base.enable_programmatic_api_keys</code> parameter is on.
+          Each JSON-2 call runs in its own database transaction, so a
+          multi-step operation (create an order, then confirm it) is two
+          transactions; when that matters, call one method that does the
+          whole job, such as <code>sale.order/action_confirm</code>.
         </p>
       </GuideSection>
 
-      <GuideSection heading="Why does Odoo do it this way instead of shipping REST?">
+      <GuideSection heading="What did Odoo expose before JSON-2?">
         <p>
-          XML-RPC and JSON-RPC both predate Odoo&apos;s current form and map
-          naturally onto exposing an ORM&apos;s methods directly: a single
-          endpoint that can call anything the ORM supports, rather than
-          hand-defining a REST resource and set of verbs for every one of
-          the hundreds of models Odoo ships. It&apos;s a pragmatic choice for
-          an ORM-centric framework, even though it means Odoo doesn&apos;t look
-          like a typical modern REST or GraphQL API out of the box.
+          A single generic dispatch method, <code>execute_kw</code>, reached
+          over XML-RPC at <code>/xmlrpc/2/object</code> or over JSON-RPC at{" "}
+          <code>/jsonrpc</code>. It takes a database name, user id, password
+          or API key, model name, method name and arguments, and runs the
+          method against Odoo&apos;s ORM as that user. Standard CRUD (
+          <code>search</code>, <code>search_read</code>, <code>create</code>,{" "}
+          <code>write</code>, <code>unlink</code>) and business actions like
+          confirming a sales order are all reached the same way. Odoo 16, 17
+          and 18 only have this interface, which is why every integration
+          library and most tutorials still speak RPC. See the guide on how
+          Odoo&apos;s API actually works, linked below, for authentication and
+          the calling mechanics.
         </p>
       </GuideSection>
 
-      <GuideSection heading="Does this actually stop you from integrating with Odoo?">
+      <GuideSection heading="Which one should a new integration use?">
         <p>
-          No. Every client language with an HTTP or XML-RPC library can call
-          Odoo&apos;s existing RPC API: Python, JavaScript/Node, PHP, and
-          plenty of others have mature libraries for exactly this. The
-          practical effect of &quot;no native REST&quot; isn&apos;t that
-          integration is blocked, it&apos;s that the calling code has to
-          think in terms of model names and method calls (
-          <code>execute_kw(&quot;sale.order&quot;, &quot;search_read&quot;, ...)</code>
-          ) rather than REST-style URLs and verbs, a different shape of
-          code, not a harder problem.
+          On Odoo 19 or later, JSON-2: it is the supported path, the request
+          shape is simpler, and the RPC endpoints have an end date. On Odoo
+          16 to 18, JSON-RPC (it is the same JSON transport most HTTP clients
+          already handle, and easier to debug than XML-RPC). If an
+          integration has to span versions, keep the model and method names
+          in one place and swap only the transport layer; the ORM methods
+          you call are identical on both.
+        </p>
+      </GuideSection>
+
+      <GuideSection heading="Does any of this stop you from integrating with Odoo?">
+        <p>
+          No. Every language with an HTTP library can call JSON-2, and every
+          language with an XML-RPC or HTTP library can call the older RPC
+          endpoints. The practical effect of Odoo&apos;s design is that
+          calling code thinks in model names and method calls (
+          <code>sale.order/search_read</code>) rather than REST-style
+          resource URLs and verbs: a different shape of code, not a harder
+          problem.
         </p>
       </GuideSection>
 
       <GuideSection heading="When does a thin REST layer in front of Odoo make sense?">
         <p>
           It&apos;s a genuinely common and reasonable pattern: build a small
-          server that exposes a handful of proper REST (or GraphQL) endpoints
-          your own frontend or a third-party system can call, and have that
-          server translate each request into the equivalent Odoo RPC calls
-          behind the scenes. This makes sense when the consuming client
+          server that exposes a handful of resource-style REST (or GraphQL)
+          endpoints your own frontend or a third-party system can call, and
+          have that server translate each request into the equivalent Odoo
+          JSON-2 or RPC calls behind the scenes. This makes sense when the consuming client
           expects conventional REST (a mobile app framework, a no-code tool,
           a partner system you don&apos;t control), when you want to expose
           only a narrow, deliberately scoped slice of Odoo&apos;s data instead
@@ -108,7 +138,7 @@ export default function Guide() {
         <p>
           If the thing calling Odoo is a web app or backend you&apos;re
           building yourself, there&apos;s usually no reason to invent a REST
-          layer in between: calling Odoo&apos;s RPC API directly from that
+          layer in between: calling Odoo&apos;s API directly from that
           app&apos;s own backend is simpler and has one fewer moving part to
           maintain. The extra REST layer earns its cost specifically when
           something outside your control needs a conventional REST contract,

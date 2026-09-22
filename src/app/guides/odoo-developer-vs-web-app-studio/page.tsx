@@ -1,23 +1,13 @@
 import type { Metadata } from "next";
 import { GuidePageTemplate, GuideSection } from "@/components/seo/guide-page";
 import { guideBySlug } from "@/config/guides";
+import { guideMetadata } from "@/lib/seo";
 import { BRAND_NAME } from "@/config/brand";
-import { SITE_URL } from "@/config/site";
 
 const SLUG = "odoo-developer-vs-web-app-studio";
 const meta = guideBySlug(SLUG)!;
 
-export const metadata: Metadata = {
-  title: `${meta.title} | ${BRAND_NAME}`,
-  description: meta.description,
-  alternates: { canonical: `${SITE_URL}/guides/${SLUG}` },
-  openGraph: {
-    title: meta.title,
-    description: meta.description,
-    url: `${SITE_URL}/guides/${SLUG}`,
-    type: "article",
-  },
-};
+export const metadata: Metadata = guideMetadata(meta);
 
 export default function Guide() {
   return (

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { UseCasePageTemplate } from "@/components/seo/use-case-page";
 import { ExamplePreview } from "@/components/demo-apps/example-preview";
 import { EXAMPLE_APPS } from "@/config/examples";
 import { serviceSchema } from "@/lib/schema";
-import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
 
 // Demo data is re-fetched from the demo Odoo at most every 45 seconds.
@@ -13,19 +13,12 @@ const SLUG = "odoo-warehouse-app";
 const CANONICAL_URL = `${SITE_URL}/${SLUG}`;
 const APP = EXAMPLE_APPS.find((a) => a.id === "warehouse-picking")!;
 
-export const metadata: Metadata = {
-  title: `Odoo Warehouse App: Mobile Picking Interface | ${BRAND_NAME}`,
+export const metadata: Metadata = pageMetadata({
+  title: "Odoo Warehouse App: Mobile Picking Interface",
   description:
     "A focused, mobile-first picking app connected to Odoo Inventory. Scan, confirm and validate transfers without navigating Odoo's full backend. Pricing and scope inside.",
-  alternates: { canonical: CANONICAL_URL },
-  openGraph: {
-    title: "Odoo Warehouse App: Mobile Picking Interface",
-    description:
-      "A focused, mobile-first picking app connected to Odoo Inventory.",
-    url: CANONICAL_URL,
-    type: "website",
-  },
-};
+  path: `/${SLUG}`,
+});
 
 const FAQS = [
   {
@@ -136,6 +129,7 @@ export default function OdooWarehouseAppPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/work#barcode-picking", label: "The barcode picking app we run in production" },
         { href: "/guides/odoo-barcode-app-buy-or-build", label: "Odoo Barcode app: use Odoo's, or build a custom one?" },
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs. write-back Odoo integrations" },
         { href: "/guides/how-much-does-a-custom-odoo-app-cost", label: "How much does a custom Odoo app cost?" },

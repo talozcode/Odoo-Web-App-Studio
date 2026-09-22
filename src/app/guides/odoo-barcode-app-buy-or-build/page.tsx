@@ -1,23 +1,13 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { GuidePageTemplate, GuideSection } from "@/components/seo/guide-page";
 import { guideBySlug } from "@/config/guides";
-import { BRAND_NAME } from "@/config/brand";
-import { SITE_URL } from "@/config/site";
+import { guideMetadata } from "@/lib/seo";
 
 const SLUG = "odoo-barcode-app-buy-or-build";
 const meta = guideBySlug(SLUG)!;
 
-export const metadata: Metadata = {
-  title: `${meta.title} | ${BRAND_NAME}`,
-  description: meta.description,
-  alternates: { canonical: `${SITE_URL}/guides/${SLUG}` },
-  openGraph: {
-    title: meta.title,
-    description: meta.description,
-    url: `${SITE_URL}/guides/${SLUG}`,
-    type: "article",
-  },
-};
+export const metadata: Metadata = guideMetadata(meta);
 
 export default function Guide() {
   return (
@@ -69,7 +59,18 @@ export default function Guide() {
           licensing reasons. See the warehouse app guide, linked below, for
           what that narrower build actually looks like.
         </p>
-      </GuideSection>
+              <p>
+          A concrete example: the{" "}
+          <Link href="/work#barcode-picking" className="font-medium text-[var(--odoo-teal)] underline underline-offset-4 hover:no-underline">
+            barcode picking app we run in production
+          </Link>{" "}
+          for a multi-site food group exists for one reason Odoo&apos;s
+          Barcode app did not cover for them: checking lot expiry as each
+          line is picked, so short-dated stock is caught on the floor rather
+          than by the customer. Everything else it does, Odoo Barcode also
+          does; that one rule justified the build.
+        </p>
+</GuideSection>
 
       <GuideSection heading="Is a custom app actually simpler, or just different?">
         <p>

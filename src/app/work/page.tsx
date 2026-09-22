@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { SiteHeader } from "@/components/marketing/site-header";
@@ -8,7 +9,6 @@ import { ButtonLink } from "@/components/ui/button";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbSchema } from "@/lib/schema";
 import { WORK_CASES, WORK_CONTEXT } from "@/config/work";
-import { BRAND_NAME } from "@/config/brand";
 import { CONTACT_SECTION_ID, SITE_URL } from "@/config/site";
 
 const CANONICAL_URL = `${SITE_URL}/work`;
@@ -16,17 +16,12 @@ const CANONICAL_URL = `${SITE_URL}/work`;
 const COUNT_WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
 const COUNT = COUNT_WORDS[WORK_CASES.length] ?? String(WORK_CASES.length);
 
-export const metadata: Metadata = {
-  title: `Work: Odoo-connected apps in production | ${BRAND_NAME}`,
-  description: `${COUNT.charAt(0).toUpperCase()}${COUNT.slice(1)} shipped apps and automations for our clients on Odoo 18: barcode picking, a B2B ordering portal, a kitchen production board, container planning and more. Anonymised, all in daily use.`,
-  alternates: { canonical: CANONICAL_URL },
-  openGraph: {
-    title: "Work: Odoo-connected apps in production",
-    description: WORK_CONTEXT,
-    url: CANONICAL_URL,
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Work: Odoo-connected apps in production",
+  description:
+    `${COUNT.charAt(0).toUpperCase()}${COUNT.slice(1)} shipped apps and automations for our clients on Odoo 18: barcode picking, a B2B ordering portal, a kitchen production board, container planning and more. Anonymised, all in daily use.`,
+  path: "/work",
+});
 
 export default function WorkPage() {
   const itemListSchema = {

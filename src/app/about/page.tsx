@@ -1,27 +1,22 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { StaticPageTemplate } from "@/components/seo/static-page";
-import { BRAND_NAME, BRAND_TAGLINE } from "@/config/brand";
-import { SITE_URL } from "@/config/site";
+import { BRAND_NAME, BRAND_TAGLINE, FOUNDER } from "@/config/brand";
 
-const CANONICAL_URL = `${SITE_URL}/about`;
 
-export const metadata: Metadata = {
-  title: `About | ${BRAND_NAME}`,
-  description: `${BRAND_TAGLINE} What ${BRAND_NAME} builds, and why it deliberately stays narrow.`,
-  alternates: { canonical: CANONICAL_URL },
-  openGraph: {
-    title: `About ${BRAND_NAME}`,
-    description: BRAND_TAGLINE,
-    url: CANONICAL_URL,
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMetadata({
+  title: "About",
+  description:
+    `${BRAND_TAGLINE} What ${BRAND_NAME} builds, and why it deliberately stays narrow.`,
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (
     <StaticPageTemplate
+      path="/about"
       breadcrumbLabel="About"
       h1={`About ${BRAND_NAME}`}
       subtitle={BRAND_TAGLINE}
@@ -110,18 +105,21 @@ export default function AboutPage() {
         competing with them.
       </p>
 
-      <h2 className="text-xl font-semibold text-[var(--foreground)]">
+      <h2 id="founder" className="text-xl font-semibold text-[var(--foreground)]">
         Who&apos;s behind this
       </h2>
       <p>
-        {BRAND_NAME} is a new name, but not a new skill set. Behind it is
+        {BRAND_NAME} is run by {FOUNDER.name}, an Odoo integration developer.
+        The name is new; the skill set is not. Behind it is
         5+ years of hands-on Odoo implementation and automation work: configuring
         Odoo for real businesses, and building the automations and
         integrations that keep it running smoothly once the initial setup is
         done. This site exists because that work kept turning up the same
         pattern, over and over: the fix a team actually needed was rarely
         &quot;more Odoo.&quot; It was one small, focused app sitting outside
-        it, talking to it through its API.
+        it, talking to it through its API. That is also why the studio is
+        not an implementation partner: the implementation years are the
+        background, and the apps next to Odoo are the whole business now.
       </p>
 
       <h2 className="text-xl font-semibold text-[var(--foreground)]">

@@ -3,6 +3,9 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { SiteFooter } from "@/components/marketing/site-footer";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbSchema } from "@/lib/schema";
+import { SITE_URL } from "@/config/site";
 
 /**
  * Shared shell for simple prose pages (About, Privacy, Terms) that don't
@@ -13,15 +16,19 @@ export function StaticPageTemplate({
   breadcrumbLabel,
   h1,
   subtitle,
+  path,
   children,
 }: {
   breadcrumbLabel: string;
   h1: string;
   subtitle?: string;
+  /** Path from the site root, for the breadcrumb schema. */
+  path: string;
   children: ReactNode;
 }) {
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: SITE_URL }, { name: breadcrumbLabel, url: `${SITE_URL}${path}` }])} />
       <SiteHeader />
 
       <main className="flex-1">

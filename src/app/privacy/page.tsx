@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { StaticPageTemplate } from "@/components/seo/static-page";
 import { BRAND_NAME } from "@/config/brand";
-import { SITE_URL, CONTACT_EMAIL } from "@/config/site";
+import { CONTACT_EMAIL } from "@/config/site";
 
-const CANONICAL_URL = `${SITE_URL}/privacy`;
-const LAST_UPDATED = "September 18, 2026";
+const LAST_UPDATED = "22 September 2026";
 
-export const metadata: Metadata = {
-  title: `Privacy Policy | ${BRAND_NAME}`,
-  description: `What ${BRAND_NAME} collects through this website's contact form, how it's handled today, and what analytics (if any) are in use.`,
-  alternates: { canonical: CANONICAL_URL },
-  robots: { index: true, follow: true },
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Privacy Policy",
+  description:
+    `What ${BRAND_NAME} collects through this website's contact form, how it's handled today, and what analytics (if any) are in use.`,
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (
     <StaticPageTemplate
+      path="/privacy"
       breadcrumbLabel="Privacy"
       h1="Privacy Policy"
       subtitle={`Last updated ${LAST_UPDATED}`}

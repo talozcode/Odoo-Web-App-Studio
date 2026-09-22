@@ -3,6 +3,11 @@ export type FaqItem = {
   answer: string;
 };
 
+import { PRICING_TIERS } from "./pricing";
+
+const TINY = PRICING_TIERS.find((t) => t.id === "tiny")!;
+const APP = PRICING_TIERS.find((t) => t.id === "app")!;
+
 export const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Do you replace Odoo?",
@@ -32,7 +37,7 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     question: "How much does an app cost?",
     answer:
-      "Small applications can start at a few hundred dollars. More sophisticated workflows are quoted based on scope.",
+      `A single focused screen is priced ${TINY.price.toLowerCase()}. A polished multi-screen app around one workflow is typically ${APP.price}. Bigger systems are quoted on scope after a conversation.`,
   },
   {
     question: "Can you build anything?",

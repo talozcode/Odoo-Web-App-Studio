@@ -5,9 +5,9 @@ import { SectionHeading } from "@/components/ui/section-heading";
 const FEATURED_SLUGS = [
   "odoo-customization-vs-custom-apps",
   "how-much-does-a-custom-odoo-app-cost",
-  "what-happens-when-odoo-upgrades",
+  "odoo-rest-api-explained",
   "odoo-api-integration-explained",
-  "odoo-write-back-vs-read-only-integrations",
+  "odoo-studio-limitations",
   "odoo-barcode-app-buy-or-build",
 ];
 

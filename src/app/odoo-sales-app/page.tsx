@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { UseCasePageTemplate } from "@/components/seo/use-case-page";
 import { ExamplePreview } from "@/components/demo-apps/example-preview";
 import { EXAMPLE_APPS } from "@/config/examples";
 import { serviceSchema } from "@/lib/schema";
-import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
 
 // Demo data is re-fetched from the demo Odoo at most every 45 seconds.
@@ -13,19 +13,12 @@ const SLUG = "odoo-sales-app";
 const CANONICAL_URL = `${SITE_URL}/${SLUG}`;
 const APP = EXAMPLE_APPS.find((a) => a.id === "sales-app")!;
 
-export const metadata: Metadata = {
-  title: `Odoo Sales App: Mobile Ordering for Reps | ${BRAND_NAME}`,
+export const metadata: Metadata = pageMetadata({
+  title: "Odoo Sales App: Mobile Ordering for Reps",
   description:
     "A simple mobile ordering app for field sales reps, connected directly to Odoo Sales. Pick a customer, add products, submit: no backoffice screens. Pricing inside.",
-  alternates: { canonical: CANONICAL_URL },
-  openGraph: {
-    title: "Odoo Sales App: Mobile Ordering for Reps",
-    description:
-      "A simple mobile ordering app for field sales reps, connected directly to Odoo Sales.",
-    url: CANONICAL_URL,
-    type: "website",
-  },
-};
+  path: `/${SLUG}`,
+});
 
 const FAQS = [
   {
@@ -123,7 +116,8 @@ export default function OdooSalesAppPage() {
         },
       ]}
       relatedLinks={[
-        { href: "/odoo-dashboard", label: "Pair it with a management dashboard" },
+        { href: "/odoo-dashboard", label: "Odoo management dashboard" },
+        { href: "/guides/why-sales-reps-dont-use-odoo-mobile", label: "Why sales reps don't use Odoo on their phones" },
         { href: "/guides/odoo-api-integration-explained", label: "How Odoo's API actually works" },
         { href: "/guides/how-much-does-a-custom-odoo-app-cost", label: "How much does a custom Odoo app cost?" },
       ]}

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { UseCasePageTemplate } from "@/components/seo/use-case-page";
 import { ExamplePreview } from "@/components/demo-apps/example-preview";
 import { EXAMPLE_APPS } from "@/config/examples";
 import { serviceSchema } from "@/lib/schema";
-import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
 
 // Demo data is re-fetched from the demo Odoo at most every 45 seconds.
@@ -13,19 +13,12 @@ const SLUG = "odoo-supplier-portal";
 const CANONICAL_URL = `${SITE_URL}/${SLUG}`;
 const APP = EXAMPLE_APPS.find((a) => a.id === "supplier-portal")!;
 
-export const metadata: Metadata = {
-  title: `Odoo Supplier Portal for Purchase Orders | ${BRAND_NAME}`,
+export const metadata: Metadata = pageMetadata({
+  title: "Odoo Supplier Portal for Purchase Orders",
   description:
     "Let suppliers confirm and update purchase orders without logging into Odoo directly. A focused portal built on Odoo Purchase. Pricing and scope inside.",
-  alternates: { canonical: CANONICAL_URL },
-  openGraph: {
-    title: "Odoo Supplier Portal for Purchase Orders",
-    description:
-      "Let suppliers confirm and update purchase orders without logging into Odoo directly.",
-    url: CANONICAL_URL,
-    type: "website",
-  },
-};
+  path: `/${SLUG}`,
+});
 
 const FAQS = [
   {
@@ -54,7 +47,7 @@ export default function OdooSupplierPortalPage() {
   return (
     <UseCasePageTemplate
       breadcrumbLabel="Odoo Supplier Portal"
-      h1="A supplier portal built on your Odoo purchase orders"
+      h1="A supplier (vendor) portal built on your Odoo purchase orders"
       intro="Giving external suppliers direct access to Odoo is usually the wrong move: it's unfamiliar to them, and it exposes far more than they need. Most purchase order back-and-forth (confirm this, we can't do that quantity, it'll ship Friday) can instead happen through a narrow portal that shows a supplier exactly their own open orders and nothing else."
       demo={<ExamplePreview appId="supplier-portal" />}
       demoCaption="Interactive demo: a sample purchase order list."
@@ -110,6 +103,7 @@ export default function OdooSupplierPortalPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/guides/odoo-purchase-approval-mobile-app", label: "Odoo purchase approvals on mobile" },
         { href: "/odoo-customer-portal", label: "The customer-side equivalent" },
         { href: "/odoo-warehouse-app", label: "Pair it with a warehouse receiving flow" },
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs. write-back Odoo integrations" },

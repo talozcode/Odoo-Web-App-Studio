@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { UseCasePageTemplate } from "@/components/seo/use-case-page";
 import { ExamplePreview } from "@/components/demo-apps/example-preview";
 import { EXAMPLE_APPS } from "@/config/examples";
 import { serviceSchema } from "@/lib/schema";
-import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
 
 // Demo data is re-fetched from the demo Odoo at most every 45 seconds.
@@ -13,19 +13,12 @@ const SLUG = "odoo-customer-portal";
 const CANONICAL_URL = `${SITE_URL}/${SLUG}`;
 const APP = EXAMPLE_APPS.find((a) => a.id === "customer-ordering-portal")!;
 
-export const metadata: Metadata = {
-  title: `Odoo Customer Ordering Portal | ${BRAND_NAME}`,
+export const metadata: Metadata = pageMetadata({
+  title: "Odoo Customer Ordering Portal",
   description:
     "A branded customer ordering portal connected directly to Odoo Sales, built for fast reordering instead of Odoo's general-purpose portal. Pricing and scope inside.",
-  alternates: { canonical: CANONICAL_URL },
-  openGraph: {
-    title: "Odoo Customer Ordering Portal",
-    description:
-      "A branded customer ordering portal connected directly to Odoo Sales.",
-    url: CANONICAL_URL,
-    type: "website",
-  },
-};
+  path: `/${SLUG}`,
+});
 
 const FAQS = [
   {
@@ -54,7 +47,7 @@ export default function OdooCustomerPortalPage() {
   return (
     <UseCasePageTemplate
       breadcrumbLabel="Odoo Customer Portal"
-      h1="A branded ordering portal your customers actually reorder from"
+      h1="An Odoo B2B ordering portal your customers actually reorder from"
       intro="Odoo ships with a customer portal, and it works, but it looks and behaves like Odoo, and it's built to expose a bit of everything (quotes, invoices, tickets) rather than to make repeat ordering effortless for one specific type of customer. A dedicated portal can be branded to your business and narrowed to exactly the reordering flow your customers actually use."
       demo={<ExamplePreview appId="customer-ordering-portal" />}
       demoCaption="Interactive demo: a sample reorder screen."
@@ -125,7 +118,8 @@ export default function OdooCustomerPortalPage() {
         },
       ]}
       relatedLinks={[
-        { href: "/odoo-supplier-portal", label: "The supplier-side equivalent" },
+        { href: "/odoo-supplier-portal", label: "Odoo supplier portal for purchase orders" },
+        { href: "/work#wholesale-ordering-portal", label: "The wholesale ordering portal we run in production" },
         { href: "/guides/odoo-customer-self-service-portal", label: "Odoo's built-in portal vs. a custom self-service portal" },
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs. write-back Odoo integrations" },
         { href: "/guides/how-much-does-a-custom-odoo-app-cost", label: "How much does a custom Odoo app cost?" },

@@ -1,23 +1,13 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { GuidePageTemplate, GuideSection } from "@/components/seo/guide-page";
 import { guideBySlug } from "@/config/guides";
-import { BRAND_NAME } from "@/config/brand";
-import { SITE_URL } from "@/config/site";
+import { guideMetadata } from "@/lib/seo";
 
 const SLUG = "odoo-customer-self-service-portal";
 const meta = guideBySlug(SLUG)!;
 
-export const metadata: Metadata = {
-  title: `${meta.title} | ${BRAND_NAME}`,
-  description: meta.description,
-  alternates: { canonical: `${SITE_URL}/guides/${SLUG}` },
-  openGraph: {
-    title: meta.title,
-    description: meta.description,
-    url: `${SITE_URL}/guides/${SLUG}`,
-    type: "article",
-  },
-};
+export const metadata: Metadata = guideMetadata(meta);
 
 export default function Guide() {
   return (
@@ -66,7 +56,19 @@ export default function Guide() {
           ordering portal use case, linked below, for what that build
           actually looks like in practice.
         </p>
-      </GuideSection>
+              <p>
+          The{" "}
+          <Link href="/work#wholesale-ordering-portal" className="font-medium text-[var(--odoo-teal)] underline underline-offset-4 hover:no-underline">
+            wholesale ordering portal we run in production
+          </Link>{" "}
+          is the shape this usually takes: customers see their own
+          pricelist prices and only the products relevant to them, stock is
+          scoped to the warehouse that actually ships to them, and the order
+          lands in Odoo as a confirmed sale order. None of that is a
+          setting in Odoo&apos;s built-in portal; all of it is a few screens
+          over the API.
+        </p>
+</GuideSection>
 
       <GuideSection heading="Does 'custom portal' mean rebuilding what Odoo already does?">
         <p>

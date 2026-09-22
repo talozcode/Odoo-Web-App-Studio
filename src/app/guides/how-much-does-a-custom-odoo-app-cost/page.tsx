@@ -1,25 +1,14 @@
 import type { Metadata } from "next";
 import { GuidePageTemplate, GuideSection } from "@/components/seo/guide-page";
 import { guideBySlug } from "@/config/guides";
+import { guideMetadata } from "@/lib/seo";
 import { PRICING_TIERS } from "@/config/pricing";
 import { EXAMPLE_APPS } from "@/config/examples";
-import { BRAND_NAME } from "@/config/brand";
-import { SITE_URL } from "@/config/site";
 
 const SLUG = "how-much-does-a-custom-odoo-app-cost";
 const meta = guideBySlug(SLUG)!;
 
-export const metadata: Metadata = {
-  title: `${meta.title} | ${BRAND_NAME}`,
-  description: meta.description,
-  alternates: { canonical: `${SITE_URL}/guides/${SLUG}` },
-  openGraph: {
-    title: meta.title,
-    description: meta.description,
-    url: `${SITE_URL}/guides/${SLUG}`,
-    type: "article",
-  },
-};
+export const metadata: Metadata = guideMetadata(meta);
 
 function formatPrice(amount: number): string {
   return `$${amount.toLocaleString("en-US")}`;

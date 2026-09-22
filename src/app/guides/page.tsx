@@ -1,32 +1,26 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbSchema } from "@/lib/schema";
 import { GUIDES } from "@/config/guides";
-import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
 
-const CANONICAL_URL = `${SITE_URL}/guides`;
 
-export const metadata: Metadata = {
-  title: `Odoo Guides: API, Cost, Upgrades & Customization | ${BRAND_NAME}`,
+export const metadata: Metadata = pageMetadata({
+  title: "Odoo Guides: API, Cost, Upgrades & Customization",
   description:
     "Practical, technically accurate guides on Odoo integration, customization, API development, upgrade risk, and the real cost of a custom Odoo app.",
-  alternates: { canonical: CANONICAL_URL },
-  openGraph: {
-    title: "Odoo Guides: API, Cost, Upgrades & Customization",
-    description:
-      "Practical, technically accurate guides on Odoo integration, customization, and cost.",
-    url: CANONICAL_URL,
-    type: "website",
-  },
-};
+  path: "/guides",
+});
 
 export default function GuidesIndexPage() {
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
+    name: "Odoo guides",
     itemListElement: GUIDES.map((guide, index) => ({
       "@type": "ListItem",
       position: index + 1,
@@ -38,6 +32,7 @@ export default function GuidesIndexPage() {
   return (
     <>
       <JsonLd data={itemListSchema} />
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: SITE_URL }, { name: "Guides", url: `${SITE_URL}/guides` }])} />
       <SiteHeader />
 
       <main className="flex-1">

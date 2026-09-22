@@ -1,23 +1,13 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { GuidePageTemplate, GuideSection } from "@/components/seo/guide-page";
 import { guideBySlug } from "@/config/guides";
-import { BRAND_NAME } from "@/config/brand";
-import { SITE_URL } from "@/config/site";
+import { guideMetadata } from "@/lib/seo";
 
 const SLUG = "odoo-purchase-approval-mobile-app";
 const meta = guideBySlug(SLUG)!;
 
-export const metadata: Metadata = {
-  title: `${meta.title} | ${BRAND_NAME}`,
-  description: meta.description,
-  alternates: { canonical: `${SITE_URL}/guides/${SLUG}` },
-  openGraph: {
-    title: meta.title,
-    description: meta.description,
-    url: `${SITE_URL}/guides/${SLUG}`,
-    type: "article",
-  },
-};
+export const metadata: Metadata = guideMetadata(meta);
 
 export default function Guide() {
   return (
@@ -65,7 +55,16 @@ export default function Guide() {
           visible, no need to understand where else in Odoo this order
           lives.
         </p>
-      </GuideSection>
+              <p>
+          The pattern is the same one behind the{" "}
+          <Link href="/work#expenses" className="font-medium text-[var(--odoo-teal)] underline underline-offset-4 hover:no-underline">
+            expense submission app
+          </Link>{" "}
+          on our work page: one form, one model (<code>hr.expense</code>{" "}
+          there, <code>purchase.order</code> here), and Odoo&apos;s own
+          approval flow left exactly as it is.
+        </p>
+</GuideSection>
 
       <GuideSection heading="Does an approval made in the app actually count as a real Odoo approval?">
         <p>

@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { StaticPageTemplate } from "@/components/seo/static-page";
 import { BRAND_NAME } from "@/config/brand";
-import { SITE_URL, CONTACT_EMAIL } from "@/config/site";
+import { CONTACT_EMAIL } from "@/config/site";
 
-const CANONICAL_URL = `${SITE_URL}/terms`;
-const LAST_UPDATED = "September 18, 2026";
+const LAST_UPDATED = "22 September 2026";
 
-export const metadata: Metadata = {
-  title: `Terms of Service | ${BRAND_NAME}`,
-  description: `Basic terms for engaging ${BRAND_NAME} to build a custom Odoo-connected app: how projects are scoped, quoted, and delivered.`,
-  alternates: { canonical: CANONICAL_URL },
-  robots: { index: true, follow: true },
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Terms of Service",
+  description:
+    `Basic terms for engaging ${BRAND_NAME} to build a custom Odoo-connected app: how projects are scoped, quoted, and delivered.`,
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (
     <StaticPageTemplate
+      path="/terms"
       breadcrumbLabel="Terms"
       h1="Terms of Service"
       subtitle={`Last updated ${LAST_UPDATED}`}

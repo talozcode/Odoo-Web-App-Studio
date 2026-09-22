@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { UseCasePageTemplate } from "@/components/seo/use-case-page";
 import { ExamplePreview } from "@/components/demo-apps/example-preview";
 import { EXAMPLE_APPS } from "@/config/examples";
 import { serviceSchema } from "@/lib/schema";
-import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
 
 // Demo data is re-fetched from the demo Odoo at most every 45 seconds.
@@ -13,19 +13,12 @@ const SLUG = "custom-odoo-web-app";
 const CANONICAL_URL = `${SITE_URL}/${SLUG}`;
 const APP = EXAMPLE_APPS.find((a) => a.id === "custom-workflow")!;
 
-export const metadata: Metadata = {
-  title: `Custom Odoo Web App for Your Specific Workflow | ${BRAND_NAME}`,
+export const metadata: Metadata = pageMetadata({
+  title: "Custom Odoo Web App for Your Specific Workflow",
   description:
     "A small, focused web app built around the one Odoo-connected workflow that doesn't fit warehouse, sales, dashboard, or portal templates. Pricing and scope inside.",
-  alternates: { canonical: CANONICAL_URL },
-  openGraph: {
-    title: "Custom Odoo Web App for Your Specific Workflow",
-    description:
-      "A small, focused web app built around the one Odoo-connected workflow that doesn't fit a template.",
-    url: CANONICAL_URL,
-    type: "website",
-  },
-};
+  path: `/${SLUG}`,
+});
 
 const FAQS = [
   {
@@ -118,6 +111,9 @@ export default function CustomOdooWebAppPage() {
         },
       ]}
       relatedLinks={[
+        { href: "/guides/odoo-purchase-approval-mobile-app", label: "Odoo purchase approval app for mobile" },
+        { href: "/guides/odoo-studio-limitations", label: "Odoo Studio limitations" },
+        { href: "/work#expenses", label: "The expense app we run in production" },
         { href: "/guides/odoo-customization-vs-custom-apps", label: "Odoo customization vs. custom apps" },
         { href: "/guides/signs-your-team-needs-a-simpler-odoo-interface", label: "Signs your team needs a simpler interface" },
         { href: "/guides/how-much-does-a-custom-odoo-app-cost", label: "How much does a custom Odoo app cost?" },

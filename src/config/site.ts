@@ -1,11 +1,12 @@
-import { BRAND_NAME } from "./brand";
 
 export const SITE_URL = "https://odoowebapps.com";
 
 export const SEO = {
-  title: `Simple Web Apps for Odoo | ${BRAND_NAME}`,
+  /** Title tag without the brand; the brand suffix is added by pageMetadata. */
+  title: "Custom Web Apps Connected to Your Odoo",
+  ogTitle: "Odoo doesn't have to feel like Odoo",
   description:
-    "Fast, focused web apps connected to your existing Odoo. Simplify warehouse, sales, reporting, customer, supplier and operational workflows without replacing your ERP.",
+    "Small custom web apps for your existing Odoo: picking, sales, dashboards and portals over the Odoo API, from $390. Nothing installed inside Odoo.",
 };
 
 // Root-relative ("/#examples" rather than "#examples") so these links work

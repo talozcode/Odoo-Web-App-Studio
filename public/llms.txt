@@ -1,25 +1,12 @@
 # OdooWebApps
 
-> A web app studio for businesses that already use Odoo. We build small, focused web apps that connect to an existing Odoo instance through Odoo's own API (XML-RPC/JSON-RPC over its ORM). We do not replace Odoo, and we are not an Odoo implementation or general consulting partner.
+> A web app studio for businesses that already use Odoo. We build small, focused web apps that connect to an existing Odoo instance through Odoo's external API (JSON-2 on Odoo 19; JSON-RPC and XML-RPC on earlier versions). We do not replace Odoo, and we are not an Odoo implementation partner. Run by Tal Oz, on 5+ years of hands-on Odoo implementation and automation work. Last updated 22 September 2026.
 
-## Positioning
+Odoo already does everything a business generally needs: accounting, inventory, sales, purchasing, manufacturing and master data. Odoo stays the single source of truth. We build the narrow interface layer around it: a mobile picking screen, a sales rep's ordering app, a dashboard, a customer or supplier portal, or a one-off custom workflow, each connected to Odoo's data through its API, with no custom code installed inside Odoo.
 
-Odoo already does everything a business generally needs: accounting, inventory, sales, purchasing, manufacturing, and master data. Odoo stays the single source of truth and keeps that responsibility. We build the narrow, focused interface layer around it: a mobile picking screen, a sales rep's ordering app, a dashboard, a customer or supplier portal, or a one-off custom workflow, each connected to Odoo's data, not a replacement for it.
+Facts: the Work page describes eight shipped, in-production apps and automations for our clients (a group of companies in food production, wholesale, retail and catering on Odoo 18; anonymised). The demos on the site are working apps reading a real Odoo 18 Community instance over its API, with the ORM call, record count and latency printed under each one; when that instance is unreachable they fall back to a bundled snapshot of Odoo's own demo dataset and say so. Prices: a single focused screen from $390; a polished multi-screen app typically $490 to $890; bigger systems quoted on scope. Apps can be read-only or read/write against Odoo records. Every project is scoped and quoted after a conversation about the actual workflow.
 
-## Company facts
-
-- This is a small software studio built on 5+ years of hands-on Odoo implementation and automation work. There is no fabricated client roster, testimonial list, or "trusted by N companies" claim anywhere on this site. The Work page describes eight shipped, in-production apps and automations for our clients (a group of companies in food production, wholesale, retail and catering on Odoo 18); the companies are anonymised.
-- The demos on the site are working apps that read from a real Odoo 18 Community instance over JSON-RPC, with the ORM call, record count and latency printed under each one. The sales order demo creates and confirms a real sale.order only when live writes are switched on, and says on screen when nothing was written. When that instance is unreachable the demos fall back to a bundled snapshot of Odoo's own demo dataset and say so.
-- Every project is scoped and quoted individually after a conversation about the actual workflow (which Odoo models it touches, how many screens, read-only or read/write). Prices below are real starting points from the site's own pricing config, not marketing placeholders.
-- Apps can be read-only (they only display Odoo data) or read/write (they create or update real Odoo records); see /guides/odoo-write-back-vs-read-only-integrations for the distinction and why it matters.
-
-## Pricing (starting points; see https://odoowebapps.com/#pricing)
-
-- Tiny (one focused screen, one workflow): from $390
-- App (polished multi-screen application): typically $490-$890
-- Bigger idea (more sophisticated workflows, portals or systems): quoted individually, no fixed price
-
-## Use-case pages (each maps to a real, working interactive demo on the page)
+## Use-case pages
 
 - [Odoo Warehouse App](https://odoowebapps.com/odoo-warehouse-app): Mobile-first picking app connected to Odoo Inventory (stock.picking / stock.move.line). From $590.
 - [Odoo Sales App](https://odoowebapps.com/odoo-sales-app): Mobile ordering app for field sales reps, creates Odoo sale.order records. From $690.
@@ -27,21 +14,29 @@ Odoo already does everything a business generally needs: accounting, inventory, 
 - [Odoo Customer Portal](https://odoowebapps.com/odoo-customer-portal): Branded customer ordering portal connected to Odoo Sales, for fast repeat ordering. From $890.
 - [Odoo Supplier Portal](https://odoowebapps.com/odoo-supplier-portal): Portal for suppliers to confirm/update Odoo purchase orders without direct Odoo access. From $790.
 - [Custom Odoo Web App](https://odoowebapps.com/custom-odoo-web-app): One-screen custom workflow apps (approvals, single-purpose data entry) for whatever doesn't fit the other categories. From $390.
-- [Odoo API Development](https://odoowebapps.com/odoo-api-development): The integration layer itself: connecting external apps, portals, or other systems to Odoo's XML-RPC/JSON-RPC API. Priced per project.
+- [Odoo API Development](https://odoowebapps.com/odoo-api-development): The integration layer itself: connecting external apps, portals, or other systems to Odoo's external API (JSON-2, JSON-RPC, XML-RPC). Priced per project.
 
-## Work (https://odoowebapps.com/work)
+## Work (anonymised, in production)
 
-Eight anonymised, in-production apps and automations for our clients on Odoo 18: barcode picking for the warehouse floor (stock.picking, stock.move.line, stock.lot), a wholesale B2B ordering portal (sale.order, product.pricelist), a kitchen production board (mrp.production, stock.warehouse.orderpoint), container and shipment planning (purchase.order, product.packaging), catering orders across companies, HACCP quality forms linked to manufacturing orders, expense submission (hr.expense), and scheduled digests configured inside Odoo (ir.cron, mail.template). Figures on that page are real.
+- [Work overview](https://odoowebapps.com/work): eight shipped apps and automations for one group of companies on Odoo 18, with the Odoo models each one touches.
+- [Barcode picking for the warehouse floor](https://odoowebapps.com/work#barcode-picking): stock.picking, stock.move.line, stock.lot; checks lot expiry as lines are picked.
+- [Wholesale ordering portal for B2B customers](https://odoowebapps.com/work#wholesale-ordering-portal): sale.order, product.pricelist; per-customer catalogue and warehouse-scoped stock.
+- [Kitchen production board](https://odoowebapps.com/work#kitchen-production-board): mrp.production, stock.warehouse.orderpoint; read-only board driven by automatic MOs.
+- [Container and shipment planning](https://odoowebapps.com/work#container-planning): purchase.order, product.packaging; 2,855 products, 1,312 measured cartons, 974 automated tests.
+- [Catering orders across companies](https://odoowebapps.com/work#catering-orders): sale.order, res.company.
+- [HACCP quality forms tied to production](https://odoowebapps.com/work#quality-forms): mrp.production.
+- [Expense submission from the phone](https://odoowebapps.com/work#expenses): hr.expense.
+- [Digests and automations inside Odoo](https://odoowebapps.com/work#digests-and-automations): ir.cron, mail.template.
 
-## Guides (16 articles as of this writing; technically accurate, no fabricated statistics)
+## Guides
 
 - [Odoo Customization vs. a Custom Web App: What's the Difference?](https://odoowebapps.com/guides/odoo-customization-vs-custom-apps): How in-Odoo customization (views, studio, custom modules) differs from building a separate web app against Odoo's API, and how to tell which one a given problem actually needs.
-- [How Odoo's API Actually Works (XML-RPC, JSON-RPC and the ORM)](https://odoowebapps.com/guides/odoo-api-integration-explained): A practical explanation of Odoo's external API surface, authentication, and the ORM methods (search_read, create, write) that a custom app calls under the hood.
+- [How Odoo's API Actually Works (JSON-2, JSON-RPC, XML-RPC and the ORM)](https://odoowebapps.com/guides/odoo-api-integration-explained): A practical explanation of Odoo's external API: JSON-2 on Odoo 19, JSON-RPC and XML-RPC before it, API-key authentication, and the ORM methods (search_read, create, write) a custom app calls.
 - [What Happens to a Custom App When Odoo Upgrades?](https://odoowebapps.com/guides/what-happens-when-odoo-upgrades): Why a separate web app is affected differently by an Odoo version upgrade than in-Odoo customizations are, and what actually needs to be checked when Odoo moves versions.
 - [How Much Does a Custom Odoo App Cost?](https://odoowebapps.com/guides/how-much-does-a-custom-odoo-app-cost): A grounded look at what drives the price of a small Odoo-connected app, with real ranges instead of vague 'contact us for pricing.'
 - [Signs Your Team Needs a Simpler Interface Than Odoo's Backend](https://odoowebapps.com/guides/signs-your-team-needs-a-simpler-odoo-interface): Practical signals, from workarounds on paper to reluctant adoption, that indicate a workflow would benefit from a focused front end instead of more Odoo training.
 - [Read-Only vs. Write-Back Odoo Integrations: Which Do You Need?](https://odoowebapps.com/guides/odoo-write-back-vs-read-only-integrations): The difference between an app that only displays Odoo data and one that creates or updates records in Odoo, and why that distinction changes scope, risk and cost.
-- [Odoo REST API: What It Can (and Can't) Do](https://odoowebapps.com/guides/odoo-rest-api-explained): Odoo doesn't actually have a native REST API: it exposes XML-RPC and JSON-RPC over its ORM. What that means in practice, and when a thin REST layer in front of it makes sense.
+- [Odoo REST API: What Exists in Odoo 19 (and What Came Before)](https://odoowebapps.com/guides/odoo-rest-api-explained): Odoo 19 has an HTTP JSON API (JSON-2) with bearer API keys; older versions only have XML-RPC and JSON-RPC, deprecated for removal in Odoo 22. What each looks like and which to use.
 - [Odoo Barcode App: Use Odoo's, or Build a Custom One?](https://odoowebapps.com/guides/odoo-barcode-app-buy-or-build): Odoo's own Barcode app is genuinely capable. An honest look at when it's enough and when a narrower custom picking app makes more sense.
 - [How to Give Customers a Self-Service Portal Without Rebuilding Odoo's Frontend](https://odoowebapps.com/guides/odoo-customer-self-service-portal): The difference between Odoo's built-in customer portal and a fully custom-branded ordering portal, and how to tell which one a given business actually needs.
 - [Hiring an Odoo Developer vs. a Web App Studio: What's the Difference?](https://odoowebapps.com/guides/odoo-developer-vs-web-app-studio): An honest, even-handed comparison of when an Odoo developer or implementation partner is the right call, and when a narrow web app studio is the better fit instead.
@@ -57,14 +52,17 @@ Eight anonymised, in-production apps and automations for our clients on Odoo 18:
 - [Homepage](https://odoowebapps.com/): Working picking, sales and dashboard demos on a real Odoo, the anonymised work portfolio, how it works, pricing, guides, FAQ and contact.
 - [Work](https://odoowebapps.com/work): The anonymised portfolio described above.
 - [Guides index](https://odoowebapps.com/guides): All guide articles listed above.
-- [About](https://odoowebapps.com/about): Studio positioning and approach; no fabricated founding story, team size, or client count.
-- [Privacy Policy](https://odoowebapps.com/privacy): What the contact form collects and how it's handled (sent by email to the studio; the only analytics is cookieless, aggregate Vercel Web Analytics, no cross-site tracking or ad pixels).
-- [Terms of Service](https://odoowebapps.com/terms): Basic engagement terms: quote-before-work, scoped Odoo API access, no fabricated SLAs.
+- [About](https://odoowebapps.com/about): who runs the studio (Tal Oz), the approach, and why it stays narrow.
 
 ## Full text
 
-The complete text of every guide and use-case page is at https://odoowebapps.com/llms-full.txt.
+- [llms-full.txt](https://odoowebapps.com/llms-full.txt): the complete text of the Work page, pricing, FAQ, every use-case page and every guide.
 
 ## Contact
 
-Start a project via the contact form at https://odoowebapps.com/#contact.
+- [Contact form](https://odoowebapps.com/#contact): describe the workflow; the reply comes from the person who would build it.
+
+## Optional
+
+- [Privacy Policy](https://odoowebapps.com/privacy): what the contact form collects; the only analytics is cookieless Vercel Web Analytics.
+- [Terms of Service](https://odoowebapps.com/terms): quote before work, scoped Odoo API access, no fabricated SLAs.

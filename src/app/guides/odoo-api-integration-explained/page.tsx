@@ -1,23 +1,12 @@
 import type { Metadata } from "next";
 import { GuidePageTemplate, GuideSection } from "@/components/seo/guide-page";
 import { guideBySlug } from "@/config/guides";
-import { BRAND_NAME } from "@/config/brand";
-import { SITE_URL } from "@/config/site";
+import { guideMetadata } from "@/lib/seo";
 
 const SLUG = "odoo-api-integration-explained";
 const meta = guideBySlug(SLUG)!;
 
-export const metadata: Metadata = {
-  title: `${meta.title} | ${BRAND_NAME}`,
-  description: meta.description,
-  alternates: { canonical: `${SITE_URL}/guides/${SLUG}` },
-  openGraph: {
-    title: meta.title,
-    description: meta.description,
-    url: `${SITE_URL}/guides/${SLUG}`,
-    type: "article",
-  },
-};
+export const metadata: Metadata = guideMetadata(meta);
 
 export default function Guide() {
   return (
@@ -32,25 +21,48 @@ export default function Guide() {
     >
       <GuideSection heading="What protocols does Odoo's API actually use?">
         <p>
-          Odoo exposes its external API over two RPC protocols: XML-RPC and
-          JSON-RPC. They&apos;re not two different feature sets; both are
-          transport-layer options for calling the exact same underlying
-          methods on Odoo&apos;s ORM. Which one a given integration uses is
-          mostly a matter of what&apos;s convenient in the calling language;
-          most modern client libraries default to JSON-RPC simply because
-          JSON tooling is more universally available than XML-RPC tooling.
+          Three, depending on the version. Odoo 16, 17 and 18 expose the
+          external API over two RPC protocols, XML-RPC (at{" "}
+          <code>/xmlrpc/2/object</code>) and JSON-RPC (at{" "}
+          <code>/jsonrpc</code>). They are not two feature sets; both are
+          transports for calling the same ORM methods through one generic
+          dispatcher, <code>execute_kw</code>. Odoo 19 adds a third, JSON-2:
+          a plain HTTP API where you <code>POST</code> a JSON body to{" "}
+          <code>/json/2/&lt;model&gt;/&lt;method&gt;</code>. The RPC
+          endpoints still work on 19 but are deprecated and scheduled for
+          removal in Odoo 22 (fall 2028). New integrations on Odoo 19 should
+          use JSON-2; on older versions, JSON-RPC is the easier of the two
+          to debug.
         </p>
+        <pre className="overflow-x-auto rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-[13px] leading-6 text-[var(--foreground)]">{`# Odoo 19, JSON-2
+POST /json/2/sale.order/search_read
+Authorization: bearer <api key>
+Content-Type: application/json
+{"domain": [["state", "=", "sale"]], "fields": ["name", "amount_total"], "limit": 5}
+
+# Odoo 16 to 18 (and still 19), JSON-RPC
+POST /jsonrpc
+{"jsonrpc": "2.0", "method": "call", "params": {"service": "object", "method": "execute_kw",
+ "args": ["<db>", <uid>, "<api key>", "sale.order", "search_read",
+          [[["state", "=", "sale"]]], {"fields": ["name", "amount_total"], "limit": 5}]}}`}</pre>
       </GuideSection>
 
       <GuideSection heading="How does authentication work?">
         <p>
-          A client authenticates with a database name, a login, and either
-          a password or an API key generated from that user&apos;s own Odoo
-          preferences (the API-key option, available on modern Odoo
-          versions, is the safer choice for integrations since it can be
-          revoked independently of the user&apos;s login password). A successful
-          authentication returns a user id, which is then passed alongside
-          the database name on every subsequent call.
+          With JSON-2 the API key goes in an{" "}
+          <code>Authorization: bearer</code> header on every request; there
+          is no login step and no user id to pass. The key is created from
+          the user&apos;s Preferences under Account Security, and Odoo 19 caps
+          its lifetime at three months, so a production integration needs a
+          rotation routine (keys can also be generated programmatically
+          through <code>res.users.apikeys/generate</code>). With the RPC
+          protocols a client first calls <code>authenticate</code> with the
+          database name, login and either a password or an API key, gets a
+          user id back, and passes the database, user id and key on every
+          call after that. In both cases the API key is the safer choice
+          over a password: it can be revoked on its own and scoped to RPC
+          use only. On Odoo Online, note that the external API is only
+          available on the Custom plan.
         </p>
       </GuideSection>
 

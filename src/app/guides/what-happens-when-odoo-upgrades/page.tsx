@@ -1,23 +1,12 @@
 import type { Metadata } from "next";
 import { GuidePageTemplate, GuideSection } from "@/components/seo/guide-page";
 import { guideBySlug } from "@/config/guides";
-import { BRAND_NAME } from "@/config/brand";
-import { SITE_URL } from "@/config/site";
+import { guideMetadata } from "@/lib/seo";
 
 const SLUG = "what-happens-when-odoo-upgrades";
 const meta = guideBySlug(SLUG)!;
 
-export const metadata: Metadata = {
-  title: `${meta.title} | ${BRAND_NAME}`,
-  description: meta.description,
-  alternates: { canonical: `${SITE_URL}/guides/${SLUG}` },
-  openGraph: {
-    title: meta.title,
-    description: meta.description,
-    url: `${SITE_URL}/guides/${SLUG}`,
-    type: "article",
-  },
-};
+export const metadata: Metadata = guideMetadata(meta);
 
 export default function Guide() {
   return (
@@ -67,6 +56,15 @@ export default function Guide() {
           user from something it used to be able to do. None of these are
           exotic. They&apos;re the same kind of change that could affect any
           integration against any evolving system.
+        </p>
+        <p>
+          One version-specific item is worth planning for now: Odoo 19
+          introduced a new HTTP API, JSON-2, and marked the older XML-RPC and
+          JSON-RPC endpoints deprecated, with removal scheduled for Odoo 22
+          (fall 2028). An app built on JSON-RPC keeps working through Odoo
+          19, 20 and 21, but its transport layer needs swapping before an
+          upgrade to 22. The model and method names stay the same, so in a
+          well-structured app that swap is confined to one file.
         </p>
       </GuideSection>
 

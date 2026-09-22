@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
-import { BRAND_NAME } from "@/config/brand";
 import { SEO, SITE_URL } from "@/config/site";
+import { pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
 import { organizationSchema } from "@/lib/schema";
 import "./globals.css";
@@ -19,23 +19,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: SEO.title,
-  description: SEO.description,
-  alternates: {
-    canonical: SITE_URL,
-  },
-  openGraph: {
-    title: SEO.title,
-    description: SEO.description,
-    url: SITE_URL,
-    siteName: BRAND_NAME,
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: SEO.title,
-    description: SEO.description,
-  },
+  ...pageMetadata({ title: SEO.title, ogTitle: SEO.ogTitle, description: SEO.description, path: "" }),
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

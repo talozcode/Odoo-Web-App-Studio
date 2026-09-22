@@ -69,9 +69,14 @@ function literal(src, key) {
 // Split JSX children into blocks: <p>, <li>, <h3>, and headings passed as props.
 function blocks(jsx) {
   const out = [];
-  const re = /<(p|li|h2|h3|h4)(?:\s[^>]*)?>([\s\S]*?)<\/\1>/g;
+  const re = /<(p|li|h2|h3|h4|pre)(?:\s[^>]*)?>([\s\S]*?)<\/\1>/g;
   let m;
   while ((m = re.exec(jsx))) {
+    if (m[1] === "pre") {
+      const code = m[2].replace(/^\{`/, "").replace(/`\}$/, "").replace(/&[a-z]+;/g, (e) => ENTITIES[e] ?? e).trim();
+      if (code) out.push("```", code, "```");
+      continue;
+    }
     const text = clean(m[2]);
     if (!text) continue;
     if (m[1] === "li") out.push(`- ${text}`);
@@ -111,10 +116,10 @@ function faqs(src) {
 
 async function guideMetas() {
   const src = await readFile(path.join(root, "src/config/guides.ts"), "utf8");
-  const re = /slug:\s*"([^"]+)",\s*title:\s*"([^"]+)",\s*description:\s*"([^"]+)",\s*datePublished:\s*"([^"]+)"/g;
+  const re = /slug:\s*"([^"]+)",\s*title:\s*"([^"]+)",(?:\s*seoTitle:\s*"[^"]+",)?\s*description:\s*"([^"]+)",\s*datePublished:\s*"([^"]+)",?(?:\s*dateModified:\s*"([^"]+)")?/g;
   const out = [];
   let m;
-  while ((m = re.exec(src))) out.push({ slug: m[1], title: m[2], description: m[3], date: m[4] });
+  while ((m = re.exec(src))) out.push({ slug: m[1], title: m[2], description: m[3], date: m[4], updated: m[5] });
   return out;
 }
 
@@ -133,6 +138,46 @@ const lines = [
   `> Every guide and use-case page on ${SITE_URL}, in full, for answer engines. The short index is at ${SITE_URL}/llms.txt. OdooWebApps builds small web apps connected to a customer's existing Odoo through its JSON-RPC API; it does not replace Odoo and is not an implementation partner. Written by Tal Oz.`,
   "",
 ];
+
+// Work cases, FAQ and pricing come straight from config: the only original
+// data on the site, so they go first.
+{
+  const work = await readFile(path.join(root, "src/config/work.ts"), "utf8");
+  const context = work.match(/WORK_CONTEXT =\s*"([^"]+)"/)?.[1] ?? "";
+  lines.push("# Work: apps in production (anonymised)", "", `URL: ${SITE_URL}/work`, "", context, "");
+  const caseRe = /slug:\s*"([^"]+)",\s*title:\s*"([^"]+)",\s*users:\s*"([^"]+)",\s*replaced:\s*"([^"]+)",\s*models:\s*\[([^\]]*)\],\s*summary:\s*"([^"]+)",(?:\s*facts:\s*\[([^\]]*)\],)?/g;
+  let m;
+  while ((m = caseRe.exec(work))) {
+    const quoted = (list) => [...list.matchAll(/"([^"]*)"/g)].map((q) => q[1]);
+    const models = quoted(m[5]).join(", ");
+    const facts = quoted(m[7] ?? "");
+    lines.push(`## ${m[2]}`, `URL: ${SITE_URL}/work#${m[1]}`, "", m[6], "", `- Used by: ${m[3]}`, `- Replaced: ${m[4]}`, `- Odoo models: ${models}`, ...facts.map((f) => `- ${f}`), "");
+  }
+
+  const pricing = await readFile(path.join(root, "src/config/pricing.ts"), "utf8");
+  lines.push("# Pricing", "", `URL: ${SITE_URL}/#pricing`, "");
+  const tierRe = /name:\s*"([^"]+)",\s*price:\s*([^,]+),(?:\s*priceQualifier:\s*"([^"]+)",)?\s*description:\s*(?:\n\s*)?"([^"]+)"/g;
+  while ((m = tierRe.exec(pricing))) {
+    const price = m[2].replace(/"/g, "").trim() === "APP_TIER_PRICE_RANGE" ? PRICES["{appTier.price}"] : m[2].replace(/"/g, "").trim();
+    lines.push(`- ${m[1]}: ${m[3] ? m[3].toLowerCase() + " " : ""}${price}. ${m[4]}`);
+  }
+  const examples = await readFile(path.join(root, "src/config/examples.ts"), "utf8");
+  const exRe = /name:\s*"([^"]+)",\s*description:\s*(?:\n\s*)?"([^"]+)",\s*models:\s*\[([^\]]*)\],\s*priceFrom:\s*(\d+)/g;
+  while ((m = exRe.exec(examples))) {
+    lines.push(`- ${m[1]}: from $${Number(m[4]).toLocaleString("en-US")}. ${m[2]}`);
+  }
+  lines.push("");
+
+  const faq = await readFile(path.join(root, "src/config/faq.ts"), "utf8");
+  lines.push("# Frequently asked questions", "", `URL: ${SITE_URL}/#faq`, "");
+  const faqRe = /question:\s*"([^"]+)",\s*answer:\s*(?:\n\s*)?(?:"([^"]+)"|`([^`]+)`)/g;
+  while ((m = faqRe.exec(faq))) {
+    let answer = m[2] ?? m[3];
+    answer = answer.replace(/\$\{TINY\.price\.toLowerCase\(\)\}/g, PRICES["{tinyTier.price.toLowerCase()}"]).replace(/\$\{APP\.price\}/g, PRICES["{appTier.price}"]);
+    lines.push(`**${m[1]}** ${answer}`);
+  }
+  lines.push("");
+}
 
 lines.push("# Use-case pages", "");
 for (const slug of await landingPageSlugs()) {
@@ -156,7 +201,7 @@ for (const meta of metas) {
   } catch {
     continue;
   }
-  lines.push(`## ${meta.title}`, `URL: ${SITE_URL}/guides/${meta.slug}`, `Published: ${meta.date}`, "", meta.description, "", ...guideSections(src).map((l) => l.replace(/^## /, "### ")), "");
+  lines.push(`## ${meta.title}`, `URL: ${SITE_URL}/guides/${meta.slug}`, `Published: ${meta.date}${meta.updated ? `, updated ${meta.updated}` : ""}`, "", meta.description, "", ...guideSections(src).map((l) => l.replace(/^## /, "### ")), "");
 }
 
 const known = new Set(metas.map((m) => m.slug));

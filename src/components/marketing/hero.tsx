@@ -22,7 +22,7 @@ export function Hero() {
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-[var(--muted-foreground)]">
           We build small, fast web apps connected to the Odoo you already run.
           Your team, customers or suppliers get one screen made for their one
-          job. Odoo stays the system of record; nothing is installed inside it.
+          job. Odoo stays the system of record; no custom code goes inside it.
         </p>
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
           <ButtonLink href={`#${CONTACT_SECTION_ID}`}>
