@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { UseCasePageTemplate } from "@/components/seo/use-case-page";
-import { WarehousePickingDemo } from "@/components/demo-apps/warehouse-picking-demo";
+import { ExamplePreview } from "@/components/demo-apps/example-preview";
 import { EXAMPLE_APPS } from "@/config/examples";
 import { serviceSchema } from "@/lib/schema";
 import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
+
+// Demo data is re-fetched from the demo Odoo at most every 45 seconds.
+export const revalidate = 45;
 
 const SLUG = "odoo-warehouse-app";
 const CANONICAL_URL = `${SITE_URL}/${SLUG}`;
@@ -53,7 +56,7 @@ export default function OdooWarehouseAppPage() {
       breadcrumbLabel="Odoo Warehouse App"
       h1="A faster picking app for your Odoo warehouse"
       intro="Odoo Inventory already tracks every stock move correctly. What's usually slow isn't the data model. It's asking a picker to work through general-purpose warehouse screens built for every operation Odoo supports, when their actual job is one thing: pick this order, confirm each line, done."
-      demo={<WarehousePickingDemo />}
+      demo={<ExamplePreview appId="warehouse-picking" withReadout />}
       demoCaption="Interactive demo: try picking a line yourself."
       canonicalUrl={CANONICAL_URL}
       priceFrom={APP.priceFrom}

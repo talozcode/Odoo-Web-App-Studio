@@ -44,7 +44,7 @@ export function SegmentedControl({
               "min-h-11 rounded-md px-4 py-1.5 text-sm font-semibold transition-colors",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--odoo-teal)]",
               isActive
-                ? "bg-white text-[var(--foreground)] shadow-sm"
+                ? "bg-[var(--background)] text-[var(--foreground)] shadow-sm"
                 : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
             )}
           >

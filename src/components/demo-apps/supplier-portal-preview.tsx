@@ -5,9 +5,11 @@ import { CheckCircle2 } from "lucide-react";
 import { AppFrame } from "./app-frame";
 import { Chip } from "@/components/ui/chip";
 
+// Purchase order names follow Odoo's default P000NN sequence; the supplier
+// names are the vendors shipped with the Odoo demo dataset.
 const PURCHASE_ORDERS = [
-  { id: "PO2231", supplierLine: "24 units · Due Fri", status: "confirmed" as const },
-  { id: "PO2238", supplierLine: "60 units · Due Mon", status: "pending" as const },
+  { id: "P00012", supplierLine: "Wood Corner, 24 units, due Friday", status: "confirmed" as const },
+  { id: "P00015", supplierLine: "Ready Mat, 60 units, due Monday", status: "pending" as const },
 ];
 
 const STATUS_FILTERS = ["Pending", "Confirmed"] as const;

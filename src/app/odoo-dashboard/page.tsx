@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { UseCasePageTemplate } from "@/components/seo/use-case-page";
-import { DashboardDemo } from "@/components/demo-apps/dashboard-demo";
+import { ExamplePreview } from "@/components/demo-apps/example-preview";
 import { EXAMPLE_APPS } from "@/config/examples";
 import { serviceSchema } from "@/lib/schema";
 import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
+
+// Demo data is re-fetched from the demo Odoo at most every 45 seconds.
+export const revalidate = 45;
 
 const SLUG = "odoo-dashboard";
 const CANONICAL_URL = `${SITE_URL}/${SLUG}`;
@@ -53,7 +56,7 @@ export default function OdooDashboardPage() {
       breadcrumbLabel="Odoo Dashboard"
       h1="A dashboard with the numbers you actually check"
       intro="Odoo's reporting tools (pivot tables, generic dashboards, spreadsheet exports) can answer almost any question, which is exactly why they're not built to answer one question fast. A focused dashboard skips the navigation and filters and shows the handful of numbers a specific manager actually looks at every day."
-      demo={<DashboardDemo />}
+      demo={<ExamplePreview appId="management-dashboard" withReadout />}
       demoCaption="Interactive demo: a sample weekly management view."
       canonicalUrl={CANONICAL_URL}
       priceFrom={APP.priceFrom}

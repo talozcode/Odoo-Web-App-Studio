@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { UseCasePageTemplate } from "@/components/seo/use-case-page";
-import { CustomerPortalPreview } from "@/components/demo-apps/customer-portal-preview";
+import { ExamplePreview } from "@/components/demo-apps/example-preview";
 import { EXAMPLE_APPS } from "@/config/examples";
 import { serviceSchema } from "@/lib/schema";
 import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
+
+// Demo data is re-fetched from the demo Odoo at most every 45 seconds.
+export const revalidate = 45;
 
 const SLUG = "odoo-customer-portal";
 const CANONICAL_URL = `${SITE_URL}/${SLUG}`;
@@ -53,7 +56,7 @@ export default function OdooCustomerPortalPage() {
       breadcrumbLabel="Odoo Customer Portal"
       h1="A branded ordering portal your customers actually reorder from"
       intro="Odoo ships with a customer portal, and it works, but it looks and behaves like Odoo, and it's built to expose a bit of everything (quotes, invoices, tickets) rather than to make repeat ordering effortless for one specific type of customer. A dedicated portal can be branded to your business and narrowed to exactly the reordering flow your customers actually use."
-      demo={<CustomerPortalPreview />}
+      demo={<ExamplePreview appId="customer-ordering-portal" />}
       demoCaption="Interactive demo: a sample reorder screen."
       canonicalUrl={CANONICAL_URL}
       priceFrom={APP.priceFrom}

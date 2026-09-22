@@ -2,38 +2,31 @@
 
 import { useState } from "react";
 import { ChevronLeft, CheckCircle2, Plus, Check } from "lucide-react";
+import type { DemoPartner, DemoProduct, DemoSalesSeed } from "@/lib/odoo/types";
+import { formatMoney } from "@/lib/format";
 import { AppFrame } from "./app-frame";
-
-type Customer = { id: string; name: string };
-type Product = { id: string; name: string; price: number };
-
-const CUSTOMERS: Customer[] = [
-  { id: "c1", name: "Green Valley Foods" },
-  { id: "c2", name: "Riverside Cafe" },
-  { id: "c3", name: "Sunrise Market" },
-];
-
-const PRODUCTS: Product[] = [
-  { id: "p1", name: "Bottled Water (case)", price: 24 },
-  { id: "p2", name: "Coffee Beans 1kg", price: 12 },
-  { id: "p3", name: "Paper Napkins 500ct", price: 8 },
-];
 
 type Step = "customer" | "products" | "done";
 
-export function SalesAppDemo() {
-  const [step, setStep] = useState<Step>("customer");
-  const [customer, setCustomer] = useState<Customer | null>(null);
-  const [selected, setSelected] = useState<string[]>([]);
+type SalesAppDemoProps = {
+  seed: DemoSalesSeed;
+};
 
-  function pickCustomer(c: Customer) {
-    setCustomer(c);
+export function SalesAppDemo({ seed }: SalesAppDemoProps) {
+  const [step, setStep] = useState<Step>("customer");
+  const [customer, setCustomer] = useState<DemoPartner | null>(null);
+  const [selected, setSelected] = useState<number[]>([]);
+
+  function pickCustomer(partner: DemoPartner) {
+    setCustomer(partner);
     setStep("products");
   }
 
-  function toggleProduct(id: string) {
+  function toggleProduct(product: DemoProduct) {
     setSelected((prev) =>
-      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
+      prev.includes(product.id)
+        ? prev.filter((id) => id !== product.id)
+        : [...prev, product.id]
     );
   }
 
@@ -51,17 +44,17 @@ export function SalesAppDemo() {
     <AppFrame title="New order" subtitle="Sales app">
       {step === "customer" ? (
         <div className="flex flex-col gap-2">
-          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
+          <p className="mb-1 text-xs font-medium text-[var(--muted-foreground)]">
             Choose a customer
           </p>
-          {CUSTOMERS.map((c) => (
+          {seed.partners.map((partner) => (
             <button
-              key={c.id}
+              key={partner.id}
               type="button"
-              onClick={() => pickCustomer(c)}
+              onClick={() => pickCustomer(partner)}
               className="flex min-h-11 items-center justify-between rounded-lg border border-[var(--border)] px-3 py-2.5 text-left text-sm font-medium text-[var(--foreground)] transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--odoo-teal)]"
             >
-              {c.name}
+              {partner.name}
               <ChevronLeft
                 aria-hidden="true"
                 className="h-4 w-4 rotate-180 text-[var(--odoo-gray)]"
@@ -81,26 +74,26 @@ export function SalesAppDemo() {
             <ChevronLeft aria-hidden="true" className="h-3.5 w-3.5" />
             {customer.name}
           </button>
-          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
+          <p className="mb-1 text-xs font-medium text-[var(--muted-foreground)]">
             Add products
           </p>
           <div className="flex flex-col gap-2">
-            {PRODUCTS.map((p) => {
-              const isSelected = selected.includes(p.id);
+            {seed.products.map((product) => {
+              const isSelected = selected.includes(product.id);
               return (
                 <button
-                  key={p.id}
+                  key={product.id}
                   type="button"
-                  onClick={() => toggleProduct(p.id)}
+                  onClick={() => toggleProduct(product)}
                   aria-pressed={isSelected}
                   className="flex min-h-11 items-center justify-between rounded-lg border border-[var(--border)] px-3 py-2.5 text-left transition-colors hover:border-[var(--odoo-gray)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--odoo-teal)]"
                 >
                   <span className="text-sm font-medium text-[var(--foreground)]">
-                    {p.name}
+                    {product.name}
                   </span>
                   <span className="flex items-center gap-2">
-                    <span className="text-xs text-[var(--muted-foreground)]">
-                      ${p.price}
+                    <span className="text-xs tabular-nums text-[var(--muted-foreground)]">
+                      {formatMoney(product.price, seed.currency)}
                     </span>
                     {isSelected ? (
                       <Check

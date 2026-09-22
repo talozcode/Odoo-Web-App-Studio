@@ -3,17 +3,16 @@ import { websiteSchema, faqPageSchema } from "@/lib/schema";
 import { FAQ_ITEMS } from "@/config/faq";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { Hero } from "@/components/marketing/hero";
-import { CredibilityStrip } from "@/components/marketing/credibility-strip";
-import { ProblemSection } from "@/components/marketing/problem-section";
-import { ExamplesSection } from "@/components/marketing/examples-section";
+import { LiveDemosSection } from "@/components/marketing/live-demos-section";
 import { HowItWorks } from "@/components/marketing/how-it-works";
-import { BeforeAfterSection } from "@/components/marketing/before-after-section";
-import { ContactSection } from "@/components/marketing/contact-section";
 import { PricingSection } from "@/components/marketing/pricing-section";
-import { PhilosophySection } from "@/components/marketing/philosophy-section";
+import { GuidesSection } from "@/components/marketing/guides-section";
 import { FaqSection } from "@/components/marketing/faq-section";
-import { FinalCta } from "@/components/marketing/final-cta";
+import { ContactSection } from "@/components/marketing/contact-section";
 import { SiteFooter } from "@/components/marketing/site-footer";
+
+// The demos read from the demo Odoo; re-fetch at most every 45 seconds.
+export const revalidate = 45;
 
 export default function Home() {
   return (
@@ -23,16 +22,12 @@ export default function Home() {
       <SiteHeader />
       <main className="flex-1">
         <Hero />
-        <CredibilityStrip />
-        <ProblemSection />
+        <LiveDemosSection />
         <HowItWorks />
-        <ExamplesSection />
-        <BeforeAfterSection />
-        <PhilosophySection />
         <PricingSection />
+        <GuidesSection />
         <FaqSection />
         <ContactSection />
-        <FinalCta />
       </main>
       <SiteFooter />
     </>

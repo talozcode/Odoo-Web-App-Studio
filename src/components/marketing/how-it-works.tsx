@@ -1,71 +1,108 @@
-import { Database, ShieldCheck, Smartphone, ArrowLeftRight } from "lucide-react";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { OdooCluster } from "./odoo-cluster";
 
+// A genuine sequence, so numbering it is honest.
 const STEPS = [
   {
-    icon: Database,
-    title: "Odoo",
+    title: "Odoo keeps the data",
     description:
-      "Your existing products, customers, orders, inventory, accounting and business data remain in Odoo.",
-    tone: "text-[var(--odoo-purple)]",
-    fill: "bg-[var(--odoo-purple)]/10",
+      "Products, customers, orders, stock, accounting. All of it stays in your Odoo, exactly as it is today.",
   },
   {
-    icon: ShieldCheck,
-    title: "Secure API",
+    title: "The app talks to Odoo through its API",
     description:
-      "Your app is built to do exactly what your team needs, talking to Odoo through its API without installing anything or changing a line of Odoo's own code.",
-    tone: "text-[var(--odoo-teal)]",
-    fill: "bg-[var(--odoo-teal)]/10",
+      "It reads what it needs and writes decisions back, over the same JSON-RPC interface Odoo's own clients use. Nothing is installed or modified inside Odoo.",
   },
   {
-    icon: Smartphone,
-    title: "Your app",
-    description: "Your users get an interface designed specifically for their job.",
-    tone: "text-[var(--foreground)]",
-    fill: "bg-[var(--foreground)]/[0.06]",
+    title: "Your users get one screen for their job",
+    description:
+      "A picker sees pickings. A rep sees customers and products. A supplier sees their purchase orders. Nobody has to learn Odoo to use it.",
   },
+];
+
+const ODOO_OWNS: { label: string; models: string[] }[] = [
+  { label: "Accounting", models: ["account.move"] },
+  { label: "Inventory", models: ["stock.picking", "stock.quant"] },
+  { label: "Sales", models: ["sale.order"] },
+  { label: "Purchasing", models: ["purchase.order"] },
+  { label: "Manufacturing", models: ["mrp.production"] },
+  { label: "Master data", models: ["res.partner", "product.product"] },
+];
+
+const WE_BUILD = [
+  "Focused interfaces for one team",
+  "Mobile workflows for the floor",
+  "Portals for customers and suppliers",
+  "Dashboards on live numbers",
+  "Specialist tools Odoo has no screen for",
 ];
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="border-b border-[var(--border)] bg-[var(--odoo-teal)]/[0.04]">
+    <section id="how-it-works" className="border-b border-[var(--border)]">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <SectionHeading title="Your Odoo stays exactly where it is." />
+        <SectionHeading
+          align="left"
+          title="Your Odoo stays exactly where it is."
+          description="We don't customise Odoo and we don't replace it. We put a small, separate app next to it."
+        />
 
-        <div className="mt-14 grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-6">
-          {STEPS.map((step, index) => (
-            <div key={step.title} className="relative flex flex-col items-center text-center">
-              <div className={`flex h-14 w-14 items-center justify-center rounded-full border border-[var(--border)] ${step.fill}`}>
-                <step.icon aria-hidden="true" className={`h-6 w-6 ${step.tone}`} />
-              </div>
-              <p className="mt-4 text-sm font-semibold text-[var(--muted-foreground)]">
-                Step {index + 1}
-              </p>
-              <h3 className="mt-1 text-lg font-semibold text-[var(--foreground)]">
-                {step.title}
-              </h3>
-              <p className="mt-2 max-w-xs text-sm leading-relaxed text-[var(--muted-foreground)]">
-                {step.description}
-              </p>
-            </div>
-          ))}
+        <div className="mt-12 grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+          <OdooCluster />
+
+          <ol className="flex flex-col divide-y divide-[var(--border)] border-y border-[var(--border)]">
+            {STEPS.map((step, index) => (
+              <li key={step.title} className="grid grid-cols-[2.5rem_1fr] gap-4 py-5">
+                <span className="font-mono text-sm tabular-nums text-[var(--odoo-teal)]">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="text-base font-semibold text-[var(--foreground)]">
+                    {step.title}
+                  </h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-[var(--muted-foreground)]">
+                    {step.description}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
 
-        <div className="mx-auto mt-10 flex max-w-xs items-center justify-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-xs font-semibold text-[var(--muted-foreground)]">
-          <ArrowLeftRight aria-hidden="true" className="h-3.5 w-3.5 text-[var(--odoo-teal)]" />
-          Data flows both ways: your app can read from and write back to Odoo
-        </div>
+        <div className="mt-16 grid grid-cols-1 gap-12 border-t border-[var(--border)] pt-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+          <div>
+            <h3 className="text-base font-semibold text-[var(--foreground)]">
+              Odoo stays responsible for
+            </h3>
+            <dl className="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
+              {ODOO_OWNS.map((item) => (
+                <div key={item.label} className="flex flex-col gap-0.5">
+                  <dt className="text-sm text-[var(--foreground)]">{item.label}</dt>
+                  <dd className="font-mono text-xs text-[var(--odoo-purple)]">
+                    {item.models.join(", ")}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
 
-        <p className="mx-auto mt-10 max-w-2xl text-center text-base font-medium leading-relaxed text-[var(--foreground)]">
-          Odoo remains your system of record. We&apos;re simply giving people
-          a better way to interact with the parts they need.
-        </p>
-        <p className="mx-auto mt-4 max-w-2xl text-center text-sm leading-relaxed text-[var(--muted-foreground)]">
-          Because nothing is installed or modified inside Odoo itself,
-          there&apos;s no custom code sitting in your database to clash with
-          another module or break the next time Odoo upgrades.
-        </p>
+          <div>
+            <h3 className="text-base font-semibold text-[var(--foreground)]">We build</h3>
+            <ul className="mt-4 flex flex-col gap-2">
+              {WE_BUILD.map((item) => (
+                <li key={item} className="text-sm text-[var(--foreground)]">
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 max-w-md text-sm leading-relaxed text-[var(--muted-foreground)]">
+              Because nothing lives inside your Odoo database, there is no
+              custom code to clash with another module or to break the next
+              time Odoo upgrades. If Odoo changes an API field, the app is
+              adjusted; your Odoo is untouched.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,3 @@
-"use client";
-
-import { motion, useReducedMotion } from "framer-motion";
 import {
   ShoppingCart,
   Package,
@@ -9,14 +6,14 @@ import {
   Calculator,
   Users,
   Database,
+  Smartphone,
   type LucideIcon,
 } from "lucide-react";
 
 const BOX_HEIGHT = 32;
 const ICON_SIZE = 13;
 
-// Fixed-width boxes clip longer labels like "Manufacturing": size each box
-// to its own label instead of assuming every module name is short.
+// Size each box to its own label so "Manufacturing" is never clipped.
 function boxWidth(label: string): number {
   return Math.max(84, label.length * 6.5 + 40);
 }
@@ -32,60 +29,40 @@ const MODULE_DEFS: { label: string; x: number; y: number; icon: LucideIcon }[] =
 
 const MODULES = MODULE_DEFS.map((mod) => ({ ...mod, width: boxWidth(mod.label) }));
 
-const CONVERGE_X = 326;
-const CONVERGE_Y = 125;
+const HUB_X = 326;
+const HUB_Y = 125;
 const HUB_RADIUS = 11;
 
-/**
- * The "complex Odoo" half of the hero visual motif: several real, iconed
- * module nodes feeding into one live-looking hub, which the hero then
- * continues with the literal API connector into the small app card. Icons
- * and a pulsing hub/data-flow give this the "real technical system" weight
- * that plain outlined text boxes didn't have.
- */
-export function OdooCluster() {
-  const shouldReduceMotion = useReducedMotion();
+const APP_X = 392;
+const APP_WIDTH = 80;
 
+/**
+ * Static system diagram: Odoo's modules feed one database, and the app sits
+ * outside it, connected only through the API. No motion; the picture is the
+ * point.
+ */
+export function OdooCluster({ className }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 340 264"
+      viewBox="0 0 480 264"
       role="img"
-      aria-label="Odoo modules for Sales, Inventory, Purchase, Manufacturing, Accounting and Contacts, all feeding live into one connected hub"
-      className="h-auto w-full max-w-md"
+      aria-label="Odoo modules for Sales, Inventory, Purchase, Manufacturing, Accounting and Contacts feed one Odoo database; a separate app connects to it through the API"
+      className={className ?? "h-auto w-full max-w-lg"}
     >
-      {MODULES.map((mod, index) => {
+      {MODULES.map((mod) => {
         const x1 = mod.x + mod.width / 2;
         const y1 = mod.y + BOX_HEIGHT / 2;
         return (
-          <g key={`line-${mod.label}`}>
-            <line
-              x1={x1}
-              y1={y1}
-              x2={CONVERGE_X}
-              y2={CONVERGE_Y}
-              stroke="var(--odoo-purple)"
-              strokeOpacity={0.3}
-              strokeWidth={1.5}
-            />
-            {!shouldReduceMotion ? (
-              <motion.circle
-                r={2.2}
-                fill="var(--odoo-purple)"
-                initial={{ cx: x1, cy: y1, opacity: 0 }}
-                animate={{
-                  cx: [x1, CONVERGE_X],
-                  cy: [y1, CONVERGE_Y],
-                  opacity: [0, 1, 1, 0],
-                }}
-                transition={{
-                  duration: 1.8,
-                  repeat: 3,
-                  delay: index * 0.5,
-                  ease: "easeIn",
-                }}
-              />
-            ) : null}
-          </g>
+          <line
+            key={`line-${mod.label}`}
+            x1={x1}
+            y1={y1}
+            x2={HUB_X}
+            y2={HUB_Y}
+            stroke="var(--odoo-purple)"
+            strokeOpacity={0.3}
+            strokeWidth={1.5}
+          />
         );
       })}
 
@@ -97,7 +74,7 @@ export function OdooCluster() {
             width={mod.width}
             height={BOX_HEIGHT}
             rx={8}
-            fill="white"
+            fill="var(--background)"
             stroke="var(--odoo-gray)"
             strokeOpacity={0.6}
           />
@@ -124,35 +101,85 @@ export function OdooCluster() {
         </g>
       ))}
 
-      {!shouldReduceMotion ? (
-        <motion.circle
-          cx={CONVERGE_X}
-          cy={CONVERGE_Y}
-          r={HUB_RADIUS}
-          fill="var(--odoo-purple)"
-          fillOpacity={0.15}
-          animate={{ r: [HUB_RADIUS, HUB_RADIUS + 6, HUB_RADIUS] }}
-          transition={{ duration: 2.4, repeat: 3, ease: "easeInOut" }}
-        />
-      ) : null}
-      <circle cx={CONVERGE_X} cy={CONVERGE_Y} r={HUB_RADIUS - 4} fill="white" />
+      {/* Odoo database hub */}
+      <circle cx={HUB_X} cy={HUB_Y} r={HUB_RADIUS + 4} fill="var(--odoo-purple)" fillOpacity={0.12} />
+      <circle cx={HUB_X} cy={HUB_Y} r={HUB_RADIUS - 4} fill="var(--background)" />
       <circle
-        cx={CONVERGE_X}
-        cy={CONVERGE_Y}
+        cx={HUB_X}
+        cy={HUB_Y}
         r={HUB_RADIUS - 4}
         fill="none"
         stroke="var(--odoo-purple)"
         strokeWidth={1.5}
       />
       <Database
-        x={CONVERGE_X - 6.5}
-        y={CONVERGE_Y - 6.5}
+        x={HUB_X - 6.5}
+        y={HUB_Y - 6.5}
         width={13}
         height={13}
         stroke="var(--odoo-purple)"
         strokeWidth={2}
         aria-hidden="true"
       />
+      <text
+        x={HUB_X}
+        y={HUB_Y + 30}
+        fontSize={10}
+        textAnchor="middle"
+        fill="var(--muted-foreground)"
+      >
+        Odoo
+      </text>
+
+      {/* API link to the app */}
+      <line
+        x1={HUB_X + HUB_RADIUS + 4}
+        y1={HUB_Y}
+        x2={APP_X}
+        y2={HUB_Y}
+        stroke="var(--odoo-teal)"
+        strokeWidth={1.5}
+        strokeDasharray="3 3"
+      />
+      <text
+        x={(HUB_X + HUB_RADIUS + 4 + APP_X) / 2}
+        y={HUB_Y - 7}
+        fontSize={9}
+        textAnchor="middle"
+        fontFamily="var(--font-mono), ui-monospace, monospace"
+        fill="var(--odoo-teal)"
+      >
+        API
+      </text>
+
+      <rect
+        x={APP_X}
+        y={HUB_Y - BOX_HEIGHT / 2}
+        width={APP_WIDTH}
+        height={BOX_HEIGHT}
+        rx={8}
+        fill="var(--background)"
+        stroke="var(--odoo-teal)"
+        strokeWidth={1.5}
+      />
+      <Smartphone
+        x={APP_X + 10}
+        y={HUB_Y - ICON_SIZE / 2}
+        width={ICON_SIZE}
+        height={ICON_SIZE}
+        stroke="var(--odoo-teal)"
+        strokeWidth={2}
+        aria-hidden="true"
+      />
+      <text
+        x={APP_X + 10 + ICON_SIZE + 6}
+        y={HUB_Y + 4}
+        fontSize={11}
+        fontWeight={600}
+        fill="var(--foreground)"
+      >
+        Your app
+      </text>
     </svg>
   );
 }

@@ -1,71 +1,112 @@
-import { Check } from "lucide-react";
+import Link from "next/link";
 import { PRICING_TIERS, HOSTING_NOTE } from "@/config/pricing";
+import { EXAMPLE_APPS, formatPriceFrom } from "@/config/examples";
+import { findUseCasePageByExampleId } from "@/config/use-case-pages";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ButtonLink } from "@/components/ui/button";
 import { CONTACT_SECTION_ID } from "@/config/site";
+import { cn } from "@/lib/utils";
 
+const APP_TIER_EXAMPLES = EXAMPLE_APPS.filter((app) => app.id !== "custom-workflow");
+
+/**
+ * Three tiers as rows, not three lifted cards. The App row doubles as the
+ * catalogue of example apps (each linking to its own page), which is why it
+ * carries the #examples anchor.
+ */
 export function PricingSection() {
   return (
     <section id="pricing" className="border-b border-[var(--border)]">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <SectionHeading title="Small apps. Small projects. Clear prices." />
+        <SectionHeading
+          align="left"
+          title="Small apps. Small projects. Clear prices."
+          description="Every project is scoped to one workflow, so the price is a number, not a discovery phase."
+        />
 
-        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {PRICING_TIERS.map((tier) => (
-            <div
-              key={tier.id}
-              className={
-                tier.id === "app"
-                  ? "relative flex flex-col rounded-xl border-2 border-[var(--odoo-teal)]/40 bg-[var(--odoo-teal)]/[0.04] p-6 pt-7 sm:-translate-y-2"
-                  : "flex flex-col rounded-xl border border-[var(--border)] p-6"
-              }
-            >
-              {tier.id === "app" ? (
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-x-6 top-0 h-1 -translate-y-px rounded-full bg-[var(--odoo-teal)]"
-                />
-              ) : null}
-              <h3 className="text-lg font-semibold text-[var(--foreground)]">
-                {tier.name}
-              </h3>
-              <p className="mt-3 text-2xl font-semibold text-[var(--foreground)]">
-                {tier.priceQualifier ? (
-                  <span className="mr-1 text-sm font-normal text-[var(--muted-foreground)]">
-                    {tier.priceQualifier}
-                  </span>
-                ) : null}
-                {tier.price}
-              </p>
-              <p className="mt-3 text-sm text-[var(--muted-foreground)]">
-                {tier.description}
-              </p>
-              {tier.examples.length > 0 ? (
-                <ul className="mt-4 flex flex-col gap-2">
-                  {tier.examples.map((example) => (
-                    <li key={example} className="flex items-center gap-2 text-sm text-[var(--foreground)]">
-                      <Check aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-[var(--odoo-teal)]" />
-                      {example}
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-              {tier.id === "bigger" ? (
-                <ButtonLink
-                  href={`#${CONTACT_SECTION_ID}`}
-                  variant="secondary"
-                  className="mt-6"
-                >
-                  Let&apos;s talk
-                </ButtonLink>
-              ) : null}
-            </div>
-          ))}
+        <div className="mt-12 border-t border-[var(--border)]">
+          {PRICING_TIERS.map((tier) => {
+            const highlighted = tier.id === "app";
+            return (
+              <div
+                key={tier.id}
+                id={highlighted ? "examples" : undefined}
+                className={cn(
+                  "grid grid-cols-1 gap-6 border-b border-[var(--border)] py-8 pl-5 lg:grid-cols-[11rem_1fr] lg:gap-12 lg:py-10",
+                  highlighted
+                    ? "border-l-4 border-l-[var(--odoo-teal)]"
+                    : "border-l-4 border-l-transparent"
+                )}
+              >
+                <div>
+                  <h3 className="text-lg font-semibold text-[var(--foreground)]">{tier.name}</h3>
+                  <p className="mt-1 text-2xl font-semibold tabular-nums text-[var(--foreground)]">
+                    {tier.priceQualifier ? (
+                      <span className="mr-1.5 text-sm font-normal text-[var(--muted-foreground)]">
+                        {tier.priceQualifier}
+                      </span>
+                    ) : null}
+                    {tier.price}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="max-w-xl text-base text-[var(--muted-foreground)]">
+                    {tier.description}
+                  </p>
+
+                  {tier.examples.length > 0 ? (
+                    <p className="mt-3 text-sm text-[var(--foreground)]">
+                      {tier.examples.join(", ")}.
+                    </p>
+                  ) : null}
+
+                  {highlighted ? (
+                    <ul className="mt-5 grid grid-cols-1 gap-x-10 gap-y-3 sm:grid-cols-2">
+                      {APP_TIER_EXAMPLES.map((app) => {
+                        const page = findUseCasePageByExampleId(app.id);
+                        return (
+                          <li
+                            key={app.id}
+                            className="flex items-baseline justify-between gap-4 border-b border-dotted border-[var(--border)] pb-2"
+                          >
+                            {page ? (
+                              <Link
+                                href={`/${page.slug}`}
+                                className="text-sm font-medium text-[var(--foreground)] underline-offset-4 hover:text-[var(--odoo-teal)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] rounded-sm"
+                              >
+                                {app.name}
+                              </Link>
+                            ) : (
+                              <span className="text-sm font-medium text-[var(--foreground)]">
+                                {app.name}
+                              </span>
+                            )}
+                            <span className="shrink-0 text-sm tabular-nums text-[var(--muted-foreground)]">
+                              {formatPriceFrom(app.priceFrom)}
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : null}
+
+                  {tier.id === "bigger" ? (
+                    <ButtonLink
+                      href={`#${CONTACT_SECTION_ID}`}
+                      variant="secondary"
+                      className="mt-5"
+                    >
+                      Let&apos;s talk
+                    </ButtonLink>
+                  ) : null}
+                </div>
+              </div>
+            );
+          })}
         </div>
 
-        <p className="mt-8 text-center text-sm text-[var(--muted-foreground)]">
-          {HOSTING_NOTE}
-        </p>
+        <p className="mt-6 text-sm text-[var(--muted-foreground)]">{HOSTING_NOTE}</p>
       </div>
     </section>
   );

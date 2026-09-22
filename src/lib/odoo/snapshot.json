@@ -1,0 +1,57 @@
+{
+  "generatedAt": "2026-09-22T00:00:00.000Z",
+  "generatedBy": "hand-authored from the Odoo 18 demo dataset; regenerate with scripts/odoo-snapshot.mjs once the demo instance is up",
+  "pickings": [
+    {
+      "id": 41,
+      "name": "WH/OUT/00003",
+      "partner": "Azure Interior",
+      "lines": [
+        { "id": 112, "product": "Office Chair", "quantity": 4 },
+        { "id": 113, "product": "Large Desk", "quantity": 2 },
+        { "id": 114, "product": "Cabinet with Doors", "quantity": 2 },
+        { "id": 115, "product": "Office Lamp", "quantity": 4 }
+      ]
+    },
+    {
+      "id": 44,
+      "name": "WH/OUT/00005",
+      "partner": "Deco Addict",
+      "lines": [
+        { "id": 121, "product": "Conference Chair", "quantity": 6 },
+        { "id": 122, "product": "Storage Box", "quantity": 2 }
+      ]
+    },
+    {
+      "id": 47,
+      "name": "WH/OUT/00007",
+      "partner": "Gemini Furniture",
+      "lines": [
+        { "id": 130, "product": "Corner Desk Right Sit", "quantity": 3 },
+        { "id": 131, "product": "Drawer Black", "quantity": 9 },
+        { "id": 132, "product": "Pedal Bin", "quantity": 4 }
+      ]
+    }
+  ],
+  "salesSeed": {
+    "currency": "USD",
+    "partners": [
+      { "id": 14, "name": "Azure Interior" },
+      { "id": 10, "name": "Deco Addict" },
+      { "id": 11, "name": "Gemini Furniture" }
+    ],
+    "products": [
+      { "id": 23, "name": "Office Chair", "price": 70 },
+      { "id": 12, "name": "Cabinet with Doors", "price": 140 },
+      { "id": 20, "name": "Office Lamp", "price": 40 }
+    ]
+  },
+  "kpis": {
+    "currency": "USD",
+    "salesRecent": 24635.5,
+    "marginPct": 31,
+    "onHandUnits": 1532,
+    "openPurchaseOrders": 4,
+    "salesByDay": [3120, 4280, 2650, 5410, 3890, 2975, 2310.5]
+  }
+}

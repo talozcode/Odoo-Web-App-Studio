@@ -11,19 +11,20 @@ type AppFrameProps = {
 /**
  * Shared "looks like a real small app screen" shell used by every demo-app
  * mock. Deliberately plain: a thin border, a compact title bar, no
- * gradients/glassmorphism/drop shadows, no accent-color chrome, so the
- * app's own content carries the visual interest.
+ * gradients or drop shadows, so the app's own content carries the visual
+ * interest. The title bar's small label is set in the mono face because it
+ * names the app, the way a window title would.
  */
 export function AppFrame({ title, subtitle, children, className }: AppFrameProps) {
   return (
     <div
       className={cn(
-        "w-full max-w-sm overflow-hidden rounded-2xl border border-[var(--border)] bg-white",
+        "w-full max-w-sm overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--background)]",
         className
       )}
     >
       <div className="border-b border-[var(--border)] bg-[var(--surface)] px-4 py-3">
-        <p className="text-[11px] font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
+        <p className="font-mono text-[11px] text-[var(--muted-foreground)]">
           {subtitle ?? "Your app"}
         </p>
         <p className="text-sm font-semibold text-[var(--foreground)]">{title}</p>

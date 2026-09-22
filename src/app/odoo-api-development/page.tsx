@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { UseCasePageTemplate } from "@/components/seo/use-case-page";
-import { DashboardDemo } from "@/components/demo-apps/dashboard-demo";
-import { CustomWorkflowPreview } from "@/components/demo-apps/custom-workflow-preview";
-import { ApiConnector } from "@/components/marketing/api-connector";
+import { ExamplePreview } from "@/components/demo-apps/example-preview";
 import { capabilityServiceSchema } from "@/lib/schema";
 import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
+
+// Demo data is re-fetched from the demo Odoo at most every 45 seconds.
+export const revalidate = 45;
 
 const SLUG = "odoo-api-development";
 const CANONICAL_URL = `${SITE_URL}/${SLUG}`;
@@ -58,9 +59,8 @@ export default function OdooApiDevelopmentPage() {
       intro="Every app on this site (the picking app, the sales app, the dashboard, both portals) is really the same underlying capability applied to a different screen: a reliable connection between an external app and Odoo's data. Sometimes that connection is the whole project, without a bespoke front end wrapped around it: syncing an e-commerce platform's orders into Odoo, or letting an internal tool read live stock levels."
       demo={
         <div className="flex w-full max-w-sm flex-col items-center gap-4">
-          <DashboardDemo />
-          <ApiConnector orientation="horizontal" label="Odoo API" className="max-w-[220px]" />
-          <CustomWorkflowPreview />
+          <ExamplePreview appId="management-dashboard" withReadout />
+          <ExamplePreview appId="custom-workflow" />
         </div>
       }
       demoCaption="Same connection, two directions: reading data out (top) and writing decisions back (bottom)."

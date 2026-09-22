@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { UseCasePageTemplate } from "@/components/seo/use-case-page";
-import { CustomWorkflowPreview } from "@/components/demo-apps/custom-workflow-preview";
+import { ExamplePreview } from "@/components/demo-apps/example-preview";
 import { EXAMPLE_APPS } from "@/config/examples";
 import { serviceSchema } from "@/lib/schema";
 import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
+
+// Demo data is re-fetched from the demo Odoo at most every 45 seconds.
+export const revalidate = 45;
 
 const SLUG = "custom-odoo-web-app";
 const CANONICAL_URL = `${SITE_URL}/${SLUG}`;
@@ -53,7 +56,7 @@ export default function CustomOdooWebAppPage() {
       breadcrumbLabel="Custom Odoo Web App"
       h1="A custom web app for your specific Odoo workflow"
       intro="Not every workflow fits neatly into warehouse picking, sales ordering, a dashboard, or a portal. Expense approvals, delivery driver confirmations, a quality inspection checklist, a one-off data cleanup tool: these are all real, common requests, and they usually share the same shape: one clear input, one clear action, one clear result."
-      demo={<CustomWorkflowPreview />}
+      demo={<ExamplePreview appId="custom-workflow" />}
       demoCaption="Interactive demo: a sample expense approval screen."
       canonicalUrl={CANONICAL_URL}
       priceFrom={APP.priceFrom}

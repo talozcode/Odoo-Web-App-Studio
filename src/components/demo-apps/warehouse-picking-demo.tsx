@@ -1,43 +1,39 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { CheckCircle2, Circle, ScanLine, RotateCcw } from "lucide-react";
+import type { DemoPicking } from "@/lib/odoo/types";
 import { AppFrame } from "./app-frame";
 
-type PickLine = {
-  name: string;
-  total: number;
+type WarehousePickingDemoProps = {
+  picking: DemoPicking;
+  /**
+   * Stagger the lines in on mount. Used once, in the hero, as the page's
+   * single orchestrated motion moment: the data arriving from Odoo.
+   */
+  animateIn?: boolean;
 };
 
-const ORDER_ID = "SO0421";
-
-const LINES: PickLine[] = [
-  { name: "Bottled Water", total: 4 },
-  { name: "Coffee Beans", total: 2 },
-  { name: "Paper Towels", total: 2 },
-  { name: "Napkins", total: 4 },
-];
-
-const TOTAL_ITEMS = LINES.reduce((sum, line) => sum + line.total, 0);
-
-export function WarehousePickingDemo() {
-  const [picked, setPicked] = useState<number[]>(() => LINES.map(() => 0));
-
-  const totalPicked = useMemo(
-    () => picked.reduce((sum, count) => sum + count, 0),
-    [picked]
+export function WarehousePickingDemo({ picking, animateIn = false }: WarehousePickingDemoProps) {
+  const lines = picking.lines;
+  const totalItems = useMemo(
+    () => lines.reduce((sum, line) => sum + line.quantity, 0),
+    [lines]
   );
-  const isComplete = totalPicked >= TOTAL_ITEMS;
-  const activeIndex = picked.findIndex(
-    (count, index) => count < LINES[index].total
-  );
+  const [picked, setPicked] = useState<number[]>(() => lines.map(() => 0));
+  const shouldReduceMotion = useReducedMotion();
+  const stagger = animateIn && !shouldReduceMotion;
+
+  const totalPicked = picked.reduce((sum, count) => sum + count, 0);
+  const isComplete = totalItems > 0 && totalPicked >= totalItems;
+  const activeIndex = picked.findIndex((count, index) => count < lines[index].quantity);
 
   function scanItem() {
     if (activeIndex === -1) return;
     setPicked((prev) => {
       const next = [...prev];
-      next[activeIndex] = Math.min(next[activeIndex] + 1, LINES[activeIndex].total);
+      next[activeIndex] = Math.min(next[activeIndex] + 1, lines[activeIndex].quantity);
       return next;
     });
   }
@@ -45,20 +41,25 @@ export function WarehousePickingDemo() {
   function toggleLine(index: number) {
     setPicked((prev) => {
       const next = [...prev];
-      next[index] = next[index] >= LINES[index].total ? 0 : LINES[index].total;
+      next[index] = next[index] >= lines[index].quantity ? 0 : lines[index].quantity;
       return next;
     });
   }
 
   function reset() {
-    setPicked(LINES.map(() => 0));
+    setPicked(lines.map(() => 0));
   }
 
   return (
-    <AppFrame title={`Order ${ORDER_ID}`} subtitle="Warehouse picking">
+    <AppFrame title={picking.name} subtitle="Warehouse picking">
       <div className="mb-3 flex items-center justify-between">
         <p className="text-sm font-semibold text-[var(--foreground)]">
-          {totalPicked}/{TOTAL_ITEMS} items
+          {totalPicked}/{totalItems} items
+          {picking.partner ? (
+            <span className="ml-2 font-normal text-[var(--muted-foreground)]">
+              {picking.partner}
+            </span>
+          ) : null}
         </p>
         {isComplete ? (
           <span className="text-xs font-semibold text-[var(--odoo-teal)]">
@@ -72,23 +73,28 @@ export function WarehousePickingDemo() {
         role="progressbar"
         aria-valuenow={totalPicked}
         aria-valuemin={0}
-        aria-valuemax={TOTAL_ITEMS}
+        aria-valuemax={totalItems}
         aria-label="Items picked"
       >
         <motion.div
           className="h-full rounded-full bg-[var(--odoo-teal)]"
-          animate={{ width: `${(totalPicked / TOTAL_ITEMS) * 100}%` }}
+          animate={{ width: `${totalItems > 0 ? (totalPicked / totalItems) * 100 : 0}%` }}
           transition={{ duration: 0.25 }}
         />
       </div>
 
       <ul className="flex flex-col gap-2">
-        {LINES.map((line, index) => {
+        {lines.map((line, index) => {
           const count = picked[index];
-          const done = count >= line.total;
-          const remaining = line.total - count;
+          const done = count >= line.quantity;
+          const remaining = line.quantity - count;
           return (
-            <li key={line.name}>
+            <motion.li
+              key={line.id}
+              initial={stagger ? { opacity: 0, y: 6 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: stagger ? 0.15 + index * 0.08 : 0 }}
+            >
               <button
                 type="button"
                 onClick={() => toggleLine(index)}
@@ -108,7 +114,7 @@ export function WarehousePickingDemo() {
                     />
                   )}
                   <span className="text-sm font-medium text-[var(--foreground)]">
-                    {line.name}
+                    {line.product}
                   </span>
                 </span>
                 <span
@@ -118,10 +124,10 @@ export function WarehousePickingDemo() {
                       : "text-xs text-[var(--muted-foreground)]"
                   }
                 >
-                  {done ? `✓ ${line.total} picked` : `${remaining} remaining`}
+                  {done ? `${line.quantity} picked` : `${remaining} remaining`}
                 </span>
               </button>
-            </li>
+            </motion.li>
           );
         })}
       </ul>

@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { UseCasePageTemplate } from "@/components/seo/use-case-page";
-import { SupplierPortalPreview } from "@/components/demo-apps/supplier-portal-preview";
+import { ExamplePreview } from "@/components/demo-apps/example-preview";
 import { EXAMPLE_APPS } from "@/config/examples";
 import { serviceSchema } from "@/lib/schema";
 import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
+
+// Demo data is re-fetched from the demo Odoo at most every 45 seconds.
+export const revalidate = 45;
 
 const SLUG = "odoo-supplier-portal";
 const CANONICAL_URL = `${SITE_URL}/${SLUG}`;
@@ -53,7 +56,7 @@ export default function OdooSupplierPortalPage() {
       breadcrumbLabel="Odoo Supplier Portal"
       h1="A supplier portal built on your Odoo purchase orders"
       intro="Giving external suppliers direct access to Odoo is usually the wrong move: it's unfamiliar to them, and it exposes far more than they need. Most purchase order back-and-forth (confirm this, we can't do that quantity, it'll ship Friday) can instead happen through a narrow portal that shows a supplier exactly their own open orders and nothing else."
-      demo={<SupplierPortalPreview />}
+      demo={<ExamplePreview appId="supplier-portal" />}
       demoCaption="Interactive demo: a sample purchase order list."
       canonicalUrl={CANONICAL_URL}
       priceFrom={APP.priceFrom}

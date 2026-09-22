@@ -16,7 +16,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-white/40">
+          <p className="text-sm font-semibold text-white/60">
             Solutions
           </p>
           <ul className="mt-4 flex flex-col gap-2.5">
@@ -34,7 +34,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-white/40">
+          <p className="text-sm font-semibold text-white/60">
             Site
           </p>
           <ul className="mt-4 flex flex-col gap-2.5">
@@ -52,7 +52,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-white/40">
+          <p className="text-sm font-semibold text-white/60">
             Resources
           </p>
           <ul className="mt-4 flex flex-col gap-2.5">

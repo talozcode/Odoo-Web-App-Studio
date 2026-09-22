@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { UseCasePageTemplate } from "@/components/seo/use-case-page";
-import { SalesAppDemo } from "@/components/demo-apps/sales-app-demo";
+import { ExamplePreview } from "@/components/demo-apps/example-preview";
 import { EXAMPLE_APPS } from "@/config/examples";
 import { serviceSchema } from "@/lib/schema";
 import { BRAND_NAME } from "@/config/brand";
 import { SITE_URL } from "@/config/site";
+
+// Demo data is re-fetched from the demo Odoo at most every 45 seconds.
+export const revalidate = 45;
 
 const SLUG = "odoo-sales-app";
 const CANONICAL_URL = `${SITE_URL}/${SLUG}`;
@@ -53,7 +56,7 @@ export default function OdooSalesAppPage() {
       breadcrumbLabel="Odoo Sales App"
       h1="A mobile ordering app for your Odoo sales reps"
       intro="Odoo's Sales app is built for back-office order management: quotations, terms, discounts, approval flows. A rep standing in a customer's shop with a phone doesn't need any of that. They need to pick a customer, add what they're buying, and submit, in under a minute."
-      demo={<SalesAppDemo />}
+      demo={<ExamplePreview appId="sales-app" withReadout />}
       demoCaption="Interactive demo: walk through a sample order."
       canonicalUrl={CANONICAL_URL}
       priceFrom={APP.priceFrom}

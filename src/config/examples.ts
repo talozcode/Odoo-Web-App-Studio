@@ -1,7 +1,6 @@
 /**
- * Central config for the six example app cards shown in the "One job. One
- * simple app." section. Prices live here (not scattered across components)
- * so they are trivial to change later.
+ * Central config for the six example apps. Prices live here (not scattered
+ * across components) so they are trivial to change later.
  */
 
 export type ExampleAppId =
@@ -15,62 +14,63 @@ export type ExampleAppId =
 export type ExampleApp = {
   id: ExampleAppId;
   name: string;
-  flow: string;
   description: string;
+  /** Odoo models the app reads from or writes to. Shown in the mono face. */
+  models: string[];
   priceFrom: number;
-  /** Which demo-app component renders the preview for this card. */
-  demo: "picking" | "sales" | "dashboard" | "static";
+  /** Whether the preview reads real data (live or snapshot) or is a static mock. */
+  demo: "live" | "static";
 };
 
 export const EXAMPLE_APPS: ExampleApp[] = [
   {
     id: "warehouse-picking",
     name: "Warehouse Picking",
-    flow: "Orders → Scan → Done",
     description:
       "Mobile-first picking interface connected to Odoo Inventory.",
+    models: ["stock.picking", "stock.move.line"],
     priceFrom: 590,
-    demo: "picking",
+    demo: "live",
   },
   {
     id: "sales-app",
     name: "Sales App",
-    flow: "Customer → Products → Submit",
     description: "Simple mobile order interface for sales reps.",
+    models: ["res.partner", "product.product", "sale.order"],
     priceFrom: 690,
-    demo: "sales",
+    demo: "live",
   },
   {
     id: "management-dashboard",
     name: "Management Dashboard",
-    flow: "The numbers that actually matter.",
     description:
       "Live sales, margin, inventory and purchasing data from Odoo.",
+    models: ["sale.order", "stock.quant", "purchase.order"],
     priceFrom: 490,
-    demo: "dashboard",
+    demo: "live",
   },
   {
     id: "customer-ordering-portal",
     name: "Customer Ordering Portal",
-    flow: "Your customers order. Odoo receives it.",
     description: "Branded ordering experience connected directly to Odoo Sales.",
+    models: ["product.product", "sale.order", "res.partner"],
     priceFrom: 890,
     demo: "static",
   },
   {
     id: "supplier-portal",
     name: "Supplier Portal",
-    flow: "PO → Confirm → Done",
     description:
       "Let suppliers interact with purchase orders without navigating Odoo.",
+    models: ["purchase.order", "stock.picking"],
     priceFrom: 790,
     demo: "static",
   },
   {
     id: "custom-workflow",
     name: "Custom Workflow",
-    flow: "Your process. Simplified.",
     description: "Tell us the Odoo workflow you wish were easier.",
+    models: ["hr.expense"],
     priceFrom: 390,
     demo: "static",
   },
