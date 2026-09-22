@@ -12,6 +12,7 @@ export const SEO = {
 // correctly from every page on the site, not only from the homepage they
 // scroll within. SiteHeader and SiteFooter are shared across all routes.
 export const NAV_LINKS = [
+  { label: "Work", href: "/work" },
   { label: "Demos", href: "/#demos" },
   { label: "How it works", href: "/#how-it-works" },
   { label: "Pricing", href: "/#pricing" },
@@ -47,6 +48,7 @@ export const FOOTER_LINKS = [
 ] as const;
 
 export const FOOTER_RESOURCE_LINKS = [
+  { label: "Work", href: "/work" },
   { label: "Guides", href: "/guides" },
   { label: "About", href: "/about" },
   { label: "Privacy", href: "/privacy" },

@@ -3,6 +3,7 @@ import { websiteSchema, faqPageSchema } from "@/lib/schema";
 import { FAQ_ITEMS } from "@/config/faq";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { Hero } from "@/components/marketing/hero";
+import { WorkSection } from "@/components/marketing/work-section";
 import { LiveDemosSection } from "@/components/marketing/live-demos-section";
 import { HowItWorks } from "@/components/marketing/how-it-works";
 import { PricingSection } from "@/components/marketing/pricing-section";
@@ -22,6 +23,7 @@ export default function Home() {
       <SiteHeader />
       <main className="flex-1">
         <Hero />
+        <WorkSection />
         <LiveDemosSection />
         <HowItWorks />
         <PricingSection />
