@@ -77,6 +77,16 @@ Enter the expense, pick the category, submit. It appears in Odoo against the rig
 - Replaced: Receipts in envelopes
 - Odoo models: hr.expense, hr.employee
 
+## Delivery board across the islands and provinces
+URL: https://odoowebapps.com/work#delivery-board
+
+One board for every outbound delivery, from booked to in transit to delivered, across drivers, couriers and cargo companies serving different islands and provinces. Each card is created from an Odoo transfer and status changes post back, with customers notified by message as their delivery moves.
+
+- Used by: Dispatch and the drivers and couriers they book
+- Replaced: A shared spreadsheet and a lot of phone calls
+- Odoo models: stock.picking, res.partner, sale.order
+- 19 deliveries completed in the last 30 days from this snapshot alone
+
 ## Digests and automations inside Odoo
 URL: https://odoowebapps.com/work#digests-and-automations
 

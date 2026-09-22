@@ -58,6 +58,14 @@ export const WORK_CASES: WorkCase[] = [
       "Customers log in, see their own prices and only the products relevant to them, and place an order that lands in Odoo as a confirmed sale order. Stock shown is scoped to the warehouse that actually ships to them. Invoices are emailed by the portal's own scheduler; one of Odoo's mail rules had to be scoped so customers were not emailed twice.",
     facts: ["Live on the client's own domain", "Per-customer product visibility, by design"],
     diagram: { users: "Trade customers", app: "Ordering portal", kind: "screen" },
+    images: [
+      {
+        src: "/work/wholesale-ordering-portal/quick-order.webp",
+        width: 1600,
+        height: 697,
+        alt: "The portal's Quick Order screen: a search box for building an order by product name or SKU",
+      },
+    ],
   },
   {
     slug: "kitchen-production-board",
@@ -68,6 +76,14 @@ export const WORK_CASES: WorkCase[] = [
     summary:
       "A read-only board on a screen in each kitchen showing what to make today, in what order, for which customers. It is driven entirely by Odoo's automatic manufacturing orders and min/max replenishment rules. Getting the board right meant fixing lead times on 184 bills of materials and 113 replenishment rules in Odoo first.",
     diagram: { users: "Kitchen staff", app: "Production board", kind: "screen" },
+    images: [
+      {
+        src: "/work/kitchen-production-board/board.webp",
+        width: 1600,
+        height: 784,
+        alt: "The production board listing open manufacturing orders grouped by overdue, today and upcoming",
+      },
+    ],
   },
   {
     slug: "container-planning",
@@ -79,6 +95,14 @@ export const WORK_CASES: WorkCase[] = [
       "Plan a container against open purchase orders, see the cubic metres fill up as products are added, and keep a register of every shipment. Carton dimensions are measured once per packaging group and inherited by every product in it, so the volume maths is right the first time.",
     facts: ["2,855 products, 1,312 measured cartons", "974 automated tests"],
     diagram: { users: "Purchasing", app: "Container planner", kind: "screen" },
+    images: [
+      {
+        src: "/work/container-planning/dashboard.webp",
+        width: 1600,
+        height: 784,
+        alt: "The container planning dashboard listing recent plans with their stream, coverage, box count and status",
+      },
+    ],
   },
   {
     slug: "catering-orders",
@@ -89,6 +113,14 @@ export const WORK_CASES: WorkCase[] = [
     summary:
       "One order form that knows which company in the group the order belongs to and creates the sale order there, with the right customer and the right products. Multi-company access is the whole difficulty; the form is the easy part.",
     diagram: { users: "Event staff", app: "Catering orders", kind: "phone" },
+    images: [
+      {
+        src: "/work/catering-orders/customer-select.webp",
+        width: 1600,
+        height: 784,
+        alt: "The catering app's customer step: a list of branches, each with its own lead time",
+      },
+    ],
   },
   {
     slug: "quality-forms",
@@ -109,6 +141,33 @@ export const WORK_CASES: WorkCase[] = [
     summary:
       "Enter the expense, pick the category, submit. It appears in Odoo against the right employee and company, ready for approval in the standard flow. Deliberately tiny.",
     diagram: { users: "Everyone", app: "Expenses", kind: "phone" },
+    images: [
+      {
+        src: "/work/expenses/form.webp",
+        width: 1600,
+        height: 784,
+        alt: "The expense submission form: vendor and company at the top, one expense block below",
+      },
+    ],
+  },
+  {
+    slug: "delivery-board",
+    title: "Delivery board across the islands and provinces",
+    users: "Dispatch and the drivers and couriers they book",
+    replaced: "A shared spreadsheet and a lot of phone calls",
+    models: ["stock.picking", "res.partner", "sale.order"],
+    summary:
+      "One board for every outbound delivery, from booked to in transit to delivered, across drivers, couriers and cargo companies serving different islands and provinces. Each card is created from an Odoo transfer and status changes post back, with customers notified by message as their delivery moves.",
+    facts: ["19 deliveries completed in the last 30 days from this snapshot alone"],
+    diagram: { users: "Dispatch", app: "Delivery board", kind: "screen" },
+    images: [
+      {
+        src: "/work/delivery-board/dashboard.webp",
+        width: 1600,
+        height: 697,
+        alt: "The delivery board dashboard: counts by status and a list of upcoming and recently updated deliveries",
+      },
+    ],
   },
   {
     slug: "digests-and-automations",
