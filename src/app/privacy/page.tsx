@@ -45,14 +45,11 @@ export default function PrivacyPage() {
         What happens to it
       </h2>
       <p>
-        Today, a contact form submission is logged server-side (visible in
-        server logs) so it isn&apos;t lost, and is used solely to follow up with
-        you about the project you described. It is not currently sent to a
-        third-party CRM, email service, or marketing tool, and it is not
-        sold, rented, or shared with any other organization. That will
-        change only when a real destination (such as an email or database
-        service) is wired up to replace this interim logging, and this
-        page will be updated to reflect that at the same time it happens.
+        A contact form submission is sent by email (via Resend, our
+        transactional email provider) directly to the person who reads and
+        replies to these, and is used solely to follow up with you about the
+        project you described. It is not sent to a CRM, added to a marketing
+        list, or sold, rented, or shared with any other organization.
       </p>
 
       <h2 className="text-xl font-semibold text-[var(--foreground)]">
@@ -71,11 +68,10 @@ export default function PrivacyPage() {
         Data retention and access
       </h2>
       <p>
-        Since contact form submissions are currently only captured in
-        server logs rather than a dedicated database, retention follows
-        whatever the hosting platform&apos;s standard log retention is, rather
-        than a policy set by us. If you&apos;d like a submission you sent
-        removed or want to know what was logged, contact us at{" "}
+        Contact form submissions are delivered as email and kept only in
+        that inbox; there is no separate marketing database they&apos;re
+        copied into. If you&apos;d like a submission you sent deleted or want
+        to know what was received, contact us at{" "}
         <a
           href={`mailto:${CONTACT_EMAIL}`}
           className="font-medium text-[var(--odoo-teal)] underline underline-offset-4 hover:no-underline"
@@ -89,8 +85,8 @@ export default function PrivacyPage() {
         Changes to this policy
       </h2>
       <p>
-        As this site adds real infrastructure behind the contact form (an
-        email service, a database, analytics), this page will be updated in
+        As this site adds real infrastructure (a database, analytics, or
+        anything else that touches your data), this page will be updated in
         the same change that introduces it, so it always reflects what the
         site actually does rather than a generic template.
       </p>

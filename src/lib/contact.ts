@@ -1,3 +1,5 @@
+import { CONTACT_EMAIL } from "@/config/site";
+
 /**
  * Contact submission types + validation, shared between the server action
  * and (indirectly) the client form's expectations.
@@ -51,20 +53,53 @@ export function validateContactSubmission(
 }
 
 /**
- * Sends the contact submission somewhere durable.
- *
- * TODO(v1 launch blocker): there is no email/DB backend wired up yet. For
- * now this just logs the submission server-side so the request is at least
- * visible in server logs. Swap the body of this function for a Resend call
- * (or a DB insert) later; everything upstream (the server action + form)
- * already treats this as the single integration point, so wiring in a real
- * destination is a one-function change.
+ * Sends the contact submission by email via Resend. Falls back to a console
+ * log (rather than throwing) when RESEND_API_KEY isn't set, so local dev
+ * without the env var configured still works end to end.
  */
 export async function sendContactSubmission(
   submission: ContactSubmission
 ): Promise<void> {
-  console.log("[contact-submission]", {
-    receivedAt: new Date().toISOString(),
-    ...submission,
+  const apiKey = process.env.RESEND_API_KEY;
+
+  if (!apiKey) {
+    console.log("[contact-submission] RESEND_API_KEY not set, logging only", {
+      receivedAt: new Date().toISOString(),
+      ...submission,
+    });
+    return;
+  }
+
+  const problemAreas = submission.problemAreas.length
+    ? submission.problemAreas.join(", ")
+    : "(none selected)";
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: "OdooWebApps <leads@odoowebapps.com>",
+      to: CONTACT_EMAIL,
+      reply_to: submission.email,
+      subject: `New workflow submission from ${submission.name}`,
+      text: [
+        `Name: ${submission.name}`,
+        `Work email: ${submission.email}`,
+        `Company: ${submission.company || "(not given)"}`,
+        `Odoo version: ${submission.odooVersion || "(not given)"}`,
+        `Workflow areas: ${problemAreas}`,
+        "",
+        "What they're doing today:",
+        submission.message,
+      ].join("\n"),
+    }),
   });
+
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`Resend request failed (${response.status}): ${body}`);
+  }
 }

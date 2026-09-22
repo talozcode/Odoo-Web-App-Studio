@@ -12,7 +12,7 @@ Odoo already does everything a business generally needs: accounting, inventory, 
 - Every project is scoped and quoted individually after a conversation about the actual workflow (which Odoo models it touches, how many screens, read-only or read/write). Prices below are real starting points from the site's own pricing config, not marketing placeholders.
 - Apps can be read-only (they only display Odoo data) or read/write (they create or update real Odoo records); see /guides/odoo-write-back-vs-read-only-integrations for the distinction and why it matters.
 
-## Pricing (starting points; see https://odoo-web-app-studio.vercel.app/#pricing)
+## Pricing (starting points; see https://odoowebapps.com/#pricing)
 
 - Tiny (one focused screen, one workflow): from $390
 - App (polished multi-screen application): typically $490-$890
@@ -20,35 +20,35 @@ Odoo already does everything a business generally needs: accounting, inventory, 
 
 ## Use-case pages (each maps to a real, working interactive demo on the page)
 
-- [Odoo Warehouse App](https://odoo-web-app-studio.vercel.app/odoo-warehouse-app): Mobile-first picking app connected to Odoo Inventory (stock.picking / stock.move.line). From $590.
-- [Odoo Sales App](https://odoo-web-app-studio.vercel.app/odoo-sales-app): Mobile ordering app for field sales reps, creates Odoo sale.order records. From $690.
-- [Odoo Dashboard](https://odoo-web-app-studio.vercel.app/odoo-dashboard): Read-only management dashboard surfacing live sales, margin, inventory and purchasing numbers from Odoo. From $490.
-- [Odoo Customer Portal](https://odoo-web-app-studio.vercel.app/odoo-customer-portal): Branded customer ordering portal connected to Odoo Sales, for fast repeat ordering. From $890.
-- [Odoo Supplier Portal](https://odoo-web-app-studio.vercel.app/odoo-supplier-portal): Portal for suppliers to confirm/update Odoo purchase orders without direct Odoo access. From $790.
-- [Custom Odoo Web App](https://odoo-web-app-studio.vercel.app/custom-odoo-web-app): One-screen custom workflow apps (approvals, single-purpose data entry) for whatever doesn't fit the other categories. From $390.
-- [Odoo API Development](https://odoo-web-app-studio.vercel.app/odoo-api-development): The integration layer itself: connecting external apps, portals, or other systems to Odoo's XML-RPC/JSON-RPC API. Priced per project.
+- [Odoo Warehouse App](https://odoowebapps.com/odoo-warehouse-app): Mobile-first picking app connected to Odoo Inventory (stock.picking / stock.move.line). From $590.
+- [Odoo Sales App](https://odoowebapps.com/odoo-sales-app): Mobile ordering app for field sales reps, creates Odoo sale.order records. From $690.
+- [Odoo Dashboard](https://odoowebapps.com/odoo-dashboard): Read-only management dashboard surfacing live sales, margin, inventory and purchasing numbers from Odoo. From $490.
+- [Odoo Customer Portal](https://odoowebapps.com/odoo-customer-portal): Branded customer ordering portal connected to Odoo Sales, for fast repeat ordering. From $890.
+- [Odoo Supplier Portal](https://odoowebapps.com/odoo-supplier-portal): Portal for suppliers to confirm/update Odoo purchase orders without direct Odoo access. From $790.
+- [Custom Odoo Web App](https://odoowebapps.com/custom-odoo-web-app): One-screen custom workflow apps (approvals, single-purpose data entry) for whatever doesn't fit the other categories. From $390.
+- [Odoo API Development](https://odoowebapps.com/odoo-api-development): The integration layer itself: connecting external apps, portals, or other systems to Odoo's XML-RPC/JSON-RPC API. Priced per project.
 
 ## Guides (10 articles as of this writing; technically accurate, no fabricated statistics)
 
-- [Odoo Customization vs. Custom Apps](https://odoo-web-app-studio.vercel.app/guides/odoo-customization-vs-custom-apps): When a change belongs inside Odoo (Studio, custom modules) vs. in a separate connected app.
-- [How Odoo's API Actually Works](https://odoo-web-app-studio.vercel.app/guides/odoo-api-integration-explained): XML-RPC/JSON-RPC, authentication, and the ORM methods (search_read, create, write) integrations actually call.
-- [What Happens When Odoo Upgrades](https://odoo-web-app-studio.vercel.app/guides/what-happens-when-odoo-upgrades): Why an external app is affected differently by an Odoo version upgrade than in-Odoo customization is.
-- [How Much Does a Custom Odoo App Cost](https://odoo-web-app-studio.vercel.app/guides/how-much-does-a-custom-odoo-app-cost): Real price ranges pulled from this site's own pricing config, and what drives them.
-- [Signs Your Team Needs a Simpler Odoo Interface](https://odoo-web-app-studio.vercel.app/guides/signs-your-team-needs-a-simpler-odoo-interface): Practical signals that a workflow needs a focused front end rather than more Odoo training.
-- [Read-Only vs. Write-Back Odoo Integrations](https://odoo-web-app-studio.vercel.app/guides/odoo-write-back-vs-read-only-integrations): The difference between apps that only display Odoo data and apps that change it, and why that changes scope and risk.
-- [Odoo REST API: What It Can (and Can't) Do](https://odoo-web-app-studio.vercel.app/guides/odoo-rest-api-explained): Odoo has no native REST API, it exposes XML-RPC/JSON-RPC over its ORM, and when a thin REST layer in front of it is worth building.
-- [Odoo Barcode App: Use Odoo's, or Build a Custom One?](https://odoo-web-app-studio.vercel.app/guides/odoo-barcode-app-buy-or-build): An honest comparison of Odoo's own (genuinely capable) Barcode app against a narrower custom picking app.
-- [How to Give Customers a Self-Service Portal Without Rebuilding Odoo's Frontend](https://odoo-web-app-studio.vercel.app/guides/odoo-customer-self-service-portal): Odoo's built-in customer portal vs. a fully custom-branded ordering portal, and when each fits.
-- [Hiring an Odoo Developer vs. a Web App Studio](https://odoo-web-app-studio.vercel.app/guides/odoo-developer-vs-web-app-studio): When an Odoo implementation partner is the right call vs. when a narrow web app studio is.
+- [Odoo Customization vs. Custom Apps](https://odoowebapps.com/guides/odoo-customization-vs-custom-apps): When a change belongs inside Odoo (Studio, custom modules) vs. in a separate connected app.
+- [How Odoo's API Actually Works](https://odoowebapps.com/guides/odoo-api-integration-explained): XML-RPC/JSON-RPC, authentication, and the ORM methods (search_read, create, write) integrations actually call.
+- [What Happens When Odoo Upgrades](https://odoowebapps.com/guides/what-happens-when-odoo-upgrades): Why an external app is affected differently by an Odoo version upgrade than in-Odoo customization is.
+- [How Much Does a Custom Odoo App Cost](https://odoowebapps.com/guides/how-much-does-a-custom-odoo-app-cost): Real price ranges pulled from this site's own pricing config, and what drives them.
+- [Signs Your Team Needs a Simpler Odoo Interface](https://odoowebapps.com/guides/signs-your-team-needs-a-simpler-odoo-interface): Practical signals that a workflow needs a focused front end rather than more Odoo training.
+- [Read-Only vs. Write-Back Odoo Integrations](https://odoowebapps.com/guides/odoo-write-back-vs-read-only-integrations): The difference between apps that only display Odoo data and apps that change it, and why that changes scope and risk.
+- [Odoo REST API: What It Can (and Can't) Do](https://odoowebapps.com/guides/odoo-rest-api-explained): Odoo has no native REST API, it exposes XML-RPC/JSON-RPC over its ORM, and when a thin REST layer in front of it is worth building.
+- [Odoo Barcode App: Use Odoo's, or Build a Custom One?](https://odoowebapps.com/guides/odoo-barcode-app-buy-or-build): An honest comparison of Odoo's own (genuinely capable) Barcode app against a narrower custom picking app.
+- [How to Give Customers a Self-Service Portal Without Rebuilding Odoo's Frontend](https://odoowebapps.com/guides/odoo-customer-self-service-portal): Odoo's built-in customer portal vs. a fully custom-branded ordering portal, and when each fits.
+- [Hiring an Odoo Developer vs. a Web App Studio](https://odoowebapps.com/guides/odoo-developer-vs-web-app-studio): When an Odoo implementation partner is the right call vs. when a narrow web app studio is.
 
 ## Other pages
 
-- [Homepage](https://odoo-web-app-studio.vercel.app/): Overview, all six example apps with live interactive demos, how-it-works, pricing, and FAQ.
-- [Guides index](https://odoo-web-app-studio.vercel.app/guides): All guide articles listed above.
-- [About](https://odoo-web-app-studio.vercel.app/about): Studio positioning and approach; no fabricated founding story, team size, or client count.
-- [Privacy Policy](https://odoo-web-app-studio.vercel.app/privacy): What the contact form collects and how it's handled (currently logged server-side only; no analytics or tracking scripts run on this site).
-- [Terms of Service](https://odoo-web-app-studio.vercel.app/terms): Basic engagement terms: quote-before-work, scoped Odoo API access, no fabricated SLAs.
+- [Homepage](https://odoowebapps.com/): Overview, all six example apps with live interactive demos, how-it-works, pricing, and FAQ.
+- [Guides index](https://odoowebapps.com/guides): All guide articles listed above.
+- [About](https://odoowebapps.com/about): Studio positioning and approach; no fabricated founding story, team size, or client count.
+- [Privacy Policy](https://odoowebapps.com/privacy): What the contact form collects and how it's handled (sent by email to the studio; no analytics or tracking scripts run on this site).
+- [Terms of Service](https://odoowebapps.com/terms): Basic engagement terms: quote-before-work, scoped Odoo API access, no fabricated SLAs.
 
 ## Contact
 
-Start a project via the contact form at https://odoo-web-app-studio.vercel.app/#contact.
+Start a project via the contact form at https://odoowebapps.com/#contact.

@@ -1,6 +1,6 @@
 import { BRAND_NAME } from "./brand";
 
-export const SITE_URL = "https://odoo-web-app-studio.vercel.app";
+export const SITE_URL = "https://odoowebapps.com";
 
 export const SEO = {
   title: `Simple Web Apps for Odoo | ${BRAND_NAME}`,
@@ -22,7 +22,7 @@ export const NAV_LINKS = [
 export const CONTACT_SECTION_ID = "contact";
 export const CONTACT_NAV_LABEL = "Tell us what you want to simplify";
 
-export const CONTACT_EMAIL = "hello@example.com";
+export const CONTACT_EMAIL = "talbkk11@gmail.com";
 
 export const PROBLEM_CHIPS = [
   "Warehouse picking",
