@@ -18,7 +18,7 @@ const COUNT = COUNT_WORDS[WORK_CASES.length] ?? String(WORK_CASES.length);
 
 export const metadata: Metadata = {
   title: `Work: Odoo-connected apps in production | ${BRAND_NAME}`,
-  description: `${COUNT.charAt(0).toUpperCase()}${COUNT.slice(1)} shipped apps and automations around one client's Odoo 18: barcode picking, a B2B ordering portal, a kitchen production board, container planning and more. Anonymised, all in daily use.`,
+  description: `${COUNT.charAt(0).toUpperCase()}${COUNT.slice(1)} shipped apps and automations for our clients on Odoo 18: barcode picking, a B2B ordering portal, a kitchen production board, container planning and more. Anonymised, all in daily use.`,
   alternates: { canonical: CANONICAL_URL },
   openGraph: {
     title: "Work: Odoo-connected apps in production",
@@ -70,11 +70,11 @@ export default function WorkPage() {
         <section className="border-b border-[var(--border)]">
           <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
             <h1 className="max-w-2xl text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl">
-              What we have built around one real Odoo
+              What we have built for our clients
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-[var(--muted-foreground)]">
-              {WORK_CONTEXT} The client is not named here; the apps, models
-              and numbers are as they are.
+              {WORK_CONTEXT} The companies are not named here; the apps and
+              the numbers are as they are.
             </p>
           </div>
         </section>

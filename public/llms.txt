@@ -8,7 +8,7 @@ Odoo already does everything a business generally needs: accounting, inventory, 
 
 ## Company facts
 
-- This is a small software studio built on 5+ years of hands-on Odoo implementation and automation work. There is no fabricated client roster, testimonial list, or "trusted by N companies" claim anywhere on this site. The Work page describes eight shipped, in-production apps and automations for one real client (a multi-company food production, wholesale, retail and catering group on Odoo 18); the client is anonymised.
+- This is a small software studio built on 5+ years of hands-on Odoo implementation and automation work. There is no fabricated client roster, testimonial list, or "trusted by N companies" claim anywhere on this site. The Work page describes eight shipped, in-production apps and automations for our clients (a group of companies in food production, wholesale, retail and catering on Odoo 18); the companies are anonymised.
 - The demos on the site are working apps that read from a real Odoo 18 Community instance over JSON-RPC, with the ORM call, record count and latency printed under each one. The sales order demo creates and confirms a real sale.order only when live writes are switched on, and says on screen when nothing was written. When that instance is unreachable the demos fall back to a bundled snapshot of Odoo's own demo dataset and say so.
 - Every project is scoped and quoted individually after a conversation about the actual workflow (which Odoo models it touches, how many screens, read-only or read/write). Prices below are real starting points from the site's own pricing config, not marketing placeholders.
 - Apps can be read-only (they only display Odoo data) or read/write (they create or update real Odoo records); see /guides/odoo-write-back-vs-read-only-integrations for the distinction and why it matters.
@@ -31,7 +31,7 @@ Odoo already does everything a business generally needs: accounting, inventory, 
 
 ## Work (https://odoowebapps.com/work)
 
-Eight anonymised, in-production apps and automations for one client's Odoo 18: barcode picking for the warehouse floor (stock.picking, stock.move.line, stock.lot), a wholesale B2B ordering portal (sale.order, product.pricelist), a kitchen production board (mrp.production, stock.warehouse.orderpoint), container and shipment planning (purchase.order, product.packaging), catering orders across companies, HACCP quality forms linked to manufacturing orders, expense submission (hr.expense), and scheduled digests configured inside Odoo (ir.cron, mail.template). Figures on that page are real.
+Eight anonymised, in-production apps and automations for our clients on Odoo 18: barcode picking for the warehouse floor (stock.picking, stock.move.line, stock.lot), a wholesale B2B ordering portal (sale.order, product.pricelist), a kitchen production board (mrp.production, stock.warehouse.orderpoint), container and shipment planning (purchase.order, product.packaging), catering orders across companies, HACCP quality forms linked to manufacturing orders, expense submission (hr.expense), and scheduled digests configured inside Odoo (ir.cron, mail.template). Figures on that page are real.
 
 ## Guides (16 articles as of this writing; technically accurate, no fabricated statistics)
 

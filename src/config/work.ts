@@ -1,7 +1,7 @@
 /**
- * Real, shipped apps, described without identifying the client. The client
- * is a multi-company group (food production, wholesale, retail and catering)
- * running Odoo 18. Everything here is in production use.
+ * Real, shipped apps, described without identifying the clients: a group of
+ * companies in food production, wholesale, retail and catering, all running
+ * Odoo 18. Everything here is in production use.
  *
  * Rules for this file: no company or brand names, no domains, no
  * screenshots that have not been through scripts/sanitize-check.py and
@@ -34,7 +34,7 @@ export type WorkCase = {
 };
 
 export const WORK_CONTEXT =
-  "A multi-company group (food production, wholesale, retail and catering) running Odoo 18 across its sites. These are the apps that sit around their Odoo, all in daily use.";
+  "Apps in daily use across a group of companies in food production, wholesale, retail and catering, all running Odoo 18. Each one sits next to their Odoo, connected through the API.";
 
 export const WORK_CASES: WorkCase[] = [
   {

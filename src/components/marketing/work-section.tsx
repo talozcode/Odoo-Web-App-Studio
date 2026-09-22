@@ -8,7 +8,7 @@ const FEATURED = HOMEPAGE_WORK_SLUGS.map(workCaseBySlug).filter(
 );
 
 /**
- * Shipped, in-production apps for one real client, anonymised. This is the
+ * Shipped, in-production apps for our clients, anonymised. This is the
  * proof the demos point at: the same approach, on a real Odoo, in daily use.
  */
 export function WorkSection() {
@@ -17,7 +17,7 @@ export function WorkSection() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <SectionHeading
           align="left"
-          title="What we have built for one client"
+          title="What we have built for our clients"
           description={WORK_CONTEXT}
         />
 

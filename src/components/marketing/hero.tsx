@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Smartphone } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { CONTACT_SECTION_ID } from "@/config/site";
 import { ExamplePreview } from "@/components/demo-apps/example-preview";
@@ -46,6 +47,10 @@ export function Hero() {
           <ApiLink animated orientation="vertical" className="lg:hidden" />
 
           <div className="flex w-full max-w-sm flex-col gap-3 lg:shrink-0">
+            <p className="inline-flex w-fit items-center gap-2 rounded-[9px] border-[1.75px] border-[var(--odoo-teal)] bg-[var(--background)] px-3.5 py-2 text-[13px] font-semibold text-[var(--foreground)]">
+              <Smartphone aria-hidden="true" className="h-4 w-4 text-[var(--odoo-teal)]" />
+              Your app
+            </p>
             <ExamplePreview appId="warehouse-picking" withReadout animateIn />
             <p className="text-xs text-[var(--muted-foreground)]">
               Working demo. Scan a line or tap it to mark it picked.

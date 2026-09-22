@@ -99,7 +99,7 @@ export default function AboutPage() {
         >
           the work page
         </Link>{" "}
-        for the apps already running this way for a real client, and{" "}
+        for the apps already running this way for our clients, and{" "}
         <Link
           href="/guides/odoo-developer-vs-web-app-studio"
           className="font-medium text-[var(--odoo-teal)] underline underline-offset-4 hover:no-underline"
@@ -131,7 +131,7 @@ export default function AboutPage() {
         The brand is new; the experience isn&apos;t. Rather than pad this
         page with claims that aren&apos;t true, the honest version is
         simpler: the approach above is the actual approach, the apps on the
-        work page are shipped and in daily use for one real client, the demos
+        work page are shipped and in daily use for our clients, the demos
         on the homepage are working apps built the same way against a real
         Odoo (not mockups of hypothetical clients), and every project is scoped and
         quoted individually through a direct conversation, based on the
