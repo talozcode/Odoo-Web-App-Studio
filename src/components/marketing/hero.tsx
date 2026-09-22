@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { Smartphone } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
@@ -49,13 +50,15 @@ export function Hero() {
           <ApiLink
             animated
             orientation="vertical"
-            className="self-start lg:hidden"
-            style={{ marginLeft: `calc(${HUB_FRACTION * 100}% - 20px)` }}
+            className="hub-aligned self-start lg:hidden"
+            style={{ "--hub-offset": `calc(${HUB_FRACTION * 100}% - 20px)` } as CSSProperties}
           />
 
           <p
-            className="z-10 inline-flex shrink-0 items-center gap-2 self-start whitespace-nowrap rounded-[9px] border-[1.75px] border-[var(--odoo-teal)] bg-[var(--background)] px-3.5 py-2 text-[13px] font-semibold text-[var(--foreground)] lg:self-auto lg:-mr-px"
-            style={{ marginLeft: `min(calc(${HUB_FRACTION * 100}% - 54px), calc(100% - 112px))` }}
+            className="hub-aligned z-10 inline-flex shrink-0 items-center gap-2 self-start whitespace-nowrap rounded-[9px] border-[1.75px] border-[var(--odoo-teal)] bg-[var(--background)] px-3.5 py-2 text-[13px] font-semibold text-[var(--foreground)] lg:self-auto lg:-mr-px"
+            style={{
+              "--hub-offset": `min(calc(${HUB_FRACTION * 100}% - 54px), calc(100% - 112px))`,
+            } as CSSProperties}
           >
             <Smartphone aria-hidden="true" className="h-4 w-4 text-[var(--odoo-teal)]" />
             Your app

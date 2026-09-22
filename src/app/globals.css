@@ -44,6 +44,20 @@ body {
   font-family: var(--font-sans), Inter, system-ui, sans-serif;
 }
 
+/* Stacked hero: the API link and the "Your app" node line up under the
+   Odoo hub, which sits at a fraction of the diagram's width. The offset is
+   passed as --hub-offset and is dropped once the layout goes side by side,
+   so it can never leak into the desktop row. */
+.hub-aligned {
+  margin-left: var(--hub-offset, 0);
+}
+
+@media (min-width: 1024px) {
+  .hub-aligned {
+    margin-left: 0;
+  }
+}
+
 /* The system diagram in the hero: records flowing from Odoo's modules into
    the database, and the API link carrying them on to the app. Pure CSS so it
    costs nothing and honours the reduced-motion rule below. */
