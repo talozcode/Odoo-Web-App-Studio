@@ -6,12 +6,12 @@ export function ContactSection() {
   return (
     <section
       id={CONTACT_SECTION_ID}
-      className="border-b border-[var(--border)] bg-[var(--brand-coral)]/5"
+      className="border-b border-[var(--border)] bg-[var(--surface)]"
     >
       <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto flex max-w-xl flex-col items-center text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand-coral)]/10">
-            <MessageSquareText aria-hidden="true" className="h-6 w-6 text-[var(--brand-coral)]" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--odoo-teal)]/10">
+            <MessageSquareText aria-hidden="true" className="h-6 w-6 text-[var(--odoo-teal)]" />
           </div>
           <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-3xl">
             What&apos;s annoying you about Odoo?

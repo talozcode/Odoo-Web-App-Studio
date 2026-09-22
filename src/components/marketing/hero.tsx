@@ -34,7 +34,7 @@ export function Hero() {
           <p className="text-base font-medium text-[var(--muted-foreground)]">
             {BRAND_TAGLINE}
           </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl lg:text-5xl">
+          <h1 className="mt-3 text-4xl font-bold tracking-tight text-[var(--foreground)] sm:text-5xl lg:text-6xl">
             Odoo doesn&apos;t have to feel like Odoo.
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-[var(--muted-foreground)]">

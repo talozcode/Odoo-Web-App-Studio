@@ -19,7 +19,7 @@ export function Chip({ label, selected, onToggle }: ChipProps) {
         "min-h-9 rounded-full border px-4 py-1.5 text-sm font-medium transition-colors",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-coral)]",
         selected
-          ? "border-[var(--brand-coral)] bg-[var(--brand-coral)] text-white"
+          ? "border-[var(--odoo-teal)] bg-[var(--odoo-teal)] text-white"
           : "border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] hover:border-[var(--odoo-gray)] hover:bg-[var(--border)]/40"
       )}
     >

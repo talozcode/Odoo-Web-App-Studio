@@ -25,8 +25,8 @@ export default function Home() {
         <Hero />
         <CredibilityStrip />
         <ProblemSection />
-        <ExamplesSection />
         <HowItWorks />
+        <ExamplesSection />
         <BeforeAfterSection />
         <PhilosophySection />
         <PricingSection />

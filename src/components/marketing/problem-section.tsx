@@ -41,8 +41,8 @@ export function ProblemSection() {
             </ul>
           </div>
 
-          <div className="rounded-xl border border-[var(--brand-coral)]/30 bg-white p-6">
-            <p className="text-base font-semibold text-[var(--brand-coral)]">
+          <div className="rounded-xl border border-[var(--odoo-teal)]/30 bg-white p-6">
+            <p className="text-base font-semibold text-[var(--odoo-teal)]">
               What they actually need
             </p>
             <ul className="mt-4 flex flex-col gap-3">
@@ -50,7 +50,7 @@ export function ProblemSection() {
                 <li key={item.label} className="flex items-center gap-3">
                   <item.icon
                     aria-hidden="true"
-                    className="h-4 w-4 shrink-0 text-[var(--brand-coral)]"
+                    className="h-4 w-4 shrink-0 text-[var(--odoo-teal)]"
                   />
                   <span className="text-sm font-medium text-[var(--foreground)]">
                     {item.label}

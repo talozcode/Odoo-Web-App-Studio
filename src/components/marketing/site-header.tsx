@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { NAV_LINKS, CONTACT_NAV_LABEL, CONTACT_SECTION_ID } from "@/config/site";
@@ -12,19 +11,12 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]/80">
-      <div className="mx-auto flex h-24 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8 sm:h-28">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/#top"
-          className="flex shrink-0 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] rounded-md"
+          className="flex shrink-0 items-center text-lg font-bold tracking-tight text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] rounded-md"
         >
-          <Image
-            src="/brand/odoowebapps-logo-horizontal-transparent.png"
-            alt="OdooWebApps"
-            width={1024}
-            height={341}
-            priority
-            className="h-16 w-auto sm:h-20"
-          />
+          OdooWebApps<span className="text-[var(--odoo-teal)]">.com</span>
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex">

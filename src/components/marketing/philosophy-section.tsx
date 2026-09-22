@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const ODOO_RESPONSIBLE_FOR = [
   "Accounting",
   "Inventory",
@@ -20,17 +18,8 @@ const WE_BUILD = [
 
 export function PhilosophySection() {
   return (
-    <section className="relative overflow-hidden border-b border-[var(--border)] bg-[var(--surface)]">
-      <Image
-        src="/images/philosophy-glow.webp"
-        alt=""
-        aria-hidden="true"
-        fill
-        unoptimized
-        sizes="100vw"
-        className="pointer-events-none select-none object-cover opacity-80"
-      />
-      <div className="relative mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+    <section className="border-b border-[var(--border)] bg-[var(--surface)]">
+      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <h2 className="text-center text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-3xl">
           We don&apos;t rebuild Odoo.
         </h2>
@@ -53,14 +42,14 @@ export function PhilosophySection() {
           </div>
 
           <div className="rounded-xl border border-[var(--border)] bg-white p-6">
-            <p className="text-base font-semibold text-[var(--brand-coral)]">
+            <p className="text-base font-semibold text-[var(--odoo-teal)]">
               We build
             </p>
             <ul className="mt-4 flex flex-wrap gap-2">
               {WE_BUILD.map((item) => (
                 <li
                   key={item}
-                  className="rounded-full border border-[var(--brand-coral)]/20 bg-[var(--brand-coral)]/10 px-3 py-1 text-sm font-medium text-[var(--brand-coral)]"
+                  className="rounded-full border border-[var(--odoo-teal)]/20 bg-[var(--odoo-teal)]/10 px-3 py-1 text-sm font-medium text-[var(--odoo-teal)]"
                 >
                   {item}
                 </li>
@@ -69,10 +58,8 @@ export function PhilosophySection() {
           </div>
         </div>
 
-        <p className="mx-auto mt-16 max-w-3xl text-center text-4xl font-semibold leading-snug tracking-tight text-[var(--brand-coral)] sm:text-5xl lg:text-6xl">
-          Odoo does everything.
-          <br />
-          Your users don&apos;t need everything.
+        <p className="mx-auto mt-10 max-w-2xl text-center text-lg font-medium text-[var(--foreground)]">
+          Odoo does everything. Your users don&apos;t need everything.
         </p>
       </div>
     </section>

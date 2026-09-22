@@ -22,8 +22,8 @@ const STEPS = [
     icon: Smartphone,
     title: "Your app",
     description: "Your users get an interface designed specifically for their job.",
-    tone: "text-[var(--brand-coral)]",
-    fill: "bg-[var(--brand-coral)]/10",
+    tone: "text-[var(--foreground)]",
+    fill: "bg-[var(--foreground)]/[0.06]",
   },
 ];
 

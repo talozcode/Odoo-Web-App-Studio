@@ -93,7 +93,7 @@ export function BeforeAfterSection() {
                   <span
                     className={
                       mode === "after"
-                        ? "rounded-lg bg-[var(--brand-coral)]/10 px-3 py-2 text-sm font-semibold text-[var(--brand-coral)]"
+                        ? "rounded-lg bg-[var(--odoo-teal)]/10 px-3 py-2 text-sm font-semibold text-[var(--odoo-teal)]"
                         : "rounded-lg border border-[var(--border)] px-3 py-2 text-sm text-[var(--muted-foreground)]"
                     }
                   >
