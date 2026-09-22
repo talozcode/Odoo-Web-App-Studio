@@ -1,21 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { ChevronLeft, CheckCircle2, Plus, Check } from "lucide-react";
-import type { DemoPartner, DemoProduct, DemoSalesSeed } from "@/lib/odoo/types";
+import type { DemoPartner, DemoProduct, DemoSalesSeed, RpcTrace } from "@/lib/odoo/types";
 import { formatMoney } from "@/lib/format";
+import { createDemoSaleOrder } from "@/app/demo-actions";
 import { AppFrame } from "./app-frame";
 
 type Step = "customer" | "products" | "done";
 
 type SalesAppDemoProps = {
   seed: DemoSalesSeed;
+  /** When true, submitting creates and confirms a real sale.order in the demo Odoo. */
+  writesEnabled?: boolean;
 };
 
-export function SalesAppDemo({ seed }: SalesAppDemoProps) {
+type Outcome =
+  | { kind: "local" }
+  | { kind: "created"; name: string; trace: RpcTrace }
+  | { kind: "declined"; message: string };
+
+export function SalesAppDemo({ seed, writesEnabled = false }: SalesAppDemoProps) {
   const [step, setStep] = useState<Step>("customer");
   const [customer, setCustomer] = useState<DemoPartner | null>(null);
   const [selected, setSelected] = useState<number[]>([]);
+  const [outcome, setOutcome] = useState<Outcome>({ kind: "local" });
+  const [pending, startTransition] = useTransition();
 
   function pickCustomer(partner: DemoPartner) {
     setCustomer(partner);
@@ -31,12 +41,26 @@ export function SalesAppDemo({ seed }: SalesAppDemoProps) {
   }
 
   function submit() {
-    setStep("done");
+    if (!writesEnabled || !customer) {
+      setOutcome({ kind: "local" });
+      setStep("done");
+      return;
+    }
+    startTransition(async () => {
+      const result = await createDemoSaleOrder({ partnerId: customer.id, productIds: selected });
+      if (result.ok) {
+        setOutcome({ kind: "created", name: result.name, trace: result.trace });
+      } else {
+        setOutcome({ kind: "declined", message: result.message });
+      }
+      setStep("done");
+    });
   }
 
   function startOver() {
     setCustomer(null);
     setSelected([]);
+    setOutcome({ kind: "local" });
     setStep("customer");
   }
 
@@ -111,10 +135,10 @@ export function SalesAppDemo({ seed }: SalesAppDemoProps) {
           <button
             type="button"
             onClick={submit}
-            disabled={selected.length === 0}
+            disabled={selected.length === 0 || pending}
             className="mt-4 min-h-11 w-full rounded-lg bg-[var(--odoo-teal)] text-sm font-semibold text-white transition-colors hover:bg-[var(--odoo-teal-hover)] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--odoo-teal)]"
           >
-            Submit order ({selected.length})
+            {pending ? "Sending to Odoo" : `Submit order (${selected.length})`}
           </button>
         </div>
       ) : null}
@@ -123,11 +147,29 @@ export function SalesAppDemo({ seed }: SalesAppDemoProps) {
         <div className="flex flex-col items-center gap-3 py-4 text-center">
           <CheckCircle2 aria-hidden="true" className="h-8 w-8 text-[var(--odoo-teal)]" />
           <p className="text-sm font-semibold text-[var(--foreground)]">
-            Order sent to Odoo
+            {outcome.kind === "created"
+              ? `${outcome.name} confirmed in Odoo`
+              : outcome.kind === "declined"
+                ? "Order kept local"
+                : "Order submitted"}
           </p>
           <p className="text-xs text-[var(--muted-foreground)]">
             {selected.length} line{selected.length === 1 ? "" : "s"} for {customer.name}
           </p>
+          {outcome.kind === "created" ? (
+            <p className="font-mono text-[11px] text-[var(--muted-foreground)]">
+              {outcome.trace.summary}, {outcome.trace.ms} ms
+            </p>
+          ) : null}
+          {outcome.kind === "declined" ? (
+            <p className="max-w-[16rem] text-xs text-[var(--muted-foreground)]">{outcome.message}</p>
+          ) : null}
+          {outcome.kind === "local" ? (
+            <p className="max-w-[16rem] text-xs text-[var(--muted-foreground)]">
+              Demo only: nothing was written to Odoo. With the live instance
+              connected this creates and confirms a sale.order.
+            </p>
+          ) : null}
           <button
             type="button"
             onClick={startOver}

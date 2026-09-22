@@ -1,5 +1,5 @@
 import type { ExampleAppId } from "@/config/examples";
-import { getDemoData } from "@/lib/odoo/demo-source";
+import { getDemoData, isDemoWritesEnabled } from "@/lib/odoo/demo-source";
 import { WarehousePickingDemo } from "./warehouse-picking-demo";
 import { SalesAppDemo } from "./sales-app-demo";
 import { DashboardDemo } from "./dashboard-demo";
@@ -38,7 +38,7 @@ export async function ExamplePreview({ appId, withReadout = false, animateIn }: 
     case "sales-app":
       return (
         <div className="flex w-full max-w-sm flex-col gap-3">
-          <SalesAppDemo seed={data.salesSeed.data} />
+          <SalesAppDemo seed={data.salesSeed.data} writesEnabled={isDemoWritesEnabled()} />
           {withReadout ? <RpcReadout result={data.salesSeed} /> : null}
         </div>
       );

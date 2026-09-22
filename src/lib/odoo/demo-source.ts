@@ -211,6 +211,11 @@ export function isLiveConfigured(): boolean {
   return getOdooConfig() !== null;
 }
 
+/** Live writes need both a configured instance and an explicit opt-in. */
+export function isDemoWritesEnabled(): boolean {
+  return process.env.DEMO_WRITES_ENABLED === "1" && isLiveConfigured();
+}
+
 async function withFallback<T>(
   live: (() => Promise<DemoResult<T>>) | null,
   fallback: () => Promise<DemoResult<T>>

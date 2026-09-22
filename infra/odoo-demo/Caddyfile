@@ -1,0 +1,14 @@
+demo-odoo.odoowebapps.com {
+	encode gzip
+
+	# The database manager stays unreachable even though list_db is off.
+	@dbmanager path /web/database/*
+	respond @dbmanager 404
+
+	@websocket path /websocket*
+	reverse_proxy @websocket odoo:8072
+
+	reverse_proxy odoo:8069 {
+		header_up X-Forwarded-Proto {scheme}
+	}
+}
