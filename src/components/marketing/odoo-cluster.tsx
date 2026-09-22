@@ -48,7 +48,7 @@ export function OdooCluster() {
 
   return (
     <svg
-      viewBox="0 0 340 250"
+      viewBox="0 0 340 264"
       role="img"
       aria-label="Odoo modules for Sales, Inventory, Purchase, Manufacturing, Accounting and Contacts, all feeding live into one connected hub"
       className="h-auto w-full max-w-md"

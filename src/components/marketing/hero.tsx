@@ -57,11 +57,11 @@ export function Hero() {
             <OdooCluster />
           </div>
 
+          <ApiConnector className="hidden w-24 lg:flex" />
           <ApiConnector
             orientation="vertical"
-            className="mx-auto hidden h-40 lg:flex"
+            className="mx-auto flex h-16 lg:hidden"
           />
-          <ApiConnector className="flex lg:hidden" />
 
           <div className="flex justify-center">
             <TodaysPicksCard />
