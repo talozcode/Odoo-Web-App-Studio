@@ -8,7 +8,7 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-4 py-12 sm:px-6 md:grid-cols-4 lg:px-8">
         <div className="col-span-2 flex flex-col gap-4 md:col-span-1">
           <span className="text-lg font-bold text-white">
-            OdooWebApps<span className="text-[var(--odoo-teal)]">.com</span>
+            OdooWebApps<span className="text-[var(--odoo-teal-bright)]">.com</span>
           </span>
           <p className="max-w-[220px] text-sm text-white/60">
             A web app studio for businesses that already use Odoo.
@@ -23,6 +23,7 @@ export function SiteFooter() {
             {USE_CASE_PAGES.map((page) => (
               <li key={page.slug}>
                 <Link
+                  prefetch={false}
                   href={`/${page.slug}`}
                   className="text-sm text-white/70 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-md"
                 >
@@ -59,6 +60,7 @@ export function SiteFooter() {
             {FOOTER_RESOURCE_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
+                  prefetch={false}
                   href={link.href}
                   className="text-sm text-white/70 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-md"
                 >

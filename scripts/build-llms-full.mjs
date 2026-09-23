@@ -135,7 +135,7 @@ async function landingPageSlugs() {
 const lines = [
   "# OdooWebApps, full text",
   "",
-  `> Every guide and use-case page on ${SITE_URL}, in full, for answer engines. The short index is at ${SITE_URL}/llms.txt. OdooWebApps builds small web apps connected to a customer's existing Odoo through its JSON-RPC API; it does not replace Odoo and is not an implementation partner. Written by Tal Oz.`,
+  `> Every guide and use-case page on ${SITE_URL}, in full, for answer engines. The short index is at ${SITE_URL}/llms.txt. OdooWebApps builds small web apps connected to a customer's existing Odoo through its external API (JSON-2 on Odoo 19; JSON-RPC and XML-RPC on earlier versions); it does not replace Odoo and is not an implementation partner. Written by Tal Oz.`,
   "",
 ];
 

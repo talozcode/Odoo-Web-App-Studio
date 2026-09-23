@@ -1,6 +1,6 @@
 # OdooWebApps, full text
 
-> Every guide and use-case page on https://odoowebapps.com, in full, for answer engines. The short index is at https://odoowebapps.com/llms.txt. OdooWebApps builds small web apps connected to a customer's existing Odoo through its JSON-RPC API; it does not replace Odoo and is not an implementation partner. Written by Tal Oz.
+> Every guide and use-case page on https://odoowebapps.com, in full, for answer engines. The short index is at https://odoowebapps.com/llms.txt. OdooWebApps builds small web apps connected to a customer's existing Odoo through its external API (JSON-2 on Odoo 19; JSON-RPC and XML-RPC on earlier versions); it does not replace Odoo and is not an implementation partner. Written by Tal Oz.
 
 # Work: apps in production (anonymised)
 
@@ -85,7 +85,7 @@ One board for every outbound delivery, from booked to in transit to delivered, a
 - Used by: Dispatch and the drivers and couriers they book
 - Replaced: A shared spreadsheet and a lot of phone calls
 - Odoo models: stock.picking, res.partner, sale.order
-- 19 deliveries completed in the last 30 days from this snapshot alone
+- 19 deliveries completed in a 30-day sample
 
 ## Digests and automations inside Odoo
 URL: https://odoowebapps.com/work#digests-and-automations
@@ -282,7 +282,7 @@ Everything around them. A demo script that reads five orders is an afternoon. An
 - Failures that do not look like failures. One transport reports errors with a 200 status. Writes can partly apply. Two people can act on the same record at once. Code that assumes the happy path looks fine in testing and quietly corrupts data in production.
 - Access rights. The API acts as a user, so the integration user's groups decide what works. Testing as an administrator hides exactly the errors your users will hit.
 - Speed. The naive version makes one call per row and crawls. Making it fast is about asking Odoo for aggregates and batches instead of looping.
-- Staying working. Field renames, new required fields, expiring API keys, and the removal of the RPC endpoints in Odoo 22 all land on the integration, not on Odoo.
+- Staying working. Field renames, new required fields, expiring API keys, and the scheduled removal of the RPC endpoints in Odoo 22 all land on the integration, not on Odoo.
 None of that is exotic, and none of it shows up in a getting-started example. It is simply the difference between code that calls Odoo and an app people can rely on.
 ### Do you need an app, or a script?
 If the goal is to pull a few records into a spreadsheet once, a script is right and the snippets above are a fine start. If people are going to use it daily, on a phone, in a warehouse, with real money attached to the records it writes, the API call is the small part: the screens, the validation, the error handling and the maintenance are the project. That is what we build, as the apps on our work page show, usually in a couple of weeks and for a fixed price.
@@ -355,7 +355,7 @@ How in-Odoo customization (views, studio, custom modules) differs from building 
 ### What counts as 'Odoo customization'?
 Customization means changing Odoo from the inside: adding fields and adjusting layouts through Odoo Studio, writing a custom Odoo module (Python models, XML views, security rules) that installs alongside standard apps, or modifying business logic by inheriting existing models. The result runs inside Odoo's own process, uses Odoo's own view framework (form, list, kanban, pivot), and is upgraded, backed up, and deployed as part of Odoo itself.
 ### What counts as a 'custom app' in this context?
-A custom app, by contrast, is a separate piece of software (its own front end, its own server if it needs one) that talks to Odoo over its external API (XML-RPC or JSON-RPC) rather than running inside Odoo. It reads and writes Odoo records the same way any other authenticated client would, but the interface, the hosting, and the release cycle are all independent of Odoo's.
+A custom app, by contrast, is a separate piece of software (its own front end, its own server if it needs one) that talks to Odoo over its external API (JSON-2, XML-RPC or JSON-RPC) rather than running inside Odoo. It reads and writes Odoo records the same way any other authenticated client would, but the interface, the hosting, and the release cycle are all independent of Odoo's.
 ### What are the real tradeoffs between them?
 Customization keeps everything in one system and gives users Odoo's built-in conveniences (chatter/logging, activities, automated actions) for free, but it's constrained by Odoo's own view framework: genuinely simplifying a screen for a non-technical user is limited by what a form or list view can be configured to look like. And it's coupled to Odoo's module and upgrade mechanics, meaning changes need to be tested against every future Odoo upgrade.
 A custom app decouples the interface entirely: it can look like anything, be as simple as one button, and run on hardware or for an audience (customers, suppliers, a warehouse handheld) that shouldn't have Odoo backend access at all. The tradeoff is that it introduces an integration layer to maintain: a piece of software whose correctness depends on Odoo's API continuing to behave the way it was built against.
@@ -657,7 +657,7 @@ Published: 2026-09-19
 A recurring multi-company Odoo API gotcha: queries can return records across every company a user can access unless the request explicitly scopes company context.
 
 ### What's the actual gotcha here?
-A recurring one, documented across plenty of Odoo community forum threads: when you call Odoo's external API (XML-RPC or JSON-RPC) as a user who has access to multiple companies, a query can quietly return records from every company that user is allowed to see, not just the one company your integration meant to query. It doesn't throw an error or warn you; the call just succeeds and hands back more data than intended.
+A recurring one, documented across plenty of Odoo community forum threads: when you call Odoo's external API (JSON-2, XML-RPC or JSON-RPC) as a user who has access to multiple companies, a query can quietly return records from every company that user is allowed to see, not just the one company your integration meant to query. It doesn't throw an error or warn you; the call just succeeds and hands back more data than intended.
 ### Why does this happen at all?
 Because company scoping in Odoo isn't automatically inferred from "which company does this record belong to" on every read; it's governed by context. A multi-company user's session context determines which companies' records are visible to them at all, and unless a request explicitly narrows that further, an API call runs with the same broad visibility that user would have anywhere else in Odoo. It's consistent with how Odoo's access rules work generally, but it's easy to overlook if you're assuming an API call for "this company's sales orders" is automatically scoped that way by default.
 ### How do you actually scope a request to one company?

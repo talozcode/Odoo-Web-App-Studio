@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/marketing/site-footer";
 import { Accordion } from "@/components/ui/accordion";
 import { ButtonLink } from "@/components/ui/button";
 import { JsonLd } from "@/components/seo/json-ld";
-import { CONTACT_SECTION_ID, SITE_URL } from "@/config/site";
+import { CONTACT_NAV_LABEL, CONTACT_SECTION_ID, SITE_URL } from "@/config/site";
 import { formatPriceFrom } from "@/config/examples";
 import { breadcrumbSchema, faqPageSchema } from "@/lib/schema";
 import type { FaqItem } from "@/config/faq";
@@ -151,7 +151,7 @@ export function UseCasePageTemplate({
                 ) : null}
                 <div className="mt-5">
                   <ButtonLink href={`/#${CONTACT_SECTION_ID}`}>
-                    Get a scoped quote
+                    {CONTACT_NAV_LABEL}
                   </ButtonLink>
                 </div>
               </div>

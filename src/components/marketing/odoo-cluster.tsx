@@ -37,8 +37,6 @@ const MODULES = MODULE_DEFS.map((mod, index) => ({
 export const CLUSTER_WIDTH = 330;
 export const CLUSTER_HEIGHT = 10 + (MODULE_DEFS.length - 1) * ROW_GAP + BOX_HEIGHT + 10;
 const HUB_X = 296;
-/** Where the hub sits across the diagram width; the hero aligns the stacked link to it. */
-export const HUB_FRACTION = HUB_X / 330;
 const HUB_Y = CLUSTER_HEIGHT / 2;
 const HUB_RADIUS = 14;
 

@@ -45,6 +45,7 @@ export function RpcReadout({ result, activity, className }: RpcReadoutProps) {
         className
       )}
       aria-live="polite"
+      aria-atomic="true"
     >
       <p className="flex items-baseline justify-between gap-3">
         <span className="truncate text-[var(--foreground)]">{summary}</span>
@@ -64,7 +65,11 @@ export function RpcReadout({ result, activity, className }: RpcReadoutProps) {
           <>
             <span className="text-[var(--odoo-teal)]">live Odoo 18</span>
             <span aria-hidden="true">/</span>
-            <SyncedAgo fetchedAt={syncedAt} />
+            {/* Ticks every second: kept out of the live region so a screen
+                reader is not told the time once per second. */}
+            <span aria-hidden="true">
+              <SyncedAgo fetchedAt={syncedAt} />
+            </span>
           </>
         ) : (
           <span>Odoo 18 demo dataset, snapshot</span>

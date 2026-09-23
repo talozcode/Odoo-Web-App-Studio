@@ -45,7 +45,7 @@ export function HowItWorks() {
         <SectionHeading
           align="left"
           title="Your Odoo stays exactly where it is."
-          description="We don't customise Odoo and we don't replace it. We put a small, separate app next to it."
+          description="We don't customize Odoo and we don't replace it. We put a small, separate app next to it."
         />
 
         <ol className="mt-12 grid grid-cols-1 gap-8 border-t border-[var(--border)] pt-8 md:grid-cols-3 md:gap-10">

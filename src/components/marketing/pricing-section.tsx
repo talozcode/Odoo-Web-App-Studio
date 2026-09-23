@@ -40,12 +40,12 @@ export function PricingSection() {
               >
                 <div>
                   <h3 className="text-lg font-semibold text-[var(--foreground)]">{tier.name}</h3>
+                  {tier.priceQualifier ? (
+                    <p className="mt-1 text-sm font-normal text-[var(--muted-foreground)]">
+                      {tier.priceQualifier}
+                    </p>
+                  ) : null}
                   <p className="mt-1 text-2xl font-semibold tabular-nums text-[var(--foreground)]">
-                    {tier.priceQualifier ? (
-                      <span className="mr-1.5 text-sm font-normal text-[var(--muted-foreground)]">
-                        {tier.priceQualifier}
-                      </span>
-                    ) : null}
                     {tier.price}
                   </p>
                 </div>

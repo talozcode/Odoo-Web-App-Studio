@@ -67,7 +67,7 @@ models.execute_kw(db, uid, key, "sale.order", "search_read",
             ["URL", "/json/2/<model>/<method>", "/jsonrpc", "/xmlrpc/2/object"],
             ["Auth", "Bearer API key in a header", "Login step, then db, uid and key on every call", "Login step, then db, uid and key on every call"],
             ["Errors", "Real HTTP status codes", "HTTP 200 with an error object", "XML fault"],
-            ["Status", "Supported", "Deprecated, removed in Odoo 22", "Deprecated, removed in Odoo 22"],
+            ["Status", "Supported", "Deprecated, scheduled for removal in Odoo 22", "Deprecated, scheduled for removal in Odoo 22"],
           ]}
         />
         <p>
@@ -122,8 +122,8 @@ models.execute_kw(db, uid, key, "sale.order", "search_read",
           </li>
           <li>
             <strong>Staying working.</strong> Field renames, new required
-            fields, expiring API keys, and the removal of the RPC endpoints
-            in Odoo 22 all land on the integration, not on Odoo.
+            fields, expiring API keys, and the scheduled removal of the RPC
+            endpoints in Odoo 22 all land on the integration, not on Odoo.
           </li>
         </ul>
         <p>

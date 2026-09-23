@@ -46,7 +46,7 @@ export function WorkCaseRow({ workCase, index, headingLevel = "h3" }: WorkCaseRo
             alt={image.alt}
             width={image.width}
             height={image.height}
-            sizes="(min-width: 1024px) 40vw, 100vw"
+            sizes="(min-width: 1216px) 464px, (min-width: 1024px) 40vw, 100vw"
             className="h-auto w-full rounded-lg border border-[var(--border)]"
           />
         ) : (

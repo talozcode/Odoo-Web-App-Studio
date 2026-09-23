@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
-import Image from "next/image";
 import Link from "next/link";
 import { StaticPageTemplate } from "@/components/seo/static-page";
 import { BRAND_NAME, BRAND_TAGLINE, FOUNDER } from "@/config/brand";
@@ -21,13 +20,6 @@ export default function AboutPage() {
       h1={`About ${BRAND_NAME}`}
       subtitle={BRAND_TAGLINE}
     >
-      <Image
-        src="/brand/odoowebapps-logo-stacked-transparent.png"
-        alt={`${BRAND_NAME}: Odoo, simplified`}
-        width={1024}
-        height={1024}
-        className="mx-auto -mt-2 h-40 w-auto sm:h-48"
-      />
       <p>
         {BRAND_NAME} is a small studio that builds focused web apps for
         businesses already running Odoo. That&apos;s the whole scope, on

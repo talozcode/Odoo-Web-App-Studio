@@ -21,8 +21,8 @@ export default function Guide() {
       <GuideSection heading="What's the actual gotcha here?">
         <p>
           A recurring one, documented across plenty of Odoo community forum
-          threads: when you call Odoo&apos;s external API (XML-RPC or
-          JSON-RPC) as a user who has access to multiple companies, a query
+          threads: when you call Odoo&apos;s external API (JSON-2, XML-RPC
+          or JSON-RPC) as a user who has access to multiple companies, a query
           can quietly return records from every company that user is allowed
           to see, not just the one company your integration meant to query.
           It doesn&apos;t throw an error or warn you; the call just succeeds and

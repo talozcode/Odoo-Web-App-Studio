@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -16,9 +16,49 @@ function isCurrent(pathname: string, href: string): boolean {
 export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const menuRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  // While the menu is open: Escape closes it, Tab stays inside it, and the
+  // page behind it does not scroll.
+  useEffect(() => {
+    if (!isOpen) return;
+    const { body } = document;
+    const previousOverflow = body.style.overflow;
+    body.style.overflow = "hidden";
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        toggleRef.current?.focus();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const focusables = menuRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusables || focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement;
+      if (event.shiftKey && (active === first || active === toggleRef.current)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      body.style.overflow = previousOverflow;
+    };
+  }, [isOpen]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]/80">
+    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--background)]/98 backdrop-blur supports-[backdrop-filter]:bg-[var(--background)]/95">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/#top"
@@ -53,6 +93,7 @@ export function SiteHeader() {
         </div>
 
         <button
+          ref={toggleRef}
           type="button"
           className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)] lg:hidden"
           aria-expanded={isOpen}
@@ -70,13 +111,13 @@ export function SiteHeader() {
 
       {isOpen ? (
         <>
-          <button
-            type="button"
-            aria-label="Close menu"
+          <div
+            aria-hidden="true"
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 top-16 z-40 bg-[var(--foreground)]/20 lg:hidden"
+            className="fixed inset-0 top-16 z-40 bg-[var(--foreground)]/25 lg:hidden"
           />
           <nav
+            ref={menuRef}
             id="mobile-nav"
             aria-label="Mobile"
             className="absolute inset-x-0 top-16 z-50 border-b border-[var(--border)] bg-[var(--background)] px-4 py-4 sm:px-6 lg:hidden"
@@ -91,7 +132,7 @@ export function SiteHeader() {
                       aria-current={current ? "page" : undefined}
                       onClick={() => setIsOpen(false)}
                       className={cn(
-                        "block min-h-11 rounded-md py-2.5 text-base font-medium text-[var(--foreground)] hover:bg-[var(--surface)]",
+                        "block min-h-11 rounded-md px-2 py-2.5 text-base font-medium text-[var(--foreground)] hover:bg-[var(--surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]",
                         current && "text-[var(--odoo-teal)]"
                       )}
                     >

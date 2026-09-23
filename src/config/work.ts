@@ -158,7 +158,7 @@ export const WORK_CASES: WorkCase[] = [
     models: ["stock.picking", "res.partner", "sale.order"],
     summary:
       "One board for every outbound delivery, from booked to in transit to delivered, across drivers, couriers and cargo companies serving different cities. Each card is created from an Odoo transfer and status changes post back, with customers notified by message as their delivery moves.",
-    facts: ["19 deliveries completed in the last 30 days from this snapshot alone"],
+    facts: ["19 deliveries completed in a 30-day sample"],
     diagram: { users: "Dispatch", app: "Delivery board", kind: "screen" },
     images: [
       {

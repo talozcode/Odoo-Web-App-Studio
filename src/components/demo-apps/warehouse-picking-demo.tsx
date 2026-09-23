@@ -2,7 +2,13 @@
 
 import { useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { CheckCircle2, Circle, ScanLine, RotateCcw } from "lucide-react";
+import {
+  CheckCircle2,
+  Circle,
+  CircleDashed,
+  ScanLine,
+  RotateCcw,
+} from "lucide-react";
 import type { DemoPicking, DemoResult } from "@/lib/odoo/types";
 import { AppFrame } from "./app-frame";
 import { RpcReadout, type RpcActivity } from "./rpc-readout";
@@ -141,6 +147,11 @@ export function WarehousePickingDemo({
                         aria-hidden="true"
                         className="h-4 w-4 shrink-0 text-[var(--odoo-teal)]"
                       />
+                    ) : count > 0 ? (
+                      <CircleDashed
+                        aria-hidden="true"
+                        className="h-4 w-4 shrink-0 text-[var(--odoo-teal)]"
+                      />
                     ) : (
                       <Circle
                         aria-hidden="true"
@@ -160,7 +171,9 @@ export function WarehousePickingDemo({
                   >
                     {done
                       ? `${line.quantity} picked`
-                      : `${remaining} remaining`}
+                      : count > 0
+                        ? `${count} of ${line.quantity}`
+                        : `${remaining} remaining`}
                   </span>
                 </button>
               </motion.li>

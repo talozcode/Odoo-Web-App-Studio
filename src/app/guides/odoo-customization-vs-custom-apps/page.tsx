@@ -36,7 +36,7 @@ export default function Guide() {
         <p>
           A custom app, by contrast, is a separate piece of software (its
           own front end, its own server if it needs one) that talks to
-          Odoo over its external API (XML-RPC or JSON-RPC) rather than
+          Odoo over its external API (JSON-2, XML-RPC or JSON-RPC) rather than
           running inside Odoo. It reads and writes Odoo records the same
           way any other authenticated client would, but the interface, the
           hosting, and the release cycle are all independent of Odoo&apos;s.

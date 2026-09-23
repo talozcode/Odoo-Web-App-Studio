@@ -31,7 +31,7 @@ export function DashboardDemo({ kpis }: DashboardDemoProps) {
       label: "Open purchase orders",
       value: formatInteger(kpis.openPurchaseOrders),
       icon: ShoppingCart,
-      tone: "text-[var(--odoo-purple)]",
+      tone: "text-[var(--odoo-teal)]",
     },
   ];
 

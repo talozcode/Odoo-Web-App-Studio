@@ -25,7 +25,7 @@ export type GuideTopic = "api" | "cost" | "build" | "apps" | "adoption";
 export const GUIDE_TOPICS: { id: GuideTopic; label: string; blurb: string }[] = [
   { id: "api", label: "Connecting to Odoo", blurb: "How Odoo's API works, which one your version has, and what it means for an integration." },
   { id: "cost", label: "Cost and hiring", blurb: "What things actually cost, and who to hire for which kind of work." },
-  { id: "build", label: "Build, customise or configure", blurb: "When a change belongs inside Odoo, and when it belongs in an app next to it." },
+  { id: "build", label: "Build, customize or configure", blurb: "When a change belongs inside Odoo, and when it belongs in an app next to it." },
   { id: "apps", label: "Apps and portals", blurb: "The specific builds people ask for most: picking, portals, dashboards, approvals." },
   { id: "adoption", label: "When Odoo is the problem", blurb: "Signals that a team needs a simpler interface rather than more training." },
 ];

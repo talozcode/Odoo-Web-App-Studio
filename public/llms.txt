@@ -1,10 +1,10 @@
 # OdooWebApps
 
-> A web app studio for businesses that already use Odoo. We build small, focused web apps that connect to an existing Odoo instance through Odoo's external API (JSON-2 on Odoo 19; JSON-RPC and XML-RPC on earlier versions). We do not replace Odoo, and we are not an Odoo implementation partner. Run by Tal Oz, on 5+ years of hands-on Odoo implementation and automation work. Last updated 22 September 2026.
+> A web app studio for businesses that already use Odoo. We build small, focused web apps that connect to an existing Odoo instance through Odoo's external API (JSON-2 on Odoo 19; JSON-RPC and XML-RPC on earlier versions). We do not replace Odoo, and we are not an Odoo implementation partner. Run by Tal Oz, on 5+ years of hands-on Odoo implementation and automation work. Last updated 23 September 2026.
 
 Odoo already does everything a business generally needs: accounting, inventory, sales, purchasing, manufacturing and master data. Odoo stays the single source of truth. We build the narrow interface layer around it: a mobile picking screen, a sales rep's ordering app, a dashboard, a customer or supplier portal, or a one-off custom workflow, each connected to Odoo's data through its API, with no custom code installed inside Odoo.
 
-Facts: the Work page describes eight shipped, in-production apps and automations for our clients (a group of companies in food production, wholesale, retail and catering on Odoo 18; anonymised). The demos on the site are working apps reading a real Odoo 18 Community instance over its API, with the ORM call, record count and latency printed under each one; when that instance is unreachable they fall back to a bundled snapshot of Odoo's own demo dataset and say so. Prices: a single focused screen from $390; a polished multi-screen app typically $490 to $890; bigger systems quoted on scope. Apps can be read-only or read/write against Odoo records. Every project is scoped and quoted after a conversation about the actual workflow.
+Facts: the Work page describes nine shipped, in-production apps and automations for our clients (a group of companies in food production, wholesale, retail and catering on Odoo 18; anonymised). The demos on the site are working apps reading a real Odoo 18 Community instance over its API, with the ORM call, record count and latency printed under each one; when that instance is unreachable they fall back to a bundled snapshot of Odoo's own demo dataset and say so. Prices: a single focused screen from $390; a polished multi-screen app typically $490 to $890; bigger systems quoted on scope. Apps can be read-only or read/write against Odoo records. Every project is scoped and quoted after a conversation about the actual workflow.
 
 ## Use-case pages
 
@@ -18,7 +18,7 @@ Facts: the Work page describes eight shipped, in-production apps and automations
 
 ## Work (anonymised, in production)
 
-- [Work overview](https://odoowebapps.com/work): eight shipped apps and automations for one group of companies on Odoo 18, with the Odoo models each one touches.
+- [Work overview](https://odoowebapps.com/work): nine shipped apps and automations for one group of companies on Odoo 18, with the Odoo models each one touches.
 - [Barcode picking for the warehouse floor](https://odoowebapps.com/work#barcode-picking): stock.picking, stock.move.line, stock.lot; checks lot expiry as lines are picked.
 - [Wholesale ordering portal for B2B customers](https://odoowebapps.com/work#wholesale-ordering-portal): sale.order, product.pricelist; per-customer catalogue and warehouse-scoped stock.
 - [Kitchen production board](https://odoowebapps.com/work#kitchen-production-board): mrp.production, stock.warehouse.orderpoint; read-only board driven by automatic MOs.
@@ -26,6 +26,7 @@ Facts: the Work page describes eight shipped, in-production apps and automations
 - [Catering orders across companies](https://odoowebapps.com/work#catering-orders): sale.order, res.company.
 - [HACCP quality forms tied to production](https://odoowebapps.com/work#quality-forms): mrp.production.
 - [Expense submission from the phone](https://odoowebapps.com/work#expenses): hr.expense.
+- [Delivery board across cities](https://odoowebapps.com/work#delivery-board): stock.picking, res.partner, sale.order; booked to in transit to delivered, with status posting back to Odoo.
 - [Digests and automations inside Odoo](https://odoowebapps.com/work#digests-and-automations): ir.cron, mail.template.
 
 ## Guides

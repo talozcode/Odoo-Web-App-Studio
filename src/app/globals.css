@@ -5,6 +5,8 @@
   --odoo-purple: #714b67;
   --odoo-teal: #017e84;
   --odoo-teal-hover: #046569;
+  /* Accessible teal for use on the dark footer: 4.55:1 on --foreground. */
+  --odoo-teal-bright: #019fa6;
   --odoo-gray: #8f8f8f;
   --danger: #b42318;
 
@@ -24,6 +26,7 @@
   --color-odoo-purple: var(--odoo-purple);
   --color-odoo-teal: var(--odoo-teal);
   --color-odoo-teal-hover: var(--odoo-teal-hover);
+  --color-odoo-teal-bright: var(--odoo-teal-bright);
   --color-odoo-gray: var(--odoo-gray);
   --color-danger: var(--danger);
   --font-sans: var(--font-geist-sans);
@@ -42,20 +45,6 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Inter, system-ui, sans-serif;
-}
-
-/* Stacked hero: the API link and the "Your app" node line up under the
-   Odoo hub, which sits at a fraction of the diagram's width. The offset is
-   passed as --hub-offset and is dropped once the layout goes side by side,
-   so it can never leak into the desktop row. */
-.hub-aligned {
-  margin-left: var(--hub-offset, 0);
-}
-
-@media (min-width: 1024px) {
-  .hub-aligned {
-    margin-left: 0;
-  }
 }
 
 /* The system diagram in the hero: records flowing from Odoo's modules into
