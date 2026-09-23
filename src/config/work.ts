@@ -152,12 +152,12 @@ export const WORK_CASES: WorkCase[] = [
   },
   {
     slug: "delivery-board",
-    title: "Delivery board across the islands and provinces",
+    title: "Delivery board across cities",
     users: "Dispatch and the drivers and couriers they book",
     replaced: "A shared spreadsheet and a lot of phone calls",
     models: ["stock.picking", "res.partner", "sale.order"],
     summary:
-      "One board for every outbound delivery, from booked to in transit to delivered, across drivers, couriers and cargo companies serving different islands and provinces. Each card is created from an Odoo transfer and status changes post back, with customers notified by message as their delivery moves.",
+      "One board for every outbound delivery, from booked to in transit to delivered, across drivers, couriers and cargo companies serving different cities. Each card is created from an Odoo transfer and status changes post back, with customers notified by message as their delivery moves.",
     facts: ["19 deliveries completed in the last 30 days from this snapshot alone"],
     diagram: { users: "Dispatch", app: "Delivery board", kind: "screen" },
     images: [

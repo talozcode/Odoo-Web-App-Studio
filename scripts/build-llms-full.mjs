@@ -116,7 +116,7 @@ function faqs(src) {
 
 async function guideMetas() {
   const src = await readFile(path.join(root, "src/config/guides.ts"), "utf8");
-  const re = /slug:\s*"([^"]+)",\s*title:\s*"([^"]+)",(?:\s*seoTitle:\s*"[^"]+",)?\s*description:\s*"([^"]+)",\s*datePublished:\s*"([^"]+)",?(?:\s*dateModified:\s*"([^"]+)")?/g;
+  const re = /slug:\s*"([^"]+)",(?:\s*topic:\s*"[^"]+",)?\s*title:\s*"([^"]+)",(?:\s*seoTitle:\s*"[^"]+",)?\s*description:\s*"([^"]+)",\s*datePublished:\s*"([^"]+)",?(?:\s*dateModified:\s*"([^"]+)")?/g;
   const out = [];
   let m;
   while ((m = re.exec(src))) out.push({ slug: m[1], title: m[2], description: m[3], date: m[4], updated: m[5] });
