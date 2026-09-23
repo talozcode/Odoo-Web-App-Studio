@@ -32,6 +32,15 @@ export const GUIDE_TOPICS: { id: GuideTopic; label: string; blurb: string }[] = 
 
 export const GUIDES: GuideMeta[] = [
   {
+    slug: "odoo-api-errors",
+    topic: "api",
+    title: "Odoo API errors: what each one actually means",
+    seoTitle: "Odoo API Errors: Access Denied, 401, AccessError",
+    description:
+      "Access Denied, Invalid apikey, AccessError, 403, 404 and 422 from Odoo's external API, what each one is really telling you, and how to tell an authentication problem from a permissions problem before you change any code.",
+    datePublished: "2026-09-23",
+  },
+  {
     slug: "odoo-api-examples-python-javascript",
     topic: "api",
     title: "Odoo API examples: what a call looks like, and what takes the time",

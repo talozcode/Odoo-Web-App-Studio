@@ -264,6 +264,39 @@ Not a generic connector or a one-size-fits-all SDK: the specific integration for
 
 # Guides
 
+## Odoo API errors: what each one actually means
+URL: https://odoowebapps.com/guides/odoo-api-errors
+Published: 2026-09-23
+
+Access Denied, Invalid apikey, AccessError, 403, 404 and 422 from Odoo's external API, what each one is really telling you, and how to tell an authentication problem from a permissions problem before you change any code.
+
+### Why does Odoo say Access Denied when the credentials are right?
+Because in almost every case they are not the credentials Odoo wants. The single most common cause of `Access Denied` on the RPC endpoints is a script sending the user's login password. Odoo's external API authenticates with an API key, generated per user under Preferences, Account Security, New API Key. A password that works in the browser is not interchangeable with one.
+This is also why integrations appear to "break when we turned on two-factor authentication". Two-factor does not block API keys; keys exist precisely so that automated access survives it. What broke is that the script was still sending a password, and two-factor finally stopped accepting one.
+On Odoo 19 the newer JSON-2 endpoint reports the same class of failure much more clearly, as a real HTTP status with a named exception rather than a fault string:
+Every JSON-2 error comes back in that shape: an HTTP 4xx or 5xx, with `name` holding the fully qualified Python exception, `message` the text, and `debug` the traceback. The exception name is the useful field. It tells you which layer refused you, which is the whole diagnostic question.
+### What each Odoo API error actually means
+### How do you tell an authentication problem from a permissions problem?
+This is the distinction that saves the most time, because the two look similar from the outside and have nothing to do with each other. Authentication asks whether Odoo knows who you are. Permissions ask whether that person is allowed to do this.
+- Prove the connection before the credentials. A version check reaches Odoo without authenticating at all. If it fails, the problem is the URL, the network or the deployment, and nothing about your key matters yet.
+- If authentication returns a user id, the key is fine. Any error after that point is about rights. Changing the key, regenerating it, or switching transport will not help.
+- Reproduce it as that user, in the browser. Log in as the integration user and try the same thing in the interface. An `AccessError` over the API is almost always reproducible there, which turns a debugging session into a configuration fix.
+Testing as an administrator hides exactly this class of bug. The API acts as a user, so an admin key makes everything work right up until the day it runs as the account you actually deployed.
+### Why does the call succeed but return the wrong records?
+Because nothing failed. Odoo applies the same access rights, record rules and field access to the external API that it applies everywhere else, so a query returns what that user is allowed to see, which is rarely the same as what you had in mind. On a multi-company database this is the usual surprise: records come back from every company the user can access unless the request scopes the company context explicitly. That one has its own guide , because it is common and it is silent.
+Archived and draft records are the other half of it. They are not errors either; they are simply included until a domain excludes them. Errors announce themselves, and wrong results do not, which is why the second kind survives testing and reaches production.
+### When the error is not in your code at all
+Three failures look like bugs and are not. Each one is worth checking before reading another line of your integration:
+- The plan does not include API access. On Odoo Online the external API is available only on the Custom pricing plan. It is not available on One App Free or Standard. The code can be perfect and nothing will work.
+- The key quietly expired. Odoo caps API key lifetime at three months, so a working integration will stop on a schedule unless keys are rotated. An integration with no rotation plan has a failure date, whether or not anyone has written it down.
+- The request reached the wrong database. Where one server hosts several databases and the host name is not enough to pick one, Odoo needs to be told which database explicitly. Otherwise you authenticate somewhere real, just not where your data is.
+### One error that is not an error: partial writes
+On JSON-2 each call runs in its own transaction, committed on success and discarded on failure. Calls cannot be chained inside one transaction. So a sequence of writes that fails halfway leaves the earlier ones committed, and Odoo is behaving exactly as documented while your data is now half updated.
+Odoo's own answer is to call one method that does all the related work, rather than several that each do part of it. The business methods exist for this reason. Getting that boundary wrong is not something an error message will tell you about, and it matters most in exactly the places you would least want it to: stock reservations, payments, anything counted.
+### If you are reading this while something is broken
+Most of what is above is configuration rather than programming: which user holds the key, what that user is allowed to see, which database answered, and which plan the database is on. That is usually good news, because it means the fix is quick once the cause is named.
+What it also shows is the part of integration work that never appears in a getting-started example. The call itself is a few lines. Access rights, company scoping, key rotation, transaction boundaries and failures that do not announce themselves are the actual project, and they are what we handle in the apps we build . If something is failing against your Odoo and you would rather not spend the week on it, tell us what you are seeing and we will tell you what it is.
+
 ## Odoo API examples: what a call looks like, and what takes the time
 URL: https://odoowebapps.com/guides/odoo-api-examples-python-javascript
 Published: 2026-09-22
