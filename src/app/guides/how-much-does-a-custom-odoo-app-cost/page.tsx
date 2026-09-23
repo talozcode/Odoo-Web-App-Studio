@@ -31,6 +31,7 @@ export default function Guide() {
         { href: "/#pricing", label: "Pricing" },
         { href: "/guides/odoo-customization-vs-custom-apps", label: "Odoo customization vs. custom apps" },
         { href: "/custom-odoo-web-app", label: "Custom Odoo web apps" },
+        { href: "/guides/odoo-implementation-partner-cost", label: "Odoo implementation partner cost" },
       ]}
     >
       <GuideSection heading="What does a custom Odoo app cost? The short answer">

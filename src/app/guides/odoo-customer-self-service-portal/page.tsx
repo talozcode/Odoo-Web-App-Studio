@@ -17,6 +17,7 @@ export default function Guide() {
         { href: "/odoo-customer-portal", label: "Odoo customer ordering portal" },
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs. write-back Odoo integrations" },
         { href: "/guides/odoo-customization-vs-custom-apps", label: "Odoo customization vs. custom apps" },
+        { href: "/odoo-supplier-portal", label: "Odoo supplier portal" },
       ]}
     >
       <GuideSection heading="What does Odoo's built-in customer portal actually offer?">

@@ -264,6 +264,43 @@ Not a generic connector or a one-size-fits-all SDK: the specific integration for
 
 # Guides
 
+## Odoo access rights errors: why a user cannot see a record
+URL: https://odoowebapps.com/guides/odoo-access-rights-error
+Published: 2026-09-23
+
+How to read an Odoo access error: which of the two security layers refused the operation, why adding a record rule often removes access instead of granting it, how field-level access hides a field rather than failing, and when locking down the backend is the wrong fix entirely.
+
+### What the error is actually telling you
+Odoo's access error is more useful than it looks, because it names every part of what went wrong. A typical one reads like this:
+Four facts are in there: the model (`res.partner`), the operation (`read`), the user, and a strong hint about which layer refused. "No group currently allows this operation" means the refusal came from access rights, not from a record rule. That distinction decides where you go looking, and getting it wrong is how an afternoon disappears.
+### The two layers, and which one refused you
+Odoo checks two independent mechanisms, in order. Both are attached to users through groups, and they work on opposite defaults, which is the source of most of the confusion:
+So the order of diagnosis is fixed. If the model is off limits entirely, no record rule will ever rescue it, because rules are only consulted after access rights have already said yes. And if the user can open some records of that model but not others, access rights are fine by definition and you are looking at a rule.
+### Why adding a record rule made it worse
+This is the one that catches people, and it is not intuitive. Record rules combine in two completely different ways depending on whether they name any groups:
+- Global rules intersect. A rule with no group is global. If two global rules apply, both must be satisfied. Adding a global rule can only ever narrow access.
+- Group rules unify. If two group rules apply, either being satisfied is enough. Adding a group rule can widen access, though never past what the global rules already allow.
+- The two sets then intersect with each other. Which produces the genuinely surprising result: adding the very first group rule to a model that already has a global rule restricts access rather than granting it.
+Odoo's own documentation carries a danger notice about this: several global rules can be written that do not overlap, and the intersection of non-overlapping conditions is nothing at all. The result is a model nobody can see, assembled entirely from rules that each looked reasonable on their own.
+There is a second trap in the same screen. On access rights, the read, write, create and delete checkboxes grant those operations. On a record rule the same four checkboxes mean something else entirely: they say which operations the rule is checked for. Unticking one does not forbid it, it makes the rule invisible to it, as though the rule did not exist. Same widgets, opposite meanings.
+### Why is a field missing instead of throwing an error?
+Because field level access does not fail loudly. A field can be restricted to groups, and for anyone outside them Odoo removes it from the views they are served and from the model's own field listing. It does not appear and is not refused; it is simply not there.
+Reading or writing it explicitly does raise an access error, which is why this surfaces as an integration failing on a field that a colleague can plainly see on screen. Nothing is broken. The two users are being shown different models.
+### The multi-company version of the same error
+On a database with several companies, most access complaints are really company scope. Record rules can test the user's current company or the full set of companies they are allowed, and a user who has not been granted a company sees records from it as though they did not exist.
+The usual fix is a checkbox on the user, not a rule at all. The reverse problem, where an integration quietly returns records from every company a user can reach rather than the one you meant, has its own guide , because it produces wrong data instead of an error and therefore survives testing.
+### A practical order of checks
+- Read the message. The model, the operation and the user are all in it, and "no group allows this" points at access rights rather than rules.
+- Ask whether the user can reach any record of that model. All or nothing is access rights. Some but not others is a rule.
+- For a rule, check whether it is global or group based before changing it, because that determines whether your edit widens or narrows access.
+- On multi-company, check the user's allowed companies before touching security at all.
+- Reproduce it by logging in as that user. Testing as an administrator hides this entire class of problem, since an admin passes every check you are trying to examine.
+### When locking down the backend is the wrong fix
+Plenty of access work is legitimate: an integration user should hold the narrowest rights that do the job, and finance data should not be readable by everyone. But a recognisable pattern turns up when the real goal was never security.
+It looks like this. Someone needs staff to use Odoo for one task, so the backend gets progressively restricted until the screens are safe for them. Each restriction is a rule or a group. They compose in the ways described above, the combinations stop being predictable, and the team ends up maintaining a security model whose actual purpose was to hide the ninety percent of Odoo that those people never needed.
+When that is the real goal, a separate app is usually the cheaper answer. It reaches Odoo through the API as one properly scoped user, shows exactly the one workflow, and leaves Odoo's security model doing the job it is good at rather than acting as a user interface design tool. That is the distinction we write about in signs your team needs a simpler interface , and it is most of what we build.
+If you are untangling a security model right now and are no longer sure why any of it is there, tell us what the people involved actually need to do. That question is usually easier to answer than the rules are to debug.
+
 ## Odoo API errors: what each one actually means
 URL: https://odoowebapps.com/guides/odoo-api-errors
 Published: 2026-09-23
@@ -368,7 +405,7 @@ Keys can be rotated programmatically too, which is how a long-running integratio
 A dedicated integration user, never a person and never an administrator. Every API call runs with that user's access rights and record rules, so a key on an admin account turns a small bug into an unbounded one, and a key on a real employee breaks the day they leave and their account is archived.
 A useful side effect of a named integration user: every record it creates or updates shows that name in Odoo's tracking, so an accountant can see at a glance which changes came from the app and which from a person.
 ### Why is my API key not working?
-In rough order of how often we see each one. The first two are configuration, not code, and account for most cases:
+In rough order of how often we see each one. The first two are configuration, not code, and account for most cases. If you have an error message in front of you right now, what each Odoo API error actually means works back from the message instead:
 - The plan does not include API access. On Odoo Online the external API is only on the Custom plan, not One App Free or Standard. The code is fine; the subscription is the blocker.
 - Wrong database name. On Odoo Online it is usually the subdomain, but not always. A quick `common.version()` or `GET /web/version` proves the URL before you debug the credentials.
 - The key expired. Three months maximum on Odoo 19. Check the Account Security tab for the key's duration.

@@ -22,6 +22,7 @@ export default function Guide() {
         { href: "/guides/odoo-19-json-2-api", label: "Odoo 19's JSON-2 API" },
         { href: "/guides/odoo-api-multi-company-filtering", label: "Odoo API multi-company filtering" },
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs write-back integrations" },
+        { href: "/guides/odoo-api-errors", label: "What each Odoo API error means" },
       ]}
     >
       <GuideSection heading="How do you create an Odoo API key?">
@@ -118,7 +119,12 @@ models.execute_kw(DB, uid, ODOO_API_KEY, "res.partner", "search_read", [[]], {"l
       <GuideSection heading="Why is my API key not working?">
         <p>
           In rough order of how often we see each one. The first two are
-          configuration, not code, and account for most cases:
+          configuration, not code, and account for most cases. If you have an
+          error message in front of you right now,{" "}
+          <Link href="/guides/odoo-api-errors" className={LINK}>
+            what each Odoo API error actually means
+          </Link>{" "}
+          works back from the message instead:
         </p>
         <ul className="ml-5 list-disc space-y-2">
           <li>

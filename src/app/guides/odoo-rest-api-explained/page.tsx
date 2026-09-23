@@ -16,6 +16,7 @@ export default function Guide() {
         { href: "/guides/odoo-api-integration-explained", label: "How Odoo's API actually works" },
         { href: "/odoo-api-development", label: "Odoo API development" },
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs. write-back Odoo integrations" },
+        { href: "/guides/odoo-api-errors", label: "What each Odoo API error means" },
       ]}
     >
       <GuideSection heading="Does Odoo actually have a REST API?">

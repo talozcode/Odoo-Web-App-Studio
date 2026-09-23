@@ -128,10 +128,25 @@ function faqs(src) {
 
 async function guideMetas() {
   const src = await readFile(path.join(root, "src/config/guides.ts"), "utf8");
-  const re = /slug:\s*"([^"]+)",(?:\s*topic:\s*"[^"]+",)?\s*title:\s*"([^"]+)",(?:\s*seoTitle:\s*"[^"]+",)?\s*description:\s*"([^"]+)",\s*datePublished:\s*"([^"]+)",?(?:\s*dateModified:\s*"([^"]+)")?/g;
+  // A double-quoted JS string, tolerating backslash escapes: a description
+  // containing \" used to end the match early and silently drop the guide.
+  const S = `"((?:[^"\\\\]|\\\\.)*)"`;
+  const re = new RegExp(
+    `slug:\\s*${S},(?:\\s*topic:\\s*${S},)?\\s*title:\\s*${S},(?:\\s*seoTitle:\\s*${S},)?\\s*description:\\s*${S},\\s*datePublished:\\s*${S},?(?:\\s*dateModified:\\s*${S})?`,
+    "g"
+  );
+  const unescape = (s) => (s ?? "").replace(/\\(["\\])/g, "$1");
   const out = [];
   let m;
-  while ((m = re.exec(src))) out.push({ slug: m[1], title: m[2], description: m[3], date: m[4], updated: m[5] });
+  while ((m = re.exec(src))) {
+    out.push({
+      slug: unescape(m[1]),
+      title: unescape(m[3]),
+      description: unescape(m[5]),
+      date: unescape(m[6]),
+      updated: m[7] ? unescape(m[7]) : undefined,
+    });
+  }
   return out;
 }
 

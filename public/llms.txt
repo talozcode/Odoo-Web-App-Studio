@@ -31,6 +31,7 @@ Facts: the Work page describes nine shipped, in-production apps and automations 
 
 ## Guides
 
+- [Odoo access rights errors: why a user cannot see a record](https://odoowebapps.com/guides/odoo-access-rights-error): How to read an Odoo access error: which of the two security layers refused the operation, why adding a record rule often removes access instead of granting it, how field-level access hides a field rather than failing, and when locking down the backend is the wrong fix entirely.
 - [Odoo API errors: what each one actually means](https://odoowebapps.com/guides/odoo-api-errors): Access Denied, Invalid apikey, AccessError, 403, 404 and 422 from Odoo's external API, what each one is really telling you, and how to tell an authentication problem from a permissions problem before you change any code.
 - [Odoo API examples: what a call looks like, and what takes the time](https://odoowebapps.com/guides/odoo-api-examples-python-javascript): What an Odoo API call looks like in JSON-2, JSON-RPC and XML-RPC, which transport your version needs, and why the calls are the easy part: access rights, write-back safety, speed and staying working are the real project.
 - [Odoo 19's JSON-2 API: what changed, and what to do about XML-RPC](https://odoowebapps.com/guides/odoo-19-json-2-api): Odoo 19 added an HTTP JSON API at /json/2/<model>/<method> with bearer API keys, and scheduled XML-RPC and JSON-RPC for removal in Odoo 22. The request shape, the plan gate, key rotation, the one-call-one-transaction rule and a migration table.

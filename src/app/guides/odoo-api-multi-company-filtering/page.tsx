@@ -16,6 +16,7 @@ export default function Guide() {
         { href: "/guides/odoo-api-integration-explained", label: "How Odoo's API actually works" },
         { href: "/guides/odoo-rest-api-explained", label: "Odoo REST API: what it can and can't do" },
         { href: "/odoo-api-development", label: "Odoo API development" },
+        { href: "/guides/odoo-api-errors", label: "What each Odoo API error means" },
       ]}
     >
       <GuideSection heading="What's the actual gotcha here?">

@@ -17,6 +17,7 @@ export default function Guide() {
         { href: "/about", label: `About ${BRAND_NAME}` },
         { href: "/#faq", label: "FAQ" },
         { href: "/guides/odoo-customization-vs-custom-apps", label: "Odoo customization vs. custom apps" },
+        { href: "/guides/odoo-implementation-partner-cost", label: "Odoo implementation partner cost" },
       ]}
     >
       <GuideSection heading="What does an Odoo developer or implementation partner actually do?">

@@ -22,6 +22,7 @@ export default function Guide() {
         { href: "/guides/odoo-rest-api-explained", label: "Odoo REST API: what exists in Odoo 19" },
         { href: "/guides/what-happens-when-odoo-upgrades", label: "What happens to a custom app when Odoo upgrades" },
         { href: "/odoo-api-development", label: "Odoo API development" },
+        { href: "/guides/odoo-api-errors", label: "What each Odoo API error means" },
       ]}
     >
       <GuideSection heading="What is the JSON-2 API?">

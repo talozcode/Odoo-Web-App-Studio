@@ -32,6 +32,15 @@ export const GUIDE_TOPICS: { id: GuideTopic; label: string; blurb: string }[] = 
 
 export const GUIDES: GuideMeta[] = [
   {
+    slug: "odoo-access-rights-error",
+    topic: "build",
+    title: "Odoo access rights errors: why a user cannot see a record",
+    seoTitle: "Odoo Access Rights Error: Why Users Can't See Records",
+    description:
+      "How to read an Odoo access error: which of the two security layers refused the operation, why adding a record rule often removes access instead of granting it, how field-level access hides a field rather than failing, and when locking down the backend is the wrong fix entirely.",
+    datePublished: "2026-09-23",
+  },
+  {
     slug: "odoo-api-errors",
     topic: "api",
     title: "Odoo API errors: what each one actually means",
