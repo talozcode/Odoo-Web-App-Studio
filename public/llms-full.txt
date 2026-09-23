@@ -264,7 +264,7 @@ Not a generic connector or a one-size-fits-all SDK: the specific integration for
 
 # Guides
 
-## Odoo API Examples: What a Call Looks Like, and What Takes the Time
+## Odoo API examples: what a call looks like, and what takes the time
 URL: https://odoowebapps.com/guides/odoo-api-examples-python-javascript
 Published: 2026-09-22
 
@@ -288,7 +288,7 @@ None of that is exotic, and none of it shows up in a getting-started example. It
 If the goal is to pull a few records into a spreadsheet once, a script is right and the snippets above are a fine start. If people are going to use it daily, on a phone, in a warehouse, with real money attached to the records it writes, the API call is the small part: the screens, the validation, the error handling and the maintenance are the project. That is what we build, as the apps on our work page show, usually in a couple of weeks and for a fixed price.
 Tell us the workflow you want simplified and we will tell you honestly which of the two it is, and what it would take.
 
-## Odoo 19's JSON-2 API: What Changed and What to Do About XML-RPC
+## Odoo 19's JSON-2 API: what changed, and what to do about XML-RPC
 URL: https://odoowebapps.com/guides/odoo-19-json-2-api
 Published: 2026-09-22
 
@@ -316,7 +316,7 @@ If you are on Odoo 19 and writing something new: yes, use JSON-2. If you are on 
 ### Sources
 The endpoint shape, the header names, the three-month key limit, the Custom-plan restriction, the one-call-one-transaction rule and the Odoo 22 removal date are all from Odoo's own reference, External JSON-2 API , read on 22 September 2026. Where Odoo's documentation and a third-party blog post disagree about this API, the documentation is the one to trust: this area changed recently and a lot of what is written about it predates Odoo 19.
 
-## Odoo API Keys: How to Create, Scope and Rotate Them
+## Odoo API keys: how to create, scope and rotate them
 URL: https://odoowebapps.com/guides/odoo-api-key-setup
 Published: 2026-09-22
 
@@ -346,7 +346,7 @@ In rough order of how often we see each one. The first two are configuration, no
 As a secret, in the environment or a secrets manager, never in source control and never in anything that reaches a browser or a mobile app. An Odoo API key carries the full access of its user, so a key shipped in client-side code is the same as publishing that user's password. In the apps we build, Odoo calls only ever run on the server, and the key exists as one environment variable on the host.
 Rotate deliberately: create the new key, deploy it, confirm traffic is using it, then delete the old one. Because Odoo shows a key value only once, the rotation should be a documented routine rather than a scramble when a key silently expires. If you want that, plus the integration itself, built and maintained for a specific workflow, that is what we do .
 
-## Odoo Customization vs. a Custom Web App: What's the Difference?
+## Odoo customization vs a custom web app: what's the difference?
 URL: https://odoowebapps.com/guides/odoo-customization-vs-custom-apps
 Published: 2026-09-18
 
@@ -366,7 +366,7 @@ When the audience is external (customers, suppliers) or mobile field workers who
 ### Can you combine both approaches?
 Often, yes, and it's a common pattern in practice: a small, targeted Odoo module adds one API-friendly field, computed value, or callable method inside Odoo, while the actual user-facing interface lives entirely in a separate app. That keeps the in-Odoo change minimal (and therefore low-risk across upgrades) while still giving the external app exactly the data or action it needs.
 
-## How Odoo's API Actually Works (JSON-2, JSON-RPC, XML-RPC and the ORM)
+## How Odoo's API actually works (JSON-2, JSON-RPC, XML-RPC and the ORM)
 URL: https://odoowebapps.com/guides/odoo-api-integration-explained
 Published: 2026-09-18, updated 2026-09-22
 
@@ -398,7 +398,7 @@ Yes, entirely. Every call runs as the authenticated user, subject to that user's
 ### What are the practical gotchas worth knowing up front?
 A few things trip up integrations that weren't built with Odoo's specifics in mind: many2one fields come back as a two-item list ( `[id, display_name]`) rather than a plain id; all datetimes are stored and returned in UTC regardless of the user's timezone, so conversion is the caller's job; and calling `search` in a loop followed by individual `read` calls per record ("N+1" calls) is a common, avoidable performance mistake when `search_read` would do it in one round trip. Field names and available methods can also shift slightly between major Odoo versions, which is worth knowing before assuming an integration will need zero maintenance forever. See the guide on Odoo upgrades linked below.
 
-## What Happens to a Custom App When Odoo Upgrades?
+## What happens to a custom app when Odoo upgrades?
 URL: https://odoowebapps.com/guides/what-happens-when-odoo-upgrades
 Published: 2026-09-18, updated 2026-09-22
 
@@ -416,7 +416,7 @@ Before an upgrade reaches the production Odoo database: run the custom app's act
 ### How much of this risk is avoidable by how the app is built?
 A meaningful amount. An integration built to fail loudly and specifically (a clear error naming the field or method that didn't behave as expected) is far easier to fix after an upgrade than one that fails silently or produces subtly wrong data. So is one that keeps every Odoo-specific field name and model reference in a small, identifiable part of the codebase rather than scattered everywhere. That turns "check if this upgrade broke anything" into reviewing a short, known list instead of an open-ended search.
 
-## How Much Does a Custom Odoo App Cost?
+## How much does a custom Odoo app cost?
 URL: https://odoowebapps.com/guides/how-much-does-a-custom-odoo-app-cost
 Published: 2026-09-18
 
@@ -438,7 +438,7 @@ Whether the app needs to write back to Odoo, and how carefully. A read-only dash
 ### How is a final number actually reached?
 Through a short scoping conversation about the actual workflow: which Odoo models it touches, how many screens, read-only or write-back, how many user roles. That's a more useful process than a generic quote calculator, since two projects with the same one-line description can have meaningfully different scope once the details are on the table.
 
-## Signs Your Team Needs a Simpler Interface Than Odoo's Backend
+## Signs your team needs a simpler interface than Odoo's backend
 URL: https://odoowebapps.com/guides/signs-your-team-needs-a-simpler-odoo-interface
 Published: 2026-09-18
 
@@ -455,7 +455,7 @@ If the same friction shows up across multiple different people who were all trai
 ### What's a lightweight way to test this before committing to a build?
 Ask the person actually doing the task to narrate, in plain language, exactly what they need to see and exactly what they need to do, nothing more. Then compare that against how many Odoo screens, filters, and clicks it currently takes to get there. A small gap probably isn't worth a new app. A large, consistent gap (where the real task is one clear action buried inside a much bigger interface) is usually a sign that a focused screen would pay for itself quickly.
 
-## Read-Only vs. Write-Back Odoo Integrations: Which Do You Need?
+## Read-only vs write-back Odoo integrations: which do you need?
 URL: https://odoowebapps.com/guides/odoo-write-back-vs-read-only-integrations
 Published: 2026-09-18
 
@@ -474,7 +474,7 @@ Write-back work generally costs more than an equivalent read-only feature, becau
 ### How do you decide which one a given project actually needs?
 Ask, for each specific screen or action: does this need to change something in Odoo, or only show something? If it's purely informational (a dashboard, a report, a status lookup), it's read-only. If someone needs to submit, confirm, approve, or record something that should end up as a real Odoo record, it's write-back. Most projects turn out to need a specific, identifiable mix of the two rather than being purely one or the other.
 
-## Odoo REST API: What Exists in Odoo 19 (and What Came Before)
+## Odoo REST API: what exists in Odoo 19, and what came before
 URL: https://odoowebapps.com/guides/odoo-rest-api-explained
 Published: 2026-09-18, updated 2026-09-22
 
@@ -511,7 +511,7 @@ It's a genuinely common and reasonable pattern: build a small server that expose
 ### When is it not worth building that layer?
 If the thing calling Odoo is a web app or backend you're building yourself, there's usually no reason to invent a REST layer in between: calling Odoo's API directly from that app's own backend is simpler and has one fewer moving part to maintain. The extra REST layer earns its cost specifically when something outside your control needs a conventional REST contract, not as a default architectural step for every Odoo integration.
 
-## Odoo Barcode App: Use Odoo's, or Build a Custom One?
+## Odoo barcode app: use Odoo's, or build a custom one?
 URL: https://odoowebapps.com/guides/odoo-barcode-app-buy-or-build
 Published: 2026-09-18
 
@@ -533,7 +533,7 @@ Yes. This isn't an either/or on the data model. Both Odoo's Barcode app and a cu
 ### How do you decide, practically?
 Start by listing the actual operation types the warehouse performs day to day. If it's more than one or two, or if staff are comfortable Odoo users already, try Odoo's own Barcode app first, since it costs nothing extra to enable and might already solve the problem. If, after using it, the friction is specifically "this does more than I need and I only ever do one thing," or the hardware genuinely doesn't fit, that's the point where a narrower custom app starts paying for itself.
 
-## How to Give Customers a Self-Service Portal Without Rebuilding Odoo's Frontend
+## How to give customers a self-service portal without rebuilding Odoo's frontend
 URL: https://odoowebapps.com/guides/odoo-customer-self-service-portal
 Published: 2026-09-18
 
@@ -553,7 +553,7 @@ When customers only occasionally need to check a quote, invoice, or order status
 ### How do you decide between the two?
 Ask what the customer is actually trying to do most often. If it's checking on something (an invoice, a quote, a ticket), Odoo's built-in portal is usually enough. If it's a specific, frequent, repeatable action (reordering the same products, submitting a standard request) that a customer would ideally do in under a minute without learning Odoo's navigation, a narrower custom-branded portal built around that one flow tends to be worth the extra build cost.
 
-## Hiring an Odoo Developer vs. a Web App Studio: What's the Difference?
+## Hiring an Odoo developer vs a web app studio: what's the difference?
 URL: https://odoowebapps.com/guides/odoo-developer-vs-web-app-studio
 Published: 2026-09-18
 
@@ -572,7 +572,7 @@ Yes, and it's a common, sensible pattern: an Odoo developer adds one small, API-
 ### Why does this site say 'no' to some requests instead of taking every project?
 Because scope discipline is the whole point of the distinction above. The FAQ on this site is direct about it: asked "can you build anything," the honest answer is no: if a request starts becoming another ERP, or is really an in-Odoo configuration or module change, Odoo itself (or an Odoo implementation partner) is the better place for it, not a web app studio stretching outside its actual expertise. That's meant as a trust signal, not a limitation to work around: it's the same honesty this guide is trying to give you about the developer-vs-studio choice itself.
 
-## Odoo Studio Can't Do This: Where the No-Code Builder Hits a Wall
+## Odoo Studio can't do this: where the no-code builder hits a wall
 URL: https://odoowebapps.com/guides/odoo-studio-limitations
 Published: 2026-09-19
 
@@ -591,7 +591,7 @@ The wall isn't "Studio is bad," it's that Studio is a tool for changing Odoo's o
 ### Is a standalone app a 'better Studio,' then?
 No, and it's worth being precise about that: a small standalone app connected to Odoo through its API isn't a replacement for Studio, and it doesn't compete with what Studio does well. For an internal field tweak or a report layout change, Studio remains the right, cheapest tool. A standalone app becomes the better tool specifically at the point where the requirement is a genuinely different interface for a different audience, not a more powerful way to edit an Odoo form. See the broader customization vs. custom apps guide, linked below, for that fuller comparison.
 
-## Odoo Implementation Partner Cost (And When You Don't Need One)
+## Odoo implementation partner cost, and when you don't need one
 URL: https://odoowebapps.com/guides/odoo-implementation-partner-cost
 Published: 2026-09-19
 
@@ -610,7 +610,7 @@ A small connected app built for that one workflow, on top of the Odoo setup you 
 ### How do you actually tell which one you need?
 Ask whether the problem is "Odoo isn't set up right for us" or "Odoo is set up fine, but this one thing is painful." The first question points to an implementation partner: the underlying configuration itself needs work. The second points to a small connected app: the foundation is sound, and only the interface for one specific workflow needs to change. Most businesses that already have a working Odoo instance and one recurring point of friction fall into the second category, even though it can feel, from the inside, like it might need a bigger project than it actually does.
 
-## Why Your Odoo Dashboard Is Slow (and When a Standalone One Fixes It)
+## Why your Odoo dashboard is slow, and when a standalone one fixes it
 URL: https://odoowebapps.com/guides/why-is-my-odoo-dashboard-slow
 Published: 2026-09-19
 
@@ -630,7 +630,7 @@ No, and it's worth being precise about the boundary. This approach addresses rep
 ### How do you tell if this is actually your situation?
 If normal day-to-day Odoo use feels fine, but a specific report or dashboard view is the slow part, especially one that pulls from multiple modules or a large date range, that matches this pattern well. If everything in Odoo feels sluggish, including simple single-record actions, that points to a different root cause (server sizing, database load, network) that a standalone dashboard won't fix on its own, even though it might still be worth building for the reporting slice of the problem.
 
-## Purchase Approvals Stuck in Odoo's Backend? A Simple Mobile Approve/Reject App
+## Purchase approvals stuck in Odoo's backend? A simple mobile approve or reject app
 URL: https://odoowebapps.com/guides/odoo-purchase-approval-mobile-app
 Published: 2026-09-19
 
@@ -650,7 +650,7 @@ Write-back, and worth treating with the same care as any other write-back integr
 ### Does this replace Odoo's purchasing workflow?
 No, it sits on top of it. Nothing about the underlying draft-to-purchase flow, approval limits, or vendor management changes; the app is a narrow, faster front door for one specific action (approve or reject) that a manager currently has to open the full Odoo backend to perform. Everything else about how purchasing works in Odoo stays exactly as it is.
 
-## Why Your Odoo API Call Returns Data From the Wrong Company (and How to Scope It Correctly)
+## Why your Odoo API call returns data from the wrong company
 URL: https://odoowebapps.com/guides/odoo-api-multi-company-filtering
 Published: 2026-09-19
 
@@ -669,7 +669,7 @@ Data leaking across company boundaries inside your own integration: a dashboard 
 ### Why does this matter for a properly built app versus a quick script?
 Because it's exactly the kind of small, easy-to-skip detail that a one-off integration script written quickly is likely to miss, and that a properly scoped, tested app is built to get right from the start. If your Odoo setup involves more than one company at all, this is worth confirming explicitly for every model any integration touches, rather than assuming the default behavior already does the right thing.
 
-## Reps Won't Use Odoo on Their Phones? Build the 3 Screens They Actually Need
+## Reps won't use Odoo on their phones? Build the three screens they actually need
 URL: https://odoowebapps.com/guides/why-sales-reps-dont-use-odoo-mobile
 Published: 2026-09-19
 

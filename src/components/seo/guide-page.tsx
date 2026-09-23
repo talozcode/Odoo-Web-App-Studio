@@ -79,7 +79,7 @@ export function GuidePageTemplate({
 
       <SiteHeader />
 
-      <main className="flex-1">
+      <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
         <nav aria-label="Breadcrumb" className="border-b border-[var(--border)]">
           <ol className="mx-auto flex max-w-3xl flex-wrap items-center gap-1.5 px-4 py-3 text-sm text-[var(--muted-foreground)] sm:px-6 lg:px-8">
             <li>
@@ -125,15 +125,17 @@ export function GuidePageTemplate({
 
           {relatedLinks && relatedLinks.length > 0 ? (
             <div className="mt-14 border-t border-[var(--border)] pt-8">
-              <h2 className="text-sm font-semibold text-[var(--muted-foreground)]">
+              <h2 className="text-base font-semibold text-[var(--foreground)]">
                 Related pages
               </h2>
-              <ul className="mt-4 flex flex-col gap-2">
+              {/* Cards, matching the guides index, so the end of an article
+                  offers somewhere to go rather than a footnote list. */}
+              <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {relatedLinks.map((link) => (
-                  <li key={link.href}>
+                  <li key={link.href} className="flex">
                     <Link
                       href={link.href}
-                      className="text-sm font-medium text-[var(--odoo-teal)] underline underline-offset-4 hover:no-underline"
+                      className="flex w-full items-center rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3.5 text-sm font-medium leading-snug text-[var(--foreground)] transition-colors hover:border-[var(--odoo-gray)] hover:text-[var(--odoo-teal)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
                     >
                       {link.label}
                     </Link>

@@ -31,7 +31,7 @@ export function StaticPageTemplate({
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: SITE_URL }, { name: breadcrumbLabel, url: `${SITE_URL}${path}` }])} />
       <SiteHeader />
 
-      <main className="flex-1">
+      <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
         <nav aria-label="Breadcrumb" className="border-b border-[var(--border)]">
           <ol className="mx-auto flex max-w-3xl items-center gap-1.5 px-4 py-3 text-sm text-[var(--muted-foreground)] sm:px-6 lg:px-8">
             <li>

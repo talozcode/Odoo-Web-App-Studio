@@ -61,7 +61,7 @@ export default function GuidesIndexPage() {
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: SITE_URL }, { name: "Guides", url: `${SITE_URL}/guides` }])} />
       <SiteHeader />
 
-      <main className="flex-1">
+      <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
         <section className="border-b border-[var(--border)]">
           <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
             <h1 className="max-w-2xl text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl">

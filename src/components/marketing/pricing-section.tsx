@@ -10,9 +10,9 @@ import { cn } from "@/lib/utils";
 const APP_TIER_EXAMPLES = EXAMPLE_APPS.filter((app) => app.id !== "custom-workflow");
 
 /**
- * Three tiers as rows, not three lifted cards. The App row doubles as the
- * catalogue of example apps (each linking to its own page), which is why it
- * carries the #examples anchor.
+ * Three tiers as rows, not three lifted cards. The featured row doubles as
+ * the catalogue of example apps (each linking to its own page); which row
+ * that is, and the anchor it carries, are declared in the pricing config.
  */
 export function PricingSection() {
   return (
@@ -26,11 +26,11 @@ export function PricingSection() {
 
         <div className="mt-12 border-t border-[var(--border)]">
           {PRICING_TIERS.map((tier) => {
-            const highlighted = tier.id === "app";
+            const highlighted = tier.featured === true;
             return (
               <div
                 key={tier.id}
-                id={highlighted ? "examples" : undefined}
+                id={tier.anchor}
                 className={cn(
                   "grid grid-cols-1 gap-6 border-b border-[var(--border)] py-8 pl-5 lg:grid-cols-[11rem_1fr] lg:gap-12 lg:py-10",
                   highlighted

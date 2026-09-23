@@ -8,7 +8,7 @@ export default function NotFound() {
     <>
       <SiteHeader />
 
-      <main className="flex-1">
+      <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
         <div className="mx-auto flex max-w-2xl flex-col items-center px-4 py-20 text-center sm:px-6 sm:py-28 lg:px-8">
           <p className="text-sm font-semibold text-[var(--odoo-teal)]">
             404

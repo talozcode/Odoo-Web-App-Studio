@@ -17,13 +17,25 @@ const SITE_URL = "https://odoowebapps.com";
 
 const ENTITIES = { "&apos;": "'", "&quot;": '"', "&amp;": "&", "&lt;": "<", "&gt;": ">", "&nbsp;": " " };
 
+const money = (n) => `$${n.toLocaleString("en-US")}`;
+
+/**
+ * pricing.ts builds the entry price from ENTRY_PRICE rather than repeating
+ * the number, so resolve that template literal to a plain quoted string
+ * before any of the price regexes below read the file.
+ */
+async function readPricingSource() {
+  const src = await readFile(path.join(root, "src/config/pricing.ts"), "utf8");
+  const entry = money(Number(src.match(/ENTRY_PRICE\s*=\s*(\d+)/)[1]));
+  return src.replace(/`From \$\{ENTRY_PRICE_LABEL\}`/g, `"From ${entry}"`);
+}
+
 // The cost guides print prices from config through JSX expressions. Resolve
 // the ones they use from the same config files so the text stays accurate.
 async function priceExpressions() {
   const examples = await readFile(path.join(root, "src/config/examples.ts"), "utf8");
   const priceOf = (id) => Number(examples.match(new RegExp(`id:\\s*"${id}"[\\s\\S]*?priceFrom:\\s*(\\d+)`))[1]);
-  const money = (n) => `$${n.toLocaleString("en-US")}`;
-  const pricing = await readFile(path.join(root, "src/config/pricing.ts"), "utf8");
+  const pricing = await readPricingSource();
   const tinyPrice = pricing.match(/id:\s*"tiny"[\s\S]*?price:\s*"([^"]+)"/)[1];
   const tinyName = pricing.match(/id:\s*"tiny"[\s\S]*?name:\s*"([^"]+)"/)[1];
   const tinyExamples = pricing.match(/id:\s*"tiny"[\s\S]*?examples:\s*\[([^\]]*)\]/)[1]
@@ -154,7 +166,7 @@ const lines = [
     lines.push(`## ${m[2]}`, `URL: ${SITE_URL}/work#${m[1]}`, "", m[6], "", `- Used by: ${m[3]}`, `- Replaced: ${m[4]}`, `- Odoo models: ${models}`, ...facts.map((f) => `- ${f}`), "");
   }
 
-  const pricing = await readFile(path.join(root, "src/config/pricing.ts"), "utf8");
+  const pricing = await readPricingSource();
   lines.push("# Pricing", "", `URL: ${SITE_URL}/#pricing`, "");
   const tierRe = /name:\s*"([^"]+)",\s*price:\s*([^,]+),(?:\s*priceQualifier:\s*"([^"]+)",)?\s*description:\s*(?:\n\s*)?"([^"]+)"/g;
   while ((m = tierRe.exec(pricing))) {
@@ -214,3 +226,24 @@ for (const entry of await readdir(guidesDir, { withFileTypes: true })) {
 const out = path.join(root, "public/llms-full.txt");
 await writeFile(out, lines.join("\n") + "\n");
 console.log(`wrote ${out} (${lines.length} lines)`);
+
+// public/llms.txt is hand written apart from its Guides list, which is just
+// GUIDES restated and had already drifted once. Regenerate that one block
+// from the same config so it cannot drift again.
+{
+  const file = path.join(root, "public/llms.txt");
+  const src = await readFile(file, "utf8");
+  const block = metas
+    .map((m) => `- [${m.title}](${SITE_URL}/guides/${m.slug}): ${m.description}`)
+    .join("\n");
+  const re = /(^## Guides\n\n)[\s\S]*?(?=\n## )/m;
+  if (!re.test(src)) {
+    console.warn("llms.txt: no '## Guides' section found, left untouched");
+  } else {
+    const next = src.replace(re, (_, heading) => `${heading}${block}\n`);
+    if (next !== src) {
+      await writeFile(file, next);
+      console.log(`synced ${file} guides list (${metas.length} guides)`);
+    }
+  }
+}

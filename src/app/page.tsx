@@ -21,7 +21,7 @@ export default function Home() {
       <JsonLd data={websiteSchema()} />
       <JsonLd data={faqPageSchema(FAQ_ITEMS)} />
       <SiteHeader />
-      <main className="flex-1">
+      <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
         <Hero />
         <WorkSection />
         <LiveDemosSection />

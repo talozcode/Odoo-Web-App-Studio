@@ -20,7 +20,14 @@ export function CodeBlock({ label, code, className }: CodeBlockProps) {
           {label}
         </figcaption>
       ) : null}
-      <pre className="overflow-x-auto rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4">
+      {/* Focusable: a region that scrolls sideways has to be reachable by
+          keyboard, and the focus ring is what tells you it scrolls. */}
+      <pre
+        tabIndex={0}
+        role="region"
+        aria-label={label ? `${label} code sample` : "Code sample"}
+        className="overflow-x-auto rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
+      >
         <code className="font-mono text-[13px] leading-6 text-[var(--foreground)]">
           {code}
         </code>
@@ -42,13 +49,21 @@ type ComparisonTableProps = {
  */
 export function ComparisonTable({ caption, headers, rows }: ComparisonTableProps) {
   return (
-    <div className="my-6 overflow-x-auto">
+    <div
+      tabIndex={0}
+      role="region"
+      aria-label={caption ?? "Comparison table"}
+      className="my-6 overflow-x-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
+    >
       <table className="w-full min-w-[34rem] border-collapse text-left text-sm">
-        {caption ? (
-          <caption className="mb-2 text-left text-sm text-[var(--muted-foreground)]">
-            {caption}
-          </caption>
-        ) : null}
+        <caption className="mb-2 text-left text-sm text-[var(--muted-foreground)]">
+          {caption}
+          {/* The table is wider than a phone, so say so rather than leaving
+              the cut-off column to be discovered. */}
+          <span className="block font-mono text-[11px] sm:hidden">
+            Scroll sideways to see every column
+          </span>
+        </caption>
         <thead>
           <tr className="border-b border-[var(--border)]">
             {headers.map((header) => (

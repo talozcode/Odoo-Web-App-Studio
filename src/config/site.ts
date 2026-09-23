@@ -1,3 +1,4 @@
+import { ENTRY_PRICE_LABEL } from "./pricing";
 
 export const SITE_URL = "https://odoowebapps.com";
 
@@ -5,8 +6,9 @@ export const SEO = {
   /** Title tag without the brand; the brand suffix is added by pageMetadata. */
   title: "Custom Web Apps Connected to Your Odoo",
   ogTitle: "Odoo doesn't have to feel like Odoo",
-  description:
-    "Small custom web apps for your existing Odoo: picking, sales, dashboards and portals over the Odoo API, from $390. Nothing installed inside Odoo.",
+  // The entry price comes from the pricing config so the meta description
+  // can never drift from what the pricing section shows.
+  description: `Small custom web apps for your existing Odoo: picking, sales, dashboards and portals over the Odoo API, from ${ENTRY_PRICE_LABEL}. Nothing installed inside Odoo.`,
 };
 
 // Root-relative ("/#examples" rather than "#examples") so these links work

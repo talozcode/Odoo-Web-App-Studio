@@ -30,6 +30,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <JsonLd data={organizationSchema()} />
+        {/* First thing in the tab order: lets a keyboard or screen reader
+            user jump the header nav, which repeats on every page. */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-md focus:bg-[var(--odoo-teal)] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:outline-none focus:ring-2 focus:ring-[var(--foreground)]"
+        >
+          Skip to content
+        </a>
         {children}
         <Analytics />
       </body>
