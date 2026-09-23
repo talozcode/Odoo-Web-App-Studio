@@ -13,6 +13,7 @@ export default function Guide() {
     <GuidePageTemplate
       meta={meta}
       relatedLinks={[
+        { href: "/guides/odoo-import-errors", label: "Odoo import errors and external IDs" },
         { href: "/custom-odoo-web-app", label: "Custom Odoo web apps" },
         { href: "/odoo-api-development", label: "Odoo API development" },
         { href: "/guides/how-much-does-a-custom-odoo-app-cost", label: "How much does a custom Odoo app cost?" },

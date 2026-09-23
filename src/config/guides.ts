@@ -32,6 +32,15 @@ export const GUIDE_TOPICS: { id: GuideTopic; label: string; blurb: string }[] = 
 
 export const GUIDES: GuideMeta[] = [
   {
+    slug: "odoo-import-errors",
+    topic: "build",
+    title: "Odoo import errors: external IDs, relations, and what fails silently",
+    seoTitle: "Odoo Import Error: External ID and CSV Problems",
+    description:
+      "Why an Odoo import says no matching record found for external ID, the three ways to point at a related record and why you must pick exactly one, why a second import created duplicates, and the import failures that never raise an error at all.",
+    datePublished: "2026-09-23",
+  },
+  {
     slug: "odoo-api-slow",
     topic: "api",
     title: "Why Odoo API calls are slow, and what actually fixes it",
