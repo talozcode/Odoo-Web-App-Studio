@@ -18,6 +18,7 @@ export default function Guide() {
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs. write-back Odoo integrations" },
         { href: "/guides/odoo-customization-vs-custom-apps", label: "Odoo customization vs. custom apps" },
         { href: "/odoo-supplier-portal", label: "Odoo supplier portal" },
+        { href: "/guides/odoo-stock-quantity-fields", label: "Odoo stock quantities: on hand vs forecasted vs free" },
       ]}
     >
       <GuideSection heading="What does Odoo's built-in customer portal actually offer?">

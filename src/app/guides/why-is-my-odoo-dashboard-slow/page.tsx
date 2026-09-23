@@ -15,6 +15,7 @@ export default function Guide() {
       meta={meta}
       relatedLinks={[
         { href: "/odoo-dashboard", label: "Odoo management dashboard" },
+        { href: "/guides/odoo-api-slow", label: "Why Odoo API calls are slow" },
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs. write-back Odoo integrations" },
         { href: "/guides/how-much-does-a-custom-odoo-app-cost", label: "How much does a custom Odoo app cost?" },
       ]}

@@ -16,6 +16,7 @@ export default function Guide() {
         { href: "/odoo-warehouse-app", label: "Odoo warehouse app" },
         { href: "/odoo-sales-app", label: "Odoo sales app" },
         { href: "/custom-odoo-web-app", label: "Custom Odoo web apps" },
+        { href: "/guides/odoo-access-rights-error", label: "Odoo access rights errors" },
       ]}
     >
       <GuideSection heading="What does 'needing a simpler interface' actually look like day to day?">

@@ -21,6 +21,7 @@ export default function Guide() {
         { href: "/guides/odoo-api-integration-explained", label: "How Odoo's API actually works" },
         { href: "/guides/odoo-19-json-2-api", label: "Odoo 19's JSON-2 API" },
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs write-back integrations" },
+        { href: "/guides/odoo-api-slow", label: "Why Odoo API calls are slow" },
         { href: "/odoo-api-development", label: "Odoo API development" },
       ]}
     >

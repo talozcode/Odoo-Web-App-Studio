@@ -32,6 +32,24 @@ export const GUIDE_TOPICS: { id: GuideTopic; label: string; blurb: string }[] = 
 
 export const GUIDES: GuideMeta[] = [
   {
+    slug: "odoo-api-slow",
+    topic: "api",
+    title: "Why Odoo API calls are slow, and what actually fixes it",
+    seoTitle: "Why Odoo API Calls Are Slow (and How to Fix It)",
+    description:
+      "Slow Odoo integrations are almost never Odoo being slow. The real causes: one call per row, fetching rows to do arithmetic the database could do, asking for every field, and no pagination. Plus why you cannot profile an Odoo Online database.",
+    datePublished: "2026-09-23",
+  },
+  {
+    slug: "odoo-stock-quantity-fields",
+    topic: "api",
+    title: "Odoo stock quantities: on hand, forecasted, free, and why they disagree",
+    seoTitle: "Odoo qty_available vs virtual_available vs free_qty",
+    description:
+      "Odoo exposes several quantity fields that all look like the stock level and mean different things. What on hand, forecasted and free quantity each measure, which one an app should show, and why the same field returns a different number depending on the warehouse, location and companies in context.",
+    datePublished: "2026-09-23",
+  },
+  {
     slug: "odoo-access-rights-error",
     topic: "build",
     title: "Odoo access rights errors: why a user cannot see a record",

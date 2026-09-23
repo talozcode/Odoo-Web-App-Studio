@@ -20,8 +20,10 @@ export default function Guide() {
       relatedLinks={[
         { href: "/guides/odoo-api-key-setup", label: "Creating, scoping and rotating Odoo API keys" },
         { href: "/guides/odoo-api-multi-company-filtering", label: "Why a call returns the wrong company's data" },
+        { href: "/guides/odoo-access-rights-error", label: "Odoo access rights errors" },
         { href: "/guides/odoo-19-json-2-api", label: "Odoo 19's JSON-2 API" },
         { href: "/odoo-api-development", label: "Odoo API development" },
+        { href: "/guides/odoo-api-slow", label: "Why Odoo API calls are slow" },
       ]}
     >
       <GuideSection heading="Why does Odoo say Access Denied when the credentials are right?">
