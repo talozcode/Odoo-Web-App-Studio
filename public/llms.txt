@@ -4,7 +4,7 @@
 
 Odoo already does everything a business generally needs: accounting, inventory, sales, purchasing, manufacturing and master data. Odoo stays the single source of truth. We build the narrow interface layer around it: a mobile picking screen, a sales rep's ordering app, a dashboard, a customer or supplier portal, or a one-off custom workflow, each connected to Odoo's data through its API, with no custom code installed inside Odoo.
 
-Facts: the Work page describes nine shipped, in-production apps and automations for our clients (a group of companies in food production, wholesale, retail and catering on Odoo 18; anonymised). The demos on the site are working apps reading a real Odoo 18 Community instance over its API, with the ORM call, record count and latency printed under each one; when that instance is unreachable they fall back to a bundled snapshot of Odoo's own demo dataset and say so. Prices: a single focused screen from $390; a polished multi-screen app typically $490 to $890; bigger systems quoted on scope. Apps can be read-only or read/write against Odoo records. Every project is scoped and quoted after a conversation about the actual workflow.
+Facts: the Work page describes nine shipped, in-production apps and automations for our clients (a group of companies in food production, wholesale, retail and catering on Odoo 18; anonymised). The demos on the site are working apps built the same way we build client apps, reading a bundled snapshot of Odoo's own demo dataset, with the ORM call and record count printed under each one and the source labelled "snapshot" on screen. Prices: a single focused screen from $390; a polished multi-screen app typically $490 to $890; bigger systems quoted on scope. Apps can be read-only or read/write against Odoo records. Every project is scoped and quoted after a conversation about the actual workflow.
 
 ## Use-case pages
 
@@ -53,7 +53,7 @@ Facts: the Work page describes nine shipped, in-production apps and automations 
 
 ## Other pages
 
-- [Homepage](https://odoowebapps.com/): Working picking, sales and dashboard demos on a real Odoo, the anonymised work portfolio, how it works, pricing, guides, FAQ and contact.
+- [Homepage](https://odoowebapps.com/): Working picking, sales and dashboard demos over Odoo's demo dataset, the anonymised work portfolio, how it works, pricing, guides, FAQ and contact.
 - [Work](https://odoowebapps.com/work): The anonymised portfolio described above.
 - [Guides index](https://odoowebapps.com/guides): All guide articles listed above.
 - [About](https://odoowebapps.com/about): who runs the studio (Tal Oz), the approach, and why it stays narrow.

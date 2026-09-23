@@ -18,7 +18,7 @@ export function LiveDemosSection() {
         <SectionHeading
           align="left"
           title="Two more apps on the same Odoo"
-          description="Every screen here is a small app talking to one Odoo 18 database through its API. The line under each one is the actual call."
+          description="Every screen here is a small app built the way we build client apps, reading Odoo 18 through its API. The line under each one is the actual call, and it says where the data came from."
         />
 
         <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-10 lg:gap-16">

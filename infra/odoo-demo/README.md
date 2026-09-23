@@ -5,12 +5,38 @@ to. Runs on one Oracle Cloud Always Free Ampere A1 VM in Docker: Postgres 16,
 Odoo 18, Caddy for HTTPS. The public database is restored from a template
 every night at 03:00, so anything a visitor does disappears within a day.
 
+## Status: not deployed (23 September 2026)
+
+The site ships without this. Every demo reads the bundled snapshot of Odoo's
+own demo dataset and labels itself "snapshot" on screen, which is the
+supported path in `src/lib/odoo/demo-source.ts`, not a degraded one. Nothing
+on the site claims a live instance.
+
+The blocker is Oracle capacity, not this stack. 133 launch attempts over 17
+hours all returned "Out of host capacity" for `VM.Standard.A1.Flex` at both
+2 OCPU/12 GB and 1 OCPU/6 GB. The tenancy's home region `ap-singapore-1` has
+exactly one availability domain, and Always Free instances can only be
+created in the home region, so there is no other target to retry against and
+no amount of retrying changes the odds. Do not restart a retry loop expecting
+a different result.
+
+To pick this up later, one of:
+
+- Upgrade the Oracle tenancy to Pay As You Go. Always Free A1 (4 OCPU /
+  24 GB total) stays free on a PAYG account, and PAYG tenancies are given
+  priority for A1 capacity. Likely, not guaranteed.
+- Run it on any other small VPS (2 vCPU / 4 GB is enough). This compose
+  stack has no Oracle-specific parts; only step 1 and 2 below change.
+
+Once a host exists, follow the owner steps, then set the five Vercel env
+vars and confirm the readouts on the homepage flip from "snapshot" to
+"live Odoo 18".
+
 ## Owner steps
 
-1. Create an Oracle Cloud account (Always Free). In the console create a
-   Compute instance: shape `VM.Standard.A1.Flex`, 2 OCPU, 12 GB, image
-   Ubuntu 24.04 (aarch64). If you get "Out of host capacity", retry later
-   or pick another availability domain in the same region.
+1. Provide a host: shape `VM.Standard.A1.Flex`, 2 OCPU, 12 GB, Ubuntu 24.04
+   (aarch64) on Oracle, or any VPS with 2 vCPU and 4 GB. See the status note
+   above before assuming Oracle Always Free can supply one.
 2. In the instance's VCN, Security List, add ingress rules for TCP 80 and
    443 from 0.0.0.0/0 (22 is already there).
 3. Copy this directory to the VM and run it:
