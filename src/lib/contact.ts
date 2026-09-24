@@ -22,6 +22,8 @@ export type ContactFormState = {
   status: "idle" | "success" | "error";
   message?: string;
   fieldErrors?: FieldErrors;
+  /** What was typed, returned on error: React resets the form after every action. */
+  values?: Pick<ContactSubmission, "name" | "email" | "company" | "odooVersion" | "message">;
 };
 
 export const INITIAL_CONTACT_STATE: ContactFormState = { status: "idle" };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useId, useState } from "react";
+import { useActionState, useEffect, useId, useRef, useState } from "react";
 import { track } from "@vercel/analytics";
 import { useFormStatus } from "react-dom";
 import { CheckCircle2, AlertCircle } from "lucide-react";
@@ -8,6 +8,8 @@ import { submitContactForm } from "@/app/actions";
 import { INITIAL_CONTACT_STATE } from "@/lib/contact";
 import { PROBLEM_CHIPS } from "@/config/site";
 import { Chip } from "@/components/ui/chip";
+import { HONEYPOT_FIELD, STARTED_AT_FIELD } from "@/lib/bot-fields";
+import { Turnstile } from "./turnstile";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -29,6 +31,20 @@ export function ContactForm() {
   );
   const [selectedChips, setSelectedChips] = useState<string[]>([]);
   const formId = useId();
+  const startedAtRef = useRef(0);
+
+  // When the form was first shown. The server drops anything sent back
+  // faster than a person could type, which is how scripts submit. Kept out
+  // of the form's fields so React's post-submit reset cannot clear it.
+  useEffect(() => {
+    startedAtRef.current = Date.now();
+  }, []);
+
+  function submit(formData: FormData) {
+    formData.set(STARTED_AT_FIELD, String(startedAtRef.current));
+    return formAction(formData);
+  }
+  const values = state.values;
 
   // One event per successful submission, so pages can be judged by leads.
   useEffect(() => {
@@ -56,7 +72,15 @@ export function ContactForm() {
   }
 
   return (
-    <form action={formAction} noValidate className="flex flex-col gap-6">
+    <form action={submit} noValidate className="flex flex-col gap-6">
+      {/* Honeypot: off screen and hidden from assistive tech, so only bots,
+          which fill every field they find, ever put a value in it. */}
+      <div aria-hidden="true" className="absolute -left-[10000px] h-px w-px overflow-hidden">
+        <label>
+          Leave this field empty
+          <input type="text" name={HONEYPOT_FIELD} tabIndex={-1} autoComplete="off" defaultValue="" />
+        </label>
+      </div>
       {state.status === "error" && state.message ? (
         <div
           role="alert"
@@ -96,6 +120,7 @@ export function ContactForm() {
         <textarea
           id={`${formId}-message`}
           name="message"
+            defaultValue={values?.message}
           rows={4}
           required
           aria-invalid={Boolean(state.fieldErrors?.message)}
@@ -123,6 +148,7 @@ export function ContactForm() {
           <input
             id={`${formId}-name`}
             name="name"
+            defaultValue={values?.name}
             type="text"
             required
             autoComplete="name"
@@ -149,6 +175,7 @@ export function ContactForm() {
           <input
             id={`${formId}-email`}
             name="email"
+            defaultValue={values?.email}
             type="email"
             required
             autoComplete="email"
@@ -175,6 +202,7 @@ export function ContactForm() {
           <input
             id={`${formId}-company`}
             name="company"
+            defaultValue={values?.company}
             type="text"
             autoComplete="organization"
             className="min-h-11 w-full rounded-lg border border-[var(--odoo-gray)]/45 bg-[var(--background)] px-3.5 text-sm text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
@@ -191,12 +219,15 @@ export function ContactForm() {
           <input
             id={`${formId}-odoo-version`}
             name="odooVersion"
+            defaultValue={values?.odooVersion}
             type="text"
             placeholder="e.g. 17"
             className="min-h-11 w-full rounded-lg border border-[var(--odoo-gray)]/45 bg-[var(--background)] px-3.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--odoo-teal)]"
           />
         </div>
       </div>
+
+      <Turnstile resetSignal={state} />
 
       <SubmitButton />
     </form>
