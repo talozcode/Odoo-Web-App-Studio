@@ -53,6 +53,7 @@ export const FOOTER_LINKS = [
 export const FOOTER_RESOURCE_LINKS = [
   { label: "Work", href: "/work" },
   { label: "Guides", href: "/guides" },
+  { label: "Import checker", href: "/tools/odoo-import-checker" },
   { label: "About", href: "/about" },
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },

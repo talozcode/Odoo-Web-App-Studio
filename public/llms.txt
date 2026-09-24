@@ -61,6 +61,7 @@ Facts: the Work page describes nine shipped, in-production apps and automations 
 - [Homepage](https://odoowebapps.com/): Working picking, sales and dashboard demos over Odoo's demo dataset, the anonymised work portfolio, how it works, pricing, guides, FAQ and contact.
 - [Work](https://odoowebapps.com/work): The anonymised portfolio described above.
 - [Guides index](https://odoowebapps.com/guides): All guide articles listed above.
+- [Odoo CSV import checker](https://odoowebapps.com/tools/odoo-import-checker): free, in-browser checker for Odoo import files; flags duplicate or unprefixed external IDs, missing /id headers, fields referenced two ways, undefined references, ambiguous dates, unreadable numbers and empty columns that overwrite defaults. The file is never uploaded.
 - [About](https://odoowebapps.com/about): who runs the studio (Tal Oz), the approach, and why it stays narrow.
 
 ## Full text

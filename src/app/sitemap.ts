@@ -13,6 +13,7 @@ const STATIC_UPDATED: Record<string, string> = {
   "/about": "2026-09-22",
   "/privacy": "2026-09-22",
   "/terms": "2026-09-22",
+  "/tools/odoo-import-checker": "2026-09-24",
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -20,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "", changeFrequency: "weekly" as const, priority: 1 },
     { path: "/work", changeFrequency: "monthly" as const, priority: 0.8 },
     { path: "/guides", changeFrequency: "weekly" as const, priority: 0.7 },
+    { path: "/tools/odoo-import-checker", changeFrequency: "monthly" as const, priority: 0.7 },
     { path: "/about", changeFrequency: "monthly" as const, priority: 0.4 },
     { path: "/privacy", changeFrequency: "yearly" as const, priority: 0.2 },
     { path: "/terms", changeFrequency: "yearly" as const, priority: 0.2 },

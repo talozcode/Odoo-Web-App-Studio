@@ -18,6 +18,7 @@ export default function Guide() {
     <GuidePageTemplate
       meta={meta}
       relatedLinks={[
+        { href: "/tools/odoo-import-checker", label: "Odoo CSV import checker (free tool)" },
         { href: "/guides/odoo-api-errors", label: "What each Odoo API error means" },
         { href: "/guides/odoo-write-back-vs-read-only-integrations", label: "Read-only vs write-back integrations" },
         { href: "/custom-odoo-web-app", label: "Custom Odoo web apps" },
@@ -29,7 +30,11 @@ export default function Guide() {
           This is the most common import failure, and it means something
           precise: a row points at a record that does not exist in the
           database yet. There are only two reasons for that, and they are
-          easy to tell apart.
+          easy to tell apart. If you have the file to hand,{" "}
+          <Link href="/tools/odoo-import-checker" className={LINK}>
+            the import checker
+          </Link>{" "}
+          finds both, and everything else on this page, before you import.
         </p>
         <p>
           The first is order. Odoo has to recreate the links between records,

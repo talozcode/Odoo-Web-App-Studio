@@ -9,6 +9,8 @@
   --odoo-teal-bright: #019fa6;
   --odoo-gray: #8f8f8f;
   --danger: #b42318;
+  /* Import checker warnings only; 5.0:1 on white. */
+  --warning: #b54708;
 
   --background: #ffffff;
   --foreground: #1f2937;
@@ -29,6 +31,7 @@
   --color-odoo-teal-bright: var(--odoo-teal-bright);
   --color-odoo-gray: var(--odoo-gray);
   --color-danger: var(--danger);
+  --color-warning: var(--warning);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
